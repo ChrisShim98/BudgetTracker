@@ -1,0 +1,13 @@
+.nav-link:hover {
+    color: #AC1DD4;
+    cursor: pointer;
+}
+.nav-link:active {
+    color: #AC1DD4;
+    cursor: pointer;
+}
+.fixed-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+}

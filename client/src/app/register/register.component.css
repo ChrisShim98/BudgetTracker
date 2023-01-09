@@ -1,0 +1,13 @@
+.btn-primary:hover {
+    background-color: #AC1DD4;
+}
+.content {
+    max-width: 100vw;
+    max-height: 100vh;
+    overflow-x: hidden;
+}
+@media (max-width: 770px) {
+    .hide-sm {
+        padding-top: 20px;
+    }
+}
