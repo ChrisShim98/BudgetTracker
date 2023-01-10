@@ -1,14 +1,17 @@
 <div class="navbar navbar-dark fixed-top bg-primary">
     <div class="container flex justify-content-end">
         <ul class="navbar-nav d-flex flex-row">
-            <li class="nav-item px-2">
-                <a routerLink="/" class="nav-link py-0">Login</a>
+            <li class="nav-item px-2" *ngIf="!(accountService.currentUser$ | async)">
+                <a routerLink="/" class="nav-link py-0">Sign In</a>
             </li>
-            <li class="nav-item px-2">
+            <li class="nav-item px-2" *ngIf="accountService.currentUser$ | async">
+                <a (click)="logout()" class="nav-link py-0">Logout</a>
+            </li>
+            <li class="nav-item px-2" *ngIf="!(accountService.currentUser$ | async)">
                 <a routerLink="/register" class="nav-link py-0">Register</a>
             </li>
-            <li class="nav-item px-2">
-                <a class="nav-link py-0">Get Users</a>
+            <li class="nav-item px-2" *ngIf="accountService.currentUser$ | async">
+                <a routerLink="/users" class="nav-link py-0">Get Users</a>
             </li>
             <li class="nav-item px-2">
                 <a class="nav-link py-0">About Me</a>

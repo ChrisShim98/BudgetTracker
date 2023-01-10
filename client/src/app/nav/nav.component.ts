@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AccountService } from '../_services/account.service';
 
 @Component({
   selector: 'app-nav',
@@ -7,10 +8,16 @@ import { Router } from '@angular/router';
   styleUrls: ['./nav.component.css']
 })
 export class NavComponent implements OnInit {
+  model: any = {};
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, public accountService: AccountService) { }
 
   ngOnInit(): void {
+  }
+
+  logout() {
+    this.accountService.logout();
+    this.router.navigateByUrl('/')
   }
 
 }
