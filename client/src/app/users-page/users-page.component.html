@@ -3,9 +3,21 @@
         <div class="col col-sm-3 col-xs-12">
             <h1 class="title">Users</h1>
         </div>
-        <div class="col-sm-9 col-xs-12 text-right">
-            <input type="text" class="form-control" placeholder="Search">
-        </div>
+        <form 
+            #searchForm="ngForm" 
+            (ngSubmit)="search()" 
+            class="col-sm-9 col-xs-12 text-right"
+            autocomplete="off"
+        >
+            <input 
+                name="search" 
+                type="text" 
+                class="form-control" 
+                [(ngModel)]="searchValue"
+                placeholder="Search"
+            >
+            <button type="submit" style="display:none">hidden submit</button>
+        </form>
     </div>
 </div>
 <div class="row">
@@ -49,7 +61,8 @@
                 </div>       
                 <div class="col-lg-auto">
                     <p class="text-center">
-                        showing <b>{{pagination.itemsPerPage}}</b> out of <b>{{pagination.totalItems}}</b> entries
+                        showing <b>{{users.length}}
+                        </b> out of <b>{{pagination.totalItems}}</b> entries
                     </p>
                 </div>
             </div>

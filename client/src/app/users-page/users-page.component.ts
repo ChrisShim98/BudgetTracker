@@ -17,6 +17,7 @@ export class UsersPageComponent implements OnInit {
   paginationParams: PaginationParams | undefined;
   faTrash = faTrash;
   faPencil = faPencil;
+  searchValue: string = "";
 
   constructor(private router: Router, private usersService: UsersService) { 
     this.paginationParams = this.usersService.getUserParams();
@@ -47,5 +48,17 @@ export class UsersPageComponent implements OnInit {
         this.getUsers();
       }
     } 
+  }
+
+  search() {
+    if (this.searchValue != '' && this.paginationParams) {
+      this.paginationParams.searchQuery = this.searchValue.toLowerCase();
+      this.paginationParams.pageNumber = 1;
+      this.getUsers();
+    }
+    if (this.searchValue == '') {
+      this.paginationParams = new PaginationParams();
+      this.getUsers();
+    }
   }
 }

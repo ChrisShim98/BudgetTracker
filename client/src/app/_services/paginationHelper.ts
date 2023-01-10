@@ -19,11 +19,15 @@ export function getPaginatedResult<T>(url: string, params: HttpParams, http: Htt
     );
   }
 
-  export function getPaginationHeaders(pageNumber: number, pageSize: number) {
+  export function getPaginationHeaders(pageNumber: number, pageSize: number, searchQuery: string) {
     let params = new HttpParams();
 
     params = params.append('pageNumber', pageNumber);
     params = params.append('pageSize', pageSize);
+    
+    if (searchQuery != '') {
+      params = params.append('searchQuery', searchQuery);
+    }
 
     return params;
   }

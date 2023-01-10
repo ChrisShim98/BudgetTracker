@@ -41,7 +41,6 @@ export class RegisterComponent implements OnInit {
 
   register() {
     const values = {...this.registerForm.value};
-    console.log(values);
 
     this.accountService.register(values).subscribe({
       next: _ => {

@@ -46,7 +46,8 @@ export class UsersService {
    }
 
   getUsers(paginationParams: PaginationParams) {
-    let params = getPaginationHeaders(paginationParams.pageNumber, paginationParams.pageSize);
+    let params = getPaginationHeaders(paginationParams.pageNumber, 
+      paginationParams.pageSize, paginationParams.searchQuery);
 
     return getPaginatedResult<Users[]>(this.baseUrl + 'users', params, this.http).pipe(
       map(response => {
