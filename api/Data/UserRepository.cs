@@ -8,6 +8,9 @@ using api.Helpers;
 using api.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace api.Data
@@ -16,11 +19,26 @@ namespace api.Data
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
-        public UserRepository(DataContext context, IMapper mapper)
+        private readonly UserManager<AppUser> _userManager;
+        public UserRepository(DataContext context, IMapper mapper,    
+            UserManager<AppUser> userManager)
         {
+            _userManager = userManager;
             _mapper = mapper;
             _context = context;       
         }
+
+        public async void DeleteUser(int id)
+        {
+            AppUser user = await _context.Users.Where(x => x.Id == id).FirstOrDefaultAsync();
+            await _userManager.DeleteAsync(user);
+        }
+
+        public async Task<AppUser> GetUserByIdAsync(string id)
+        {
+            return await _userManager.FindByIdAsync(id);
+        }
+
         public async Task<PagedList<AppUserDTO>> GetUsersAsync(PaginationParams paginationParams)
         {
             var query = _context.Users.AsQueryable();

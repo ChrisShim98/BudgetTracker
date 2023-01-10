@@ -24,8 +24,11 @@ namespace api.Controllers
         private readonly IMapper _mapper;
         private readonly ITokenService _tokenService;
         private readonly IUserRepository _userRepository;
-        public UsersController(IUserRepository userRepository, ITokenService tokenService, IMapper mapper)
+        private readonly UserManager<AppUser> _userManager;
+        public UsersController(IUserRepository userRepository, UserManager<AppUser> userManager,
+            ITokenService tokenService, IMapper mapper)
         {
+            _userManager = userManager;
             _userRepository = userRepository;
             _tokenService = tokenService;
             _mapper = mapper;
@@ -40,6 +43,21 @@ namespace api.Controllers
                 users.PageSize, users.TotalCount, users.TotalPages));
                 
             return Ok(users);
+        }
+        [Authorize(Policy = "RequireAdminRole")]
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteUser(int id)
+        {
+            if (!(await UserExists(id))) {
+                return BadRequest("User does not exist");
+            }
+            
+            _userRepository.DeleteUser(id);
+            return Ok();
+        }
+        private async Task<bool> UserExists(int id)
+        {
+            return await _userManager.Users.AnyAsync(x => x.Id == id);
         }
 
     }
