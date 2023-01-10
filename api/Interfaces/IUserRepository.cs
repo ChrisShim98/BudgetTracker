@@ -1,10 +1,11 @@
 using api.DTOs;
 using api.Entity;
+using api.Helpers;
 
 namespace api.Interfaces
 {
     public interface IUserRepository
     {
-        Task<IEnumerable<AppUserDTO>> GetUsersAsync();
+        Task<PagedList<AppUserDTO>> GetUsersAsync(PaginationParams paginationParams);
     }
 }

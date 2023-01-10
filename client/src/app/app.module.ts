@@ -12,6 +12,8 @@ import { UsersPageComponent } from './users-page/users-page.component'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { JwtInterceptor } from './_interceptors/jwt.interceptor';
 import { TextInputComponent } from './_forms/text-input/text-input.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import {NgxPaginationModule} from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -27,8 +29,10 @@ import { TextInputComponent } from './_forms/text-input/text-input.component';
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    FontAwesomeModule,
     ReactiveFormsModule,
-    TooltipModule.forRoot()
+    TooltipModule.forRoot(),
+    NgxPaginationModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}

@@ -1,10 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using api.Data;
 using api.DTOs;
 using api.Entity;
+using api.Extensions;
+using api.Helpers;
 using api.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -29,11 +32,14 @@ namespace api.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<AppUserDTO>> GetUsers()
+        public async Task<ActionResult<PagedList<AppUserDTO>>> GetUsers([FromQuery]PaginationParams paginationParams)
         {
-            var users = await _userRepository.GetUsersAsync();
+            var users = await _userRepository.GetUsersAsync(paginationParams);
             
-            return users;
+            Response.AddPaginationHeader(new PaginationHeader(users.CurrentPage, 
+                users.PageSize, users.TotalCount, users.TotalPages));
+                
+            return Ok(users);
         }
 
     }

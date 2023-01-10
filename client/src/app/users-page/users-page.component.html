@@ -14,40 +14,43 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>#</th>
+                        <th>ID#</th>
                         <th>Name</th>
                         <th>Email</th>
-                        <th>Action</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Vincent Williamson</td>
-                        <td>v@hotmail.com</td>
+                <tbody *ngIf="pagination">
+                    <tr *ngFor="let user of users | 
+                        paginate: { 
+                            itemsPerPage: pagination.itemsPerPage, 
+                            currentPage: pagination.currentPage, 
+                            totalItems: pagination.totalItems }"
+                    >
+                        <td>{{user.id}}</td>
+                        <td>{{user.username | titlecase}}</td>
+                        <td>{{user.email}}</td>
                         <td>
-                            <ul class="action-list">
-                                <li><a href="#" data-tip="edit"><i class="fa fa-edit"></i></a></li>
-                                <li><a href="#" data-tip="delete"><i class="fa fa-trash"></i></a></li>
-                            </ul>
+                            <a href="#" class="me-3" data-tip="edit"><fa-icon [icon]="faPencil"></fa-icon></a>
+                            <a href="#" data-tip="delete"><fa-icon [icon]="faTrash"></fa-icon></a>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
-        <div class="panel-footer">
-            <div class="row">
-                <div class="col col-sm-6 col-xs-6">showing <b>5</b> out of <b>25</b> entries</div>
-                <div class="col-sm-6 col-xs-6">
-                    <ul class="pagination hidden-xs pull-right">
-                        <li><a href="#">&lt;</a></li>
-                        <li class="active ms-2"><a href="#">1</a></li>
-                        <li class="ms-2"><a href="#">2</a></li>
-                        <li class="ms-2"><a href="#">3</a></li>
-                        <li class="ms-2"><a href="#">4</a></li>
-                        <li class="ms-2"><a href="#">5</a></li>
-                        <li class="ms-2"><a href="#">&gt;</a></li>
-                    </ul>
+        <div class="panel-footer" *ngIf="pagination">
+            <div class="row justify-content-center">
+                <div class="col-lg col-sm-12"> 
+                    <pagination-controls
+                        class="text-md-center text-lg-start" 
+                        (pageChange)="pageChanged($event)"
+                    >
+                    </pagination-controls>
+                </div>       
+                <div class="col-lg-auto">
+                    <p class="text-center">
+                        showing <b>{{pagination.itemsPerPage}}</b> out of <b>{{pagination.totalItems}}</b> entries
+                    </p>
                 </div>
             </div>
         </div>
