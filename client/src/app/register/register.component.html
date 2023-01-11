@@ -1,37 +1,33 @@
-<div class="content">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6 contents">
-                <div class="row justify-content-center">
-                    <div class="col-md-8">
-                        <div class="mb-4">
-                            <h1>Register</h1>
-                        </div>
-                        <form 
-                            [formGroup]="registerForm" 
-                            (ngSubmit)="registerForm.valid && register()" 
-                            autocomplete="off"
-                        >
-                            <app-text-input [formControl]="$any(registerForm.controls['username'])" [label]="'Username'"></app-text-input>
-
-                            <app-text-input [formControl]="$any(registerForm.controls['email'])" [label]="'Email'"></app-text-input>
-                            
-                            <app-text-input [formControl]="$any(registerForm.controls['password'])" [label]="'Password'"
-                                [type]="'password'"></app-text-input>
-
-                            <app-text-input [formControl]="$any(registerForm.controls['confirmPassword'])" [label]="'Confirm Password'"
-                                [type]="'password'"></app-text-input>
-
-                            <button [disabled]="!registerForm.valid" type="submit" class="btn btn-block btn-primary mt-4">
-                                Create Account
-                            </button>
-                        </form>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 contents">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="mb-4">
+                        <h1>Register</h1>
                     </div>
+                    <form [formGroup]="registerForm" (ngSubmit)="registerForm.valid && register()" autocomplete="off">
+                        <app-text-input [formControl]="$any(registerForm.controls['username'])"
+                            [label]="'Username'"></app-text-input>
+
+                        <app-text-input [formControl]="$any(registerForm.controls['email'])"
+                            [label]="'Email'"></app-text-input>
+
+                        <app-text-input [formControl]="$any(registerForm.controls['password'])" [label]="'Password'"
+                            [type]="'password'"></app-text-input>
+
+                        <app-text-input [formControl]="$any(registerForm.controls['confirmPassword'])"
+                            [label]="'Confirm Password'" [type]="'password'"></app-text-input>
+
+                        <button [disabled]="!registerForm.valid" type="submit" class="btn btn-block btn-primary mt-4">
+                            Create Account
+                        </button>
+                    </form>
                 </div>
             </div>
-            <div class="col-md-6 hide-sm">
-                <img src="../../assets/register.svg" alt="Image" class="img-fluid">
-            </div>
+        </div>
+        <div class="col-md-6">
+            <img src="../../assets/register.svg" alt="Image" class="img-fluid hide-sm">
         </div>
     </div>
 </div>

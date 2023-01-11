@@ -25,6 +25,8 @@ export class UsersPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.searchValue = "";
+    this.paginationParams = new PaginationParams();
     this.getUsers();
     this.getRoles();
   }

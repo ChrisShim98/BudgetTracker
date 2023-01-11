@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { BehaviorSubject, map, take } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { PaginationParams } from '../_models/paginationParams';
@@ -18,7 +19,7 @@ export class UsersService {
   user: User | undefined;
   paginationParams: PaginationParams | undefined;
 
-  constructor(private http: HttpClient, private accountService: AccountService) {
+  constructor(private http: HttpClient, private accountService: AccountService, private router: Router) {
     this.accountService.currentUser$.pipe(take(1)).subscribe({
       next: user => {
         if (user) {
@@ -59,7 +60,7 @@ export class UsersService {
   deleteUser(id: Number) {
     return this.http.delete(this.baseUrl + 'users/delete?id=' + id).subscribe({
       next: response => {
-        console.log(response)
+        window.location.reload();
       },
       error: error => {
         console.log(error.status)
