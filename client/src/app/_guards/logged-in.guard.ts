@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanDeactivate, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { map, Observable } from 'rxjs';
 import { RegisterComponent } from '../register/register.component';
 import { AccountService } from '../_services/account.service';
@@ -7,14 +7,17 @@ import { AccountService } from '../_services/account.service';
 @Injectable({
   providedIn: 'root'
 })
-export class LoggedInGuard implements CanDeactivate<RegisterComponent> {
+export class LoggedInGuard implements CanActivate {
 
-  constructor(private accountService: AccountService) {}
+  constructor(private accountService: AccountService, private router: Router) {}
 
-  canDeactivate(): Observable<boolean> {
+  canActivate(): Observable<boolean> {
     return this.accountService.currentUser$.pipe(
       map(user => {
-        if (user) return false;
+        if (user) {
+          this.router.navigateByUrl('/users');
+          return false;
+        }
         else {
           return true;
         }

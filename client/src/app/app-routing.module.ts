@@ -11,13 +11,11 @@ const routes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'users', 
   component: UsersPageComponent,
-  runGuardsAndResolvers:'always',
-  canActivate:[AuthGuard],
+  canActivate:[AuthGuard]
   },
   {path: 'register', 
   component: RegisterComponent,
-  runGuardsAndResolvers:'always',
-  canDeactivate: [LoggedInGuard],
+  canActivate: [LoggedInGuard]
   },
   {path: 'about-me', component: AboutMeComponent},
   {path: '**', component: HomeComponent, pathMatch: 'full'},
