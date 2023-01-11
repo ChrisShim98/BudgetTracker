@@ -45,8 +45,8 @@ namespace api.Controllers
             return Ok(users);
         }
         [Authorize(Policy = "RequireAdminRole")]
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteUser(int id)
+        [HttpDelete("delete")]
+        public async Task<ActionResult> DeleteUser([FromQuery]int id)
         {
             if (!(await UserExists(id))) {
                 return BadRequest("User does not exist");

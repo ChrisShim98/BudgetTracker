@@ -54,7 +54,16 @@ export class UsersService {
         return response;
       })
     );
+  }
 
-    // return this.http.get<Users[]>(this.baseUrl + 'users');
+  deleteUser(id: Number) {
+    return this.http.delete(this.baseUrl + 'users/delete?id=' + id).subscribe({
+      next: response => {
+        console.log(response)
+      },
+      error: error => {
+        console.log(error.status)
+      }
+    });
   }
 }

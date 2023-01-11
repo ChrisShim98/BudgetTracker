@@ -13,6 +13,7 @@ import { PaginationParams } from '../_models/paginationParams';
 })
 export class UsersPageComponent implements OnInit {
   users: Users[] = [];
+  currentUserRoles: string[] = [];
   pagination: Pagination | undefined;
   paginationParams: PaginationParams | undefined;
   faTrash = faTrash;
@@ -25,6 +26,7 @@ export class UsersPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUsers();
+    this.getRoles();
   }
 
   getUsers() {
@@ -59,6 +61,18 @@ export class UsersPageComponent implements OnInit {
     if (this.searchValue == '') {
       this.paginationParams = new PaginationParams();
       this.getUsers();
+    }
+  }
+
+  delete(id: Number) {
+    this.usersService.deleteUser(id);
+  }
+
+  getRoles() {
+    let userData = localStorage.getItem('user');
+
+    if (userData) { 
+      this.currentUserRoles = JSON.parse(userData).roles;
     }
   }
 }

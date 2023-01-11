@@ -1,0 +1,8 @@
+.my-pagination ::ng-deep .ngx-pagination .current {
+    background: #AC1DD4;
+    border-radius: 20%;
+  }
+.my-pagination ::ng-deep .ngx-pagination button .button:hover {
+    background: #AC1DD4;
+    border-radius: 20%;
+  }

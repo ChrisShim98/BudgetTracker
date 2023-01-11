@@ -14,6 +14,8 @@ import { JwtInterceptor } from './_interceptors/jwt.interceptor';
 import { TextInputComponent } from './_forms/text-input/text-input.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {NgxPaginationModule} from 'ngx-pagination';
+import { FooterComponent } from './footer/footer.component';
+import { AboutMeComponent } from './about-me/about-me.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,9 @@ import {NgxPaginationModule} from 'ngx-pagination';
     HomeComponent,
     RegisterComponent,
     UsersPageComponent,
-    TextInputComponent
+    TextInputComponent,
+    FooterComponent,
+    AboutMeComponent
   ],
   imports: [
     BrowserModule,

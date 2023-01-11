@@ -29,7 +29,7 @@
                         <th>ID#</th>
                         <th>Name</th>
                         <th>Email</th>
-                        <th>Actions</th>
+                        <th *ngIf="currentUserRoles?.includes('Admin')">Actions</th>
                     </tr>
                 </thead>
                 <tbody *ngIf="pagination">
@@ -42,8 +42,8 @@
                         <td>{{user.id}}</td>
                         <td>{{user.username | titlecase}}</td>
                         <td>{{user.email}}</td>
-                        <td>
-                            <a class="ms-3" href="#" data-tip="delete"><fa-icon [icon]="faTrash"></fa-icon></a>
+                        <td *ngIf="currentUserRoles?.includes('Admin')">
+                            <a class="ms-3" (click)="delete(user.id)"><fa-icon [icon]="faTrash"></fa-icon></a>
                         </td>
                     </tr>
                 </tbody>
@@ -53,7 +53,7 @@
             <div class="row justify-content-center">
                 <div class="col-lg col-sm-12"> 
                     <pagination-controls
-                        class="text-md-center text-lg-start" 
+                        class="text-md-center text-lg-start my-pagination" 
                         (pageChange)="pageChanged($event)"
                     >
                     </pagination-controls>
