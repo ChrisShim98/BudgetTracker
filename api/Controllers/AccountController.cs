@@ -29,7 +29,7 @@ namespace api.Controllers
         {
             if (await UserExists(registerDTO.Username))
             return BadRequest("Username is taken!");
-
+            
             var user = _mapper.Map<AppUser>(registerDTO);
 
             user.UserName = registerDTO.Username.ToLower();
@@ -49,9 +49,9 @@ namespace api.Controllers
             };
         }
 
-        private async Task<bool> UserExists(string username)
+        public async Task<bool> UserExists(string username)
         {
-            return await _userManager.Users.AnyAsync(x => x.UserName == username.ToLower());
+            return await Task.FromResult(_userManager.Users.Any(x => x.UserName == username.ToLower()));
         }
 
         [HttpPost("login")]
