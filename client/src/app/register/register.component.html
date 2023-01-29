@@ -6,17 +6,17 @@
                     <div class="mb-4">
                         <h1>Register</h1>
                     </div>
-                    <form [formGroup]="registerForm" (ngSubmit)="registerForm.valid && register()" autocomplete="off">
-                        <app-text-input [formControl]="$any(registerForm.controls['username'])"
+                    <form data-test="registerForm" [formGroup]="registerForm" (ngSubmit)="registerForm.valid && register()" autocomplete="off">
+                        <app-text-input data-test="username" [formControl]="$any(registerForm.controls['username'])"
                             [label]="'Username'"></app-text-input>
 
-                        <app-text-input [formControl]="$any(registerForm.controls['email'])"
+                        <app-text-input data-test="email" [formControl]="$any(registerForm.controls['email'])"
                             [label]="'Email'"></app-text-input>
 
-                        <app-text-input [formControl]="$any(registerForm.controls['password'])" [label]="'Password'"
+                        <app-text-input data-test="password" [formControl]="$any(registerForm.controls['password'])" [label]="'Password'"
                             [type]="'password'"></app-text-input>
 
-                        <app-text-input [formControl]="$any(registerForm.controls['confirmPassword'])"
+                        <app-text-input data-test="confirmPassword" [formControl]="$any(registerForm.controls['confirmPassword'])"
                             [label]="'Confirm Password'" [type]="'password'"></app-text-input>
 
                         <button [disabled]="!registerForm.valid" type="submit" class="btn btn-block btn-primary mt-4">

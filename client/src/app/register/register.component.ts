@@ -11,7 +11,7 @@ import { AccountService } from '../_services/account.service';
 export class RegisterComponent implements OnInit {
   registerForm: FormGroup = new FormGroup({});
   validationErrors: string[] | undefined;
-
+  
   constructor(public router: Router, public accountService: AccountService, 
     private formBuilder: FormBuilder) { }
 

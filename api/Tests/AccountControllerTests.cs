@@ -25,6 +25,7 @@ namespace api.Tests
         private Mock<ITokenService> _tokenService;
         private Mock<IMapper> _mapper;
         private RegisterDTO _registerDTO;
+        private LoginDTO _loginDTO;
 
         [SetUp]
         public void Setup()
@@ -39,7 +40,7 @@ namespace api.Tests
             {
                 new AppUser { Id = 1, UserName = "test", Email = "test@test.com" },
                 new AppUser { Id = 2, UserName = "chris", Email = "chris@test.com" },
-                new AppUser { Id = 2, UserName = "sarah", Email = "sarah@test.com" },
+                new AppUser { Id = 3, UserName = "sarah", Email = "sarah@test.com" },
             }.AsQueryable();
 
             // Mocking the ASP core Identity manager which has many
@@ -127,7 +128,7 @@ namespace api.Tests
             _accountController = new AccountController(_userManager.Object, _tokenService.Object, _mapper.Object);
 
             // Act
-            var result = await _accountController.Register(_registerDTO) as Microsoft.AspNetCore.Mvc.ActionResult<api.DTOs.UserDTO>;
+            var result = await _accountController.Register(_registerDTO) as ActionResult<UserDTO>;
 
             // Assert
             // Assert that the result is a UserDTO
@@ -149,6 +150,84 @@ namespace api.Tests
 
             // Assert
             return result;
+        }
+
+        // ----------------------- Tests for Login Function -----------------------
+        [Test]
+        public async Task Login_ValidUser_ReturnUserDTO() {
+            // Arrange
+            _loginDTO = new LoginDTO {
+                Username = "chris",
+                Password = "Chris123"
+            };
+
+            // Setting the CheckPasswordAsync to alway return true
+            _userManager.Setup(_ => _.CheckPasswordAsync(It.IsAny<AppUser>(), It.IsAny<string>()))
+            .ReturnsAsync(true);
+
+            // Fetching the account controller again because
+            // new setup on _userManager
+            _accountController = new AccountController(_userManager.Object, _tokenService.Object, _mapper.Object);
+
+            // Act
+            var result = await _accountController.Login(_loginDTO) as ActionResult<UserDTO>;
+
+            // Assert
+            Assert.IsInstanceOf<UserDTO>(result.Value);
+        }
+
+        [Test]
+        public async Task Login_InvalidUser_ReturnUnauthorized() {
+            // Arrange
+            _loginDTO = new LoginDTO {
+                Username = "notexisting",
+                Password = "Chris123"
+            };
+
+            // Act
+            var result = await _accountController.Login(_loginDTO);
+
+            // Assert
+            // Assert that the result is an Unauthorized request
+            Assert.IsInstanceOf<UnauthorizedObjectResult>(result.Result);
+
+            // Create a variable if result is an UnauthorizedObjectResult
+            var resultUnauthorizedObject = result.Result as UnauthorizedObjectResult;
+
+            // Assert that the error message is 
+            // "Invalid username"
+            Assert.That(resultUnauthorizedObject.Value, Is.EquivalentTo("Invalid username"));
+        }
+
+        [Test]
+        public async Task Login_InvalidPassword_ReturnUnauthorized() {
+            // Arrange
+            _loginDTO = new LoginDTO {
+                Username = "chris",
+                Password = "wrongpassword"
+            };
+
+            // Setting the CheckPasswordAsync to alway return false
+            _userManager.Setup(_ => _.CheckPasswordAsync(It.IsAny<AppUser>(), It.IsAny<string>()))
+            .ReturnsAsync(false);
+
+            // Fetching the account controller again because
+            // new setup on _userManager
+            _accountController = new AccountController(_userManager.Object, _tokenService.Object, _mapper.Object);
+
+            // Act
+            var result = await _accountController.Login(_loginDTO);
+
+            // Assert
+            // Assert that the result is an Unauthorized request
+            Assert.IsInstanceOf<UnauthorizedObjectResult>(result.Result);
+
+            // Create a variable if result is an UnauthorizedObjectResult
+            var resultUnauthorizedObject = result.Result as UnauthorizedObjectResult;
+
+            // Assert that the error message is 
+            // "Invalid username"
+            Assert.That(resultUnauthorizedObject.Value, Is.EquivalentTo("Invalid Password"));
         }
     }
 }
