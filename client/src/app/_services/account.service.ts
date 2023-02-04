@@ -25,6 +25,17 @@ export class AccountService {
     )
   }
 
+  createGuest() {
+    return this.http.get<User>(this.baseUrl + 'account/guest').pipe(
+      map((response: User) =>{
+        const user = response;
+        if (user) {
+          this.setCurrentUser(user);
+        }
+      }) 
+    )
+  }
+
   logout() {
     localStorage.removeItem('user');
     this.currentUserSource.next(null);

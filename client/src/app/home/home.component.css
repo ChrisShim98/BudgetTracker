@@ -1,13 +1,20 @@
-.btn-primary:hover {
-    background-color: #AC1DD4;
+.custom-shape-divider-bottom-home {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
 }
-.content {
-    max-width: 100vw;
-    max-height: 100vh;
-    overflow-x: hidden;
+
+.custom-shape-divider-bottom-home svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 156px;
+    transform: rotateY(180deg);
 }
-@media (max-width: 770px) {
-    .hide-sm {
-        padding-bottom: 20px;
-    }
+
+.custom-shape-divider-bottom-home .shape-fill {
+    fill: #FFFFFF;
 }

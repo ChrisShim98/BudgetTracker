@@ -1,3 +1,4 @@
+using api.DTOs;
 using api.Entity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -12,6 +13,11 @@ namespace api.Data
         {
         }
 
+        public DbSet<Asset> Assets { get; set; }
+        public DbSet<Expense> Expenses { get; set; }
+        public DbSet<BudgetDTO> MonthlyBudget { get; set; }
+        public DbSet<Budget> Budget { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder) {
             base.OnModelCreating(builder);
 
@@ -22,10 +28,37 @@ namespace api.Data
                 .OnDelete(DeleteBehavior.Cascade)
                 .IsRequired();
 
+            builder.Entity<AppUser>()
+                .HasOne(ur => ur.budget)
+                .WithOne(u => u.Owner)
+                .OnDelete(DeleteBehavior.Cascade)
+                .IsRequired();
+
             builder.Entity<AppRole>()
                 .HasMany(ur => ur.UserRoles)
                 .WithOne(u => u.Role)
                 .HasForeignKey(ur => ur.RoleId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .IsRequired();
+
+            builder.Entity<BudgetDTO>()
+                .HasMany(b => b.Expenses)
+                .WithOne(bs => bs.BudgetParent)
+                .HasForeignKey(b => b.BudgetId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .IsRequired();
+
+            builder.Entity<BudgetDTO>()
+                .HasMany(b => b.Assets)
+                .WithOne(bs => bs.BudgetParent)
+                .HasForeignKey(b => b.BudgetId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .IsRequired();
+
+            builder.Entity<Budget>()
+                .HasMany(b => b.Budgets)
+                .WithOne(bs => bs.BudgetParent)
+                .HasForeignKey(b => b.BudgetParentId)
                 .OnDelete(DeleteBehavior.Cascade)
                 .IsRequired();
         }

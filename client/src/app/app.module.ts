@@ -15,8 +15,10 @@ import { TextInputComponent } from './_forms/text-input/text-input.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {NgxPaginationModule} from 'ngx-pagination';
 import { FooterComponent } from './footer/footer.component';
-import { AboutMeComponent } from './about-me/about-me.component';
 import { SharedModule } from './_modules/shared.module';
+import { BudgetFormComponent } from './budget-form/budget-form.component';
+import { BudgetTableComponent } from './budget-table/budget-table.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,9 @@ import { SharedModule } from './_modules/shared.module';
     UsersPageComponent,
     TextInputComponent,
     FooterComponent,
-    AboutMeComponent
+    BudgetFormComponent,
+    BudgetTableComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

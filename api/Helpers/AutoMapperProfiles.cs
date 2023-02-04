@@ -9,7 +9,10 @@ namespace api.Helpers
         public AutoMapperProfiles()
         {
             CreateMap<RegisterDTO, AppUser>();
-            CreateMap<AppUser, AppUserDTO>();
+            CreateMap<AppUser, AppUserDTO>(); 
+            CreateMap<BudgetDTO, BudgetAllDTO>();
+            CreateMap<Expense, ExpenseDTO>();
+            CreateMap<Asset, AssetDTO>();
         }
     }
 }

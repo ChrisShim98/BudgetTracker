@@ -35,7 +35,8 @@ try
     await context.Database.MigrateAsync();
     var userManager = services.GetRequiredService<UserManager<AppUser>>();
     var roleManager = services.GetRequiredService<RoleManager<AppRole>>();
-    await SeedData.SeedUsers(userManager, roleManager);
+    var budgetRepository = services.GetRequiredService<IBudgetRepository>();
+    await SeedData.SeedUsers(userManager, roleManager, budgetRepository);
 }
 catch (Exception ex)
 {

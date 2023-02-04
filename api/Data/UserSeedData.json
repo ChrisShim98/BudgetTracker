@@ -1,82 +1,23 @@
 [
     {
-        "UserName": "Iris",
-        "Email": "karirose@stucco.com"
+        "UserName": "Iris"
     },
     {
-        "UserName": "Susana",
-        "Email": "harrelldowns@kozgene.com"
+        "UserName": "Susana"
     },
     {
-        "UserName": "Linda",
-        "Email": "lavernegarrett@optique.com"
+        "UserName": "Linda"
     },
     {
-        "UserName": "Christian",
-        "Email": "melissabuckley@bluplanet.com"
+        "UserName": "Christian"
     },
     {
-        "UserName": "Letitia",
-        "Email": "juarezhoover@musix.com"
+        "UserName": "Letitia"
     },
     {
-        "UserName": "Casandra",
-        "Email": "hullchambers@permadyne.com"
+        "UserName": "Casandra"
     },
     {
-        "UserName": "Tameka",
-        "Email": "tishacoffey@genesynk.com"
-    },
-    {
-        "UserName": "Eula",
-        "Email": "letagardner@comvene.com"
-    },
-    {
-        "UserName": "Cheri",
-        "Email": "lorenachristensen@splinx.com"
-    },
-    {
-        "UserName": "Vonda",
-        "Email": "lynnwells@injoy.com"
-    },
-    {
-        "UserName": "Franklin",
-        "Email": "andrewssalas@imant.com"
-    },
-    {
-        "UserName": "Lawrence",
-        "Email": "hayesjordan@norsup.com"
-    },
-    {
-        "UserName": "Boyle",
-        "Email": "amiewong@callflex.com"
-    },
-    {
-        "UserName": "Phelps",
-        "Email": "craigwinters@zaphire.com"
-    },
-    {
-        "UserName": "Chandler",
-        "Email": "celestephillips@zappix.com"
-    },
-    {
-        "UserName": "Church",
-        "Email": "paynemarks@corepan.com"
-    },
-    {
-        "UserName": "Yates",
-        "Email": "stantonriddle@micronaut.com"
-    },
-    {
-        "UserName": "Fields",
-        "Email": "fultonhull@tubalum.com"
-    },
-    {
-        "UserName": "Blankenship",
-        "Email": "fostermatthews@zolavo.com"
-    },
-    {
-        "UserName": "Washington",
-        "Email": "estersampson@zialactic.com"
+        "UserName": "Tameka"
     }
 ]

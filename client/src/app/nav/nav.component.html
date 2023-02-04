@@ -1,21 +1,16 @@
-<div class="navbar navbar-dark fixed-top bg-primary">
-    <div class="container flex justify-content-end">
-        <ul class="navbar-nav d-flex flex-row">
-            <li class="nav-item px-2" *ngIf="!(accountService.currentUser$ | async)">
-                <a routerLink="/" class="nav-link py-0">Sign In</a>
-            </li>
-            <li class="nav-item px-2" *ngIf="accountService.currentUser$ | async">
-                <a (click)="logout()" class="nav-link py-0">Logout</a>
-            </li>
-            <li class="nav-item px-2" *ngIf="!(accountService.currentUser$ | async)">
-                <a routerLink="/register" class="nav-link py-0">Register</a>
-            </li>
-            <li class="nav-item px-2" *ngIf="accountService.currentUser$ | async">
-                <a routerLink="/users" class="nav-link py-0">Get Users</a>
-            </li>
-            <li class="nav-item px-2">
-                <a routerLink="/about-me" class="nav-link py-0">About Me</a>
-            </li>
-        </ul>
-    </div>  
+<div class="bg-[#ff2f2f] fixed top-0 left-0 w-screen z-50">
+    <div class="flex justify-center">
+        <h1 class="text-3xl md:text-4xl lg:text-6xl py-4 text-white text-center pointer-events-none up">Budget Tracker</h1>
+        <div class="absolute top-10 right-0 bottom-0 m-auto text-2xl text-white text-center hidden lg:flex">
+            <p *ngIf="!(accountService.currentUser$ | async)" (click)="login()" class="pr-4 hover:text-black hover:cursor-pointer">Login</p>
+            <p *ngIf="!(accountService.currentUser$ | async)" class="pr-4 hover:text-black hover:cursor-pointer">Register</p>
+            <p *ngIf="(accountService.currentUser$ | async) as user" (click)="menuOpen()" class="pr-4 hover:text-black hover:cursor-pointer relative">
+                <fa-icon [icon]="faCaretDown"></fa-icon>
+                Welcome {{user.username | titlecase}}!</p>
+            <div *ngIf="menuOpened && (accountService.currentUser$ | async)" class="p-2 pr-16 rounded-md bg-gray-300 absolute top-10 text-black text-start">
+                <p (click)="logout()" class="pr-4 hover:text-red-700 hover:cursor-pointer">Settings</p>
+                <p (click)="logout()" class="pr-4 hover:text-red-700 hover:cursor-pointer">Logout</p>
+            </div>      
+        </div>
+    </div>     
 </div>

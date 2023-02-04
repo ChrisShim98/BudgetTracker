@@ -1,36 +1,17 @@
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 hide-sm">
-            <img src="../../assets/login.svg" alt="Image" class="img-fluid">
+<div class="w-screen h-screen">
+    <div class="w-full h-full from-[#ff2929] bg-gradient-to-tr to-[#ff2f2f] flex justify-center">
+        <div class="bg-white relative top-10 bottom-0 left-0 right-0 m-auto lg:w-[80vh] lg:h-[80vh] rounded-full p-[3%] z-10 hidden lg:flex place-items-center">
+            <img src="../../assets/landing.svg" alt="Image" class="img-fluid">
         </div>
-        <div class="col-md-4 contents">
-            <div class="row justify-content-center">
-                <div class="col-md-10">
-                    <div class="mb-4">
-                        <h1>Sign In</h1>
-                    </div>
-                    <form #loginForm="ngForm" (ngSubmit)="login()" autocomplete="off">
-                        <div class="form-group first mb-2">
-                            <label for="username">Username</label>
-                            <input type="text" name="username" [(ngModel)]="model.username" class="form-control">
-                        </div>
-                        <div class="form-group last mb-4">
-                            <label for="password">Password</label>
-                            <input type="password" name="password" class="form-control" [(ngModel)]="model.password">
-                        </div>
-                        <button type="submit" class="btn btn-block btn-primary">
-                            Login
-                        </button>
-                        <span *ngIf="isError" class="ms-2 text-danger">Unauthorized, please try again...</span>
-                    </form>
-                    <div class="mt-4">
-                        <label>New to this service? Create an account:</label>
-                    </div>
-                    <div class="mt-2">
-                        <input type="button" routerLink="/register" value="Register" class="btn btn-block btn-primary">
-                    </div>
-                </div>
-            </div>
-        </div>
+        
+    </div>
+    <div class="absolute bottom-0 top-0 my-auto left-10 flex flex-col place-content-center w-[20%] gap-4">
+        <h2 class="text-white text-4xl pointer-events-none">Manage all your expenses in one place</h2>
+        <button (click)="createGuest()" class="bg-white w-[50%] p-2 hover:bg-black hover:text-white rounded-md" type="submit">Create a new budget</button>
+    </div>
+    <div class="custom-shape-divider-bottom-home">
+        <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z" class="shape-fill"></path>
+        </svg>
     </div>
 </div>

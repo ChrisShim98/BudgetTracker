@@ -1,5 +1,6 @@
 using System.Text.Json;
 using api.Entity;
+using api.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,7 +8,8 @@ namespace api.Data
 {
     public class SeedData
     {
-        public static async Task SeedUsers(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager)
+        public static async Task SeedUsers(UserManager<AppUser> userManager, 
+            RoleManager<AppRole> roleManager, IBudgetRepository budgetRepository)
         {
             if (await userManager.Users.AnyAsync()) return;
 
@@ -33,16 +35,25 @@ namespace api.Data
                 user.UserName = user.UserName.ToLower();
                 await userManager.CreateAsync(user, "Pa$$w0rd");
                 await userManager.AddToRoleAsync(user, "Member");
+
+                var savedUser = await userManager.Users.FirstAsync(x => x.UserName == user.UserName);
+
+                Budget Parent = new Budget
+                {
+                    Owner = savedUser,
+                    OwnerId = savedUser.Id
+                };
+
+                budgetRepository.SaveBudget(Parent);
             }
 
             var admin = new AppUser
             {
                 UserName = "admin",
-                Email = "chris@gmail.com"
             };
 
             await userManager.CreateAsync(admin, "Pa$$w0rd");
-            await userManager.AddToRolesAsync(admin, new[] {"Admin"});
+            await userManager.AddToRolesAsync(admin, new[] {"Admin", "Member"});
         }
     }
 }
