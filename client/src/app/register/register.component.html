@@ -1,33 +1,56 @@
-<div class="container">
-    <div class="row">
-        <div class="col-md-6 contents">
-            <div class="row justify-content-center">
-                <div class="col-md-8">
-                    <div class="mb-4">
-                        <h1>Register</h1>
-                    </div>
-                    <form data-test="registerForm" [formGroup]="registerForm" (ngSubmit)="registerForm.valid && register()" autocomplete="off">
-                        <app-text-input data-test="username" [formControl]="$any(registerForm.controls['username'])"
-                            [label]="'Username'"></app-text-input>
+<div class="w-screen min-h-[32rem] relative">
+    <div class="flex min-h-screen py-10 place-content-center justify-center">
+        <div class="flex flex-col justify-center relative z-50 py-10">
+            <div (click)="onFormClicked()" class="bg-gray-100 min-h-[28rem] w-[21rem] px-6 py-8 rounded-md border-black">
+                <div class="text-3xl pb-2">
+                    <h1>Register</h1>
+                </div>
+                <form class="flex flex-col gap-2" data-test="registerForm" [formGroup]="registerForm"
+                    (ngSubmit)="registerForm.valid && formClicked ? onFormButtonClick('register') : register()" autocomplete="off">
+                    <app-text-input data-test="username" [formControl]="$any(registerForm.controls['username'])"
+                        [label]="'Username'"></app-text-input>
 
-                        <app-text-input data-test="email" [formControl]="$any(registerForm.controls['email'])"
-                            [label]="'Email'"></app-text-input>
+                    <app-text-input data-test="password" [formControl]="$any(registerForm.controls['password'])"
+                        [label]="'Password'" [type]="'password'"></app-text-input>
 
-                        <app-text-input data-test="password" [formControl]="$any(registerForm.controls['password'])" [label]="'Password'"
-                            [type]="'password'"></app-text-input>
-
-                        <app-text-input data-test="confirmPassword" [formControl]="$any(registerForm.controls['confirmPassword'])"
-                            [label]="'Confirm Password'" [type]="'password'"></app-text-input>
-
-                        <button [disabled]="!registerForm.valid" type="submit" class="btn btn-block btn-primary mt-4">
+                    <app-text-input data-test="confirmPassword"
+                        [formControl]="$any(registerForm.controls['confirmPassword'])" [label]="'Confirm Password'"
+                        [type]="'password'"></app-text-input>
+                    <div class="w-full flex gap-2 pt-2">
+                        <button [disabled]="!registerForm.valid" type="submit"
+                            [ngClass]="!registerForm.valid ? 'button-lt py-1 w-[50%] bg-gray-300 hover:bg-gray-300 pointer-events-none' : 'button-lt py-1 w-[50%]'">
                             Create Account
                         </button>
-                    </form>
-                </div>
+                        <input (click)="$event.stopPropagation()" (click)="formClicked ? onFormButtonClick('cancel') : cancel()" type="button" value="Cancel"
+                            class="button-lt w-[50%] py-1">
+                    </div>
+                    <p *ngIf="isError && errorMessage" class="text-red-600">
+                        {{errorMessage}}
+                    </p>
+                    <div class="w-full">
+                        <label>Already have an account? Login here:</label>
+                    </div>
+                    <div class="w-full flex gap-2">
+                        <input (click)="$event.stopPropagation()" (click)="formClicked ? onFormButtonClick('login') : login()" type="button" value="Login"
+                            class="button-lt w-[50%] py-1">
+                        <input (click)="$event.stopPropagation()" (click)="formClicked ? onFormButtonClick('guest') : createGuest()" type="button" value="Guest User"
+                            class="button-lt w-[50%] py-1">
+                    </div>
+                </form>
             </div>
         </div>
-        <div class="col-md-6">
-            <img src="../../assets/register.svg" alt="Image" class="img-fluid hide-sm">
-        </div>
+    </div>
+    <div
+        [ngClass]="!cardOpened ? 'h-[29rem] w-[22rem] from-red-400 bg-gradient-to-tr to-[#ff2f2f] rounded-md absolute top-0 bottom-0 left-0 right-0 m-auto z-30 card3-close' :
+                formClicked && cardOpened ? 'h-[29rem] w-[22rem] from-red-400 bg-gradient-to-tr to-[#ff2f2f] rounded-md absolute top-0 bottom-0 left-0 right-0 m-auto z-30 card3' : 
+                'h-[29rem] w-[22rem]  from-red-400 bg-gradient-to-tr to-[#ff2f2f] rounded-md absolute top-0 bottom-0 left-0 right-0 m-auto z-30'">
+    </div>
+    <div
+        [ngClass]="!cardOpened ? 'h-[29rem] w-[22rem] from-red-500 bg-gradient-to-tr to-red-800 rounded-md absolute top-0 bottom-0 left-0 right-0 m-auto z-20 card4-close' :
+                formClicked && cardOpened ? 'h-[29rem] w-[22rem] from-red-500 bg-gradient-to-tr to-red-800 rounded-md absolute top-0 bottom-0 left-0 right-0 m-auto z-20 card4' : 
+                'h-[29rem] w-[22rem] from-red-500 bg-gradient-to-tr to-red-800 rounded-md absolute top-0 bottom-0 left-0 right-0 m-auto z-20'">
+    </div>
+    <div class="absolute top-0 left-0 w-screen h-screen bg-[#5b383837] blur-3xl z-10">
+
     </div>
 </div>

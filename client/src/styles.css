@@ -7,7 +7,7 @@
 
 @layer base {
   .button-lt {
-    @apply bg-black text-white px-2 rounded-md hover:bg-red-700; 
+    @apply bg-black text-white px-2 rounded-md hover:bg-[#ff2f2f] hover:cursor-pointer; 
   }
 }
 

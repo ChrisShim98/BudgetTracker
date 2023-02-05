@@ -1,0 +1,52 @@
+.card1{
+    animation: Card1Open 1s;
+    animation-fill-mode: forwards;
+  }
+
+.card1-close{
+    animation: Card1Close 1s;
+    animation-fill-mode: forwards;
+  }
+
+.card2{
+    animation: Card2Open 1s;
+    animation-fill-mode: forwards;
+  }
+
+.card2-close{
+    animation: Card2Close 1s;
+    animation-fill-mode: forwards;
+  }
+
+@keyframes Card1Open {
+    0%{
+       transform: rotate(0deg);
+      }
+   100%{
+       transform: rotate(-12deg);
+      }
+   }
+@keyframes Card1Close {
+    0%{
+       transform: rotate(-12deg);
+      }
+   100%{
+       transform: rotate(0deg);
+      }
+   }
+@keyframes Card2Open {
+    0%{
+       transform: rotate(0deg);
+      }
+   100%{
+       transform: rotate(-25deg);
+      }
+   }
+@keyframes Card2Close {
+    0%{
+       transform: rotate(-25deg);
+      }
+   100%{
+       transform: rotate(0deg);
+      }
+   }

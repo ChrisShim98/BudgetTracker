@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { User } from './_models/user';
 import { AccountService } from './_services/account.service';
 
@@ -10,10 +11,11 @@ import { AccountService } from './_services/account.service';
 export class AppComponent implements OnInit {
   title = 'login-app';
 
-  constructor(private accountService: AccountService) {}
+  constructor(private accountService: AccountService, public router: Router) {}
 
   ngOnInit(): void {
     this.setCurrentUser();
+    console.log(this.router.url)
   }
 
   setCurrentUser() {

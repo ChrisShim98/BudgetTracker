@@ -1,8 +1,9 @@
 <div class="font-Oswald">
-  <app-nav></app-nav>
+  <app-nav *ngIf="router.url == '/'"></app-nav>
+  
   <div style="overflow-x: hidden;">
     <router-outlet></router-outlet>
   </div>
+
+  <app-footer></app-footer>
 </div>
-
-

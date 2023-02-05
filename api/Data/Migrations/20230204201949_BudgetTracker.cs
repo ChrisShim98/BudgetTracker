@@ -5,7 +5,7 @@
 namespace api.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class AddedBudget : Migration
+    public partial class BudgetTracker : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

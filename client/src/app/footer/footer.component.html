@@ -1,14 +1,12 @@
-<div class="navbar navbar-dark fixed-bottom bg-primary">
-    <div class="container flex justify-content-start">
-        <ul class="navbar-nav d-flex flex-row">
-            <li class="nav-item px-2">
-                <a class="nav-link py-0">Christopher Shim 2023</a>
+<div [ngClass]="router.url != '/' ? 'bg-[#ecf0f338] shadow-inner fixed bottom-0 w-screen z-50 py-2' : 'fixed bottom-0 w-screen z-50 py-2'">
+    <div class="flex place-content-center">
+        <ul class="flex flex-col">         
+            <li class="px-2 flex w-full place-content-center gap-4">
+                <a href="https://www.linkedin.com/in/christopher-shim-bsc/" target="_blank" class="nav-link py-0"><fa-icon [icon]="faLinkedinIn" class="text-xl hover:text-[#ff2f2f]"></fa-icon></a>
+                <a href="https://github.com/ChrisShim98" target="_blank" class="nav-link py-0"><fa-icon [icon]="faGithubSquare" class="text-xl hover:text-[#ff2f2f]"></fa-icon></a>
             </li>
-            <li class="nav-item px-2">
-                <a href="https://www.linkedin.com/in/christopher-shim-bsc/" target="_blank" class="nav-link py-0"><fa-icon [icon]="faLinkedinIn" class="social-media"></fa-icon></a>
-            </li>
-            <li class="nav-item px-2">
-                <a href="https://github.com/ChrisShim98" target="_blank" class="nav-link py-0"><fa-icon [icon]="faGithubSquare" class="social-media"></fa-icon></a>
+            <li class="px-2">
+                Christopher Shim 2023
             </li>
         </ul>
     </div>  

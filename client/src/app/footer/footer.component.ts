@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { faLinkedin, faGithub } from '@fortawesome/free-brands-svg-icons';
 
 @Component({
@@ -10,7 +11,7 @@ export class FooterComponent implements OnInit {
   faGithubSquare=faGithub;
   faLinkedinIn=faLinkedin;
 
-  constructor() { }
+  constructor(public router: Router) { }
 
   ngOnInit(): void {
   }

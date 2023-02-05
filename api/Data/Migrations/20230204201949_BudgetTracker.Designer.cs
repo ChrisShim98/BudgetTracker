@@ -11,8 +11,8 @@ using api.Data;
 namespace api.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230203134146_AddedBudget")]
-    partial class AddedBudget
+    [Migration("20230204201949_BudgetTracker")]
+    partial class BudgetTracker
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

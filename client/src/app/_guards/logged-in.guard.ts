@@ -15,7 +15,7 @@ export class LoggedInGuard implements CanActivate {
     return this.accountService.currentUser$.pipe(
       map(user => {
         if (user) {
-          this.router.navigateByUrl('/users');
+          this.router.navigateByUrl('/');
           return false;
         }
         else {

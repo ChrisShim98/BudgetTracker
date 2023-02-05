@@ -24,4 +24,8 @@ export class HomeComponent implements OnInit {
     })
   }
 
+  createNewBudget() {
+    this.router.navigateByUrl('/budget');
+  }
+
 }

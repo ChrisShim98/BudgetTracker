@@ -11,16 +11,9 @@ import { LoggedInGuard } from './_guards/logged-in.guard';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
-  {path: 'budget', component: BudgetFormComponent},
-  {path: 'login', component: LoginComponent},
-  {path: 'users', 
-  component: UsersPageComponent,
-  canActivate:[AuthGuard]
-  },
-  {path: 'register', 
-  component: RegisterComponent,
-  canActivate: [LoggedInGuard]
-  },
+  {path: 'login', component: LoginComponent, canActivate: [LoggedInGuard]},
+  {path: 'register', component: RegisterComponent, canActivate: [LoggedInGuard]},
+  {path: 'budget', component: BudgetFormComponent, canActivate:[AuthGuard]}, 
   {path: '**', component: HomeComponent, pathMatch: 'full'},
 ];
 
