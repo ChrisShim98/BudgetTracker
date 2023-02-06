@@ -110,6 +110,10 @@ namespace api.Data.Migrations
                     b.Property<int>("BudgetParentId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("Frequency")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("Income")
                         .HasColumnType("INTEGER");
 

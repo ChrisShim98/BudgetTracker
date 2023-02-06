@@ -1,12 +1,15 @@
 <div class="grid w-screen min-h-screen overflow-x-hidden">
-    <div class="flex flex-col md:flex-row relative w-[99%] h-full justify-center items-center gap-4 z-20 py-20">
+    <div class="flex flex-col md:flex-row relative w-[100%] h-full justify-center items-center gap-4 z-20 py-20">
         <!-- Basic Info -->
         <div class="w-[18rem]">
             <form class="bg-gray-100 rounded-md p-4 flex flex-col gap-4">
-                <h1 class="text-xl">Basic Information</h1>
+                <div>
+                    <h1 class="text-2xl">Basic Information</h1>
+                    <p class="text-xs">Fields with a * are required</p>
+                </div>
 
                 <div class="flex gap-2">
-                    <p class="p-1 w-[49%]">Pay Period:</p>
+                    <p class="p-1 w-[49%]">Pay Period*:</p>
                     <select [(ngModel)]="model.Frequency" id="payPeriod" name="payPeriod" class="pb-1 px-1 rounded-md w-full">
                         <option value="weekly">Weekly</option>
                         <option value="biWeekly">Bi-Weekly</option>
@@ -16,7 +19,10 @@
                 </div>
 
                 <div class="flex gap-2 w-full">
-                    <p class="p-1 w-[50%]">Income:</p>
+                    <div class="py-[0.2rem] px-1 w-[50%]">
+                        <p class="relative">Income*:</p>
+                        <p class="absolute text-[0.5rem]">(after tax)</p>
+                    </div>
                     <input [(ngModel)]="model.Income" type="number" name="Income" class="p-1 px-2 rounded-md w-full">
                 </div>
 
@@ -26,7 +32,7 @@
                 </div>
 
                 <div class="flex gap-2">
-                    <p class="p-1 w-[49%]">Month:</p>
+                    <p class="p-1 w-[49%]">Month*:</p>
                     <select [(ngModel)]="model.Month" id="month" name="month" class="pb-1 px-1 rounded-md w-full">
                         <option value="1">January</option>
                         <option value="2">February</option>
@@ -42,11 +48,14 @@
                         <option value="12">December</option>
                     </select>
                 </div>
-
-                <div class="flex gap-2 w-full">
-                    <p class="p-1 w-[50%]">Year:</p>
-                    <input [(ngModel)]="model.Year" type="number" min="2000" max="3000" step="1" oninput="(validity.valid)||(value='2023');" name="year" class="p-1 px-2 rounded-md w-full">
-                </div>
+                <div>
+                    <div class="flex gap-2 w-full">
+                        <p class="p-1 w-[50%] relative">Year*:</p>
+                        <input [(ngModel)]="model.Year" type="number" min="20" max="3000" step="1" oninput="(validity.valid)||(value='2023');" name="year" class="p-1 px-2 rounded-md w-full">
+                    </div>
+                    <p *ngIf="errorCode[2] == 1" ngClass="p-1 text-xs text-red-600">Please enter a valid year</p>
+                    <p *ngIf="submitError.length > 0" ngClass="p-1 text-xs text-red-600">{{submitError}}</p>
+                </div>  
             </form>
             <!-- Submit Button -->
             <div class="w-full flex place-content-center pt-3">
@@ -57,19 +66,19 @@
         <!-- Expenses -->
         <form class="bg-gray-100 w-[18rem] md:w-[35rem] rounded-md p-4 flex flex-col gap-2 md:gap-4">
             <div>
-                <h1 class="text-xl">Expenses</h1>
-                <h1>Fixed Expenses</h1>
+                <h1 class="text-2xl">Expenses</h1>
+                <h1 class="text-lg">Fixed Expenses</h1>
             </div>
 
             <!-- Fixed Expenses -->
             <div *ngFor="let fixedExpense of TotalFixedExpenseModel; let i=index" class="flex gap-2">
-                <p class="p-1 w-[25%]">{{fixedExpense.name | titlecase}}:</p>
-                <input [(ngModel)]="TotalFixedExpenseModel[i].amount" type="number" name="Income" class="p-1 rounded-md">
+                <p class="p-1 w-[60%] md:w-[25%]">{{fixedExpense.name | titlecase}}:</p>
+                <input [(ngModel)]="TotalFixedExpenseModel[i].amount" type="number" name="Income" class="p-1 w-[5rem] md:w-[10rem] rounded-md">
                 <fa-icon [icon]="faTrash" (click)="RemoveFixedExpense(fixedExpense.id)"></fa-icon>
             </div>
 
             <form class="grid grid-flow-col gap-2 grid-cols-3" (ngSubmit)="AddFixedExpense()">
-                <input type="text" [(ngModel)]="FixedExpenseModel.AddExpense" name="AddExpense" class="p-1 col-span-2 rounded-md">
+                <input type="text" [(ngModel)]="FixedExpenseModel.name" name="AddExpense" class="p-1 col-span-2 rounded-md">
                 <button class="button-lt hidden md:block col-span-1" type="submit">Add Fixed
                     Expense</button>
                 <button class="button-lt block md:hidden" type="submit">Add Fixed</button>
@@ -77,36 +86,37 @@
             <p *ngIf="errorCode[0] == 1" class="text-[#ff2f2f] font-medium">Fixed Expense cannot be empty</p>
             <p *ngIf="errorCode[0] == 2" class="text-[#ff2f2f] font-medium">Fixed Expense name is too long</p>
             <p *ngIf="errorCode[0] == 3" class="text-[#ff2f2f] font-medium">Add more expenses after submitting</p>
+            <p *ngIf="errorCode[0] == 4" class="text-[#ff2f2f] font-medium">Expense with name already exists</p>
 
             <!-- Variable Expenses -->
-            <h1>Variable Expenses</h1>
+            <h1 class="text-lg">Variable Expenses</h1>
 
             <div *ngFor="let varExpense of TotalVarExpenseModel; let i=index" class="flex gap-2">
-                <p class="p-1 w-[25%]">{{varExpense.name | titlecase}}:</p>
-                <input [(ngModel)]="TotalVarExpenseModel[i].amount" type="number" name="amount" class="p-1 rounded-md">
+                <p class="p-1 w-[60%] md:w-[25%]">{{varExpense.name | titlecase}}:</p>
+                <input [(ngModel)]="TotalVarExpenseModel[i].amount" type="number" name="amount" class="p-1 w-[5rem] md:w-[10rem] rounded-md">
                 <fa-icon [icon]="faTrash" (click)="RemoveVarExpense(varExpense.id)"></fa-icon>
             </div>
 
             <form class="flex flex-col md:flex-row gap-2" (ngSubmit)="AddVarExpense()">
-
-                <div class="flex flex-col md:flex-row gap-2">
+                <div class="flex flex-col md:flex-row md:gap-2">
                     <p class="p-1 w-[40%]">Name:</p>
                     <input type="text" [(ngModel)]="VarExpenseModel.name" name="AddExpense"
                         class="p-1 rounded-md">
                     <p class="p-1 w-[40%]">Frequency:</p>
-                    <select [(ngModel)]="VarExpenseModel.frequency" id="payPeriod" name="payPeriod" class="py-1 rounded-md">
+                    <select [(ngModel)]="VarExpenseModel.frequency" id="payPeriod" name="payPeriod" class="py-1 px-1 rounded-md">
                         <option value="weekly">Weekly</option>
                         <option value="biWeekly">Bi-Weekly</option>
                         <option value="monthly">Monthly</option>
                         <option value="annually">Annually</option>
                     </select>
                 </div>
-                <button class="button-lt" type="submit">Add Variable
+                <button class="button-lt py-1 md:py-0" type="submit">Add Variable
                     Expense</button>
             </form>
             <p *ngIf="errorCode[1] == 1" class="text-[#ff2f2f] font-medium">Variable Expense cannot be empty</p>
             <p *ngIf="errorCode[1] == 2" class="text-[#ff2f2f] font-medium">Variable Expense name is too long</p>
             <p *ngIf="errorCode[1] == 3" class="text-[#ff2f2f] font-medium">Add more expenses after submitting</p>
+            <p *ngIf="errorCode[1] == 4" class="text-[#ff2f2f] font-medium">Expense with name already exists</p>
 
         </form>        
     </div>

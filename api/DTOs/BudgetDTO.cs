@@ -16,6 +16,8 @@ namespace api.DTOs
         [Required]
         public int Income { get; set; }
         [Required]
+        public string Frequency { get; set; }
+        [Required]
         public int Month { get; set; }
         [Required]
         public int Year { get; set; }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Expense } from '../_models/expense';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { MonthlyBudget } from '../_models/monthlyBudget';
+import { BudgetService } from '../_services/budget.service';
 
 @Component({
   selector: 'app-budget-form',
@@ -35,20 +36,21 @@ export class BudgetFormComponent implements OnInit {
   TotalVarExpenseModel: Expense[] = [];
 
   // Validation Error codes
-  errorCode: number[] = [0, 0];
+  errorCode: number[] = [0, 0, 0];
+  submitError: string = '';
 
-  constructor() { }
+  constructor(private budgetService: BudgetService) { }
 
   ngOnInit(): void {
   }
 
   AddFixedExpense() {
-    if(this.FixedExpenseModel.AddExpense == '' || this.FixedExpenseModel.AddExpense == undefined) {
+    if(this.FixedExpenseModel.name == '' || this.FixedExpenseModel.name == undefined) {
       this.errorCode[0] = 1;
       return
     }
     
-    if(this.FixedExpenseModel.AddExpense.length > 17) {
+    if(this.FixedExpenseModel.name.length > 17) {
       this.errorCode[0] = 2;
       return
     }
@@ -58,13 +60,20 @@ export class BudgetFormComponent implements OnInit {
       return
     }
 
+    for(let i = 0; i < this.TotalFixedExpenseModel.concat(this.TotalVarExpenseModel).length; i++) {
+      if (this.TotalFixedExpenseModel.concat(this.TotalVarExpenseModel)[i].name == this.FixedExpenseModel.name) {
+        this.errorCode[0] = 4;
+        return
+      }
+    }
+
     this.TotalExpenses = this.TotalExpenses + 1;
 
     this.FixedExpenseModel = this.TotalFixedExpenseModel.push({
       id: this.TotalExpenses,
-      name: this.FixedExpenseModel.AddExpense,
-      frequency: "weekly",
-      type: "",
+      name: this.FixedExpenseModel.name,
+      frequency: "",
+      type: "fixed",
       amount: 0
     });
 
@@ -97,9 +106,16 @@ export class BudgetFormComponent implements OnInit {
       return
     }
 
+    for(let i = 0; i < this.TotalFixedExpenseModel.concat(this.TotalVarExpenseModel).length; i++) {
+      if (this.TotalFixedExpenseModel.concat(this.TotalVarExpenseModel)[i].name == this.VarExpenseModel.name) {
+        this.errorCode[1] = 4;
+        return
+      }
+    }
+
     this.TotalExpenses = this.TotalExpenses + 1;
 
-    console.log(this.VarExpenseModel);
+    this.VarExpenseModel.id = this.TotalExpenses;
 
     this.TotalVarExpenseModel.push(this.VarExpenseModel);
 
@@ -107,7 +123,7 @@ export class BudgetFormComponent implements OnInit {
       id: 0,
       name: '',
       frequency: 'weekly',
-      type: '',
+      type: 'variable',
       amount: 0
     };
 
@@ -129,6 +145,26 @@ export class BudgetFormComponent implements OnInit {
     {
       this.model.Expenses[i].id = 0;
     }
-    console.log(this.model);
+    if(this.model.Year < 2000 || this.model.Year > 3000) {
+      this.errorCode[2] = 1;
+      return
+    }
+    this.errorCode[2] = 0;
+    
+    this.budgetService.addMonthlyBudget(this.model).subscribe({
+      next: response => {
+        if (response === true) {
+          this.navigateToBudgetTable()
+        }      
+      },
+      error: error => this.submitError = error.error
+    })    
+  }
+
+  navigateToBudgetTable() {
+    this.budgetService.getAllBudgets().subscribe({
+      next: response => console.log(response),
+      error: error => console.log(error)
+    })
   }
 }

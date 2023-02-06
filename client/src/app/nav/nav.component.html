@@ -1,17 +1,50 @@
-<div class="bg-[#ff2f2f] fixed top-0 left-0 w-screen z-50">
-    <div class="flex justify-center">
-        <h1 class="text-3xl md:text-4xl lg:text-6xl py-4 text-white text-center pointer-events-none up">Budget Tracker</h1>
-        <div class="absolute top-10 right-0 bottom-0 m-auto text-2xl text-white text-center hidden lg:flex">
-            <p *ngIf="!(accountService.currentUser$ | async)" (click)="login()" class="pr-4 hover:text-black hover:cursor-pointer">Login</p>
-            <p *ngIf="!(accountService.currentUser$ | async)" (click)="register()" class="pr-4 hover:text-black hover:cursor-pointer">Register</p>
-            <p *ngIf="(accountService.currentUser$ | async) as user" (click)="menuOpen()" class="pr-4 hover:text-black hover:cursor-pointer relative">
+<div class="bg-[#ff2f2f] fixed top-0 left-0 w-screen z-[60]">
+    <div class="flex justify-center relative z-10">
+        <h1
+            (click)="home()"
+            [ngClass]="router.url == '/' ? 'text-3xl md:text-4xl lg:text-6xl py-4 text-white text-center hover:cursor-pointer' : 'text-3xl md:text-4xl py-4 text-white text-center hover:cursor-pointer'">
+            Budget Tracker</h1>
+
+        <div (click)="mobileMenuOpen()" class="absolute block lg:hidden top-[1.25rem] right-4 bottom-0 text-2xl text-white text-center">
+            <fa-icon *ngIf="!(mobileMenuOpened)" [icon]="faBars"></fa-icon>
+            <fa-icon *ngIf="mobileMenuOpened" [icon]="faXmark"></fa-icon>
+        </div>
+
+        <!-- Desktop Nav -->
+        <div
+            [ngClass]="router.url == '/' ? 'absolute top-10 right-0 bottom-0 text-2xl text-white text-center hidden lg:flex' : 'absolute top-6 right-0 bottom-0 text-xl text-white text-center hidden lg:flex'">
+            <p *ngIf="!(accountService.currentUser$ | async)" (click)="login()"
+                class="pr-4 hover:text-black hover:cursor-pointer">Login</p>
+            <p *ngIf="!(accountService.currentUser$ | async)" (click)="register()"
+                class="pr-4 hover:text-black hover:cursor-pointer">Register</p>
+            <p *ngIf="(accountService.currentUser$ | async) as user" (click)="menuOpen()"
+                class="pr-4 hover:text-black hover:cursor-pointer relative">
                 <fa-icon [icon]="faCaretDown"></fa-icon>
-                Welcome {{user.username | titlecase}}!</p>
-            <div *ngIf="menuOpened && (accountService.currentUser$ | async)" class="p-2 pr-6 rounded-md bg-gray-100 absolute top-10 text-black text-start">
+                Welcome {{user.username | titlecase}}!
+            </p>
+
+            <div *ngIf="menuOpened && (accountService.currentUser$ | async)"
+                [ngClass]="router.url == '/' ? 'p-2 pr-6 rounded-md bg-gray-100 absolute top-10 text-black text-start' : 'p-2 pr-6 rounded-md bg-gray-100 absolute top-8 text-black text-start'">
                 <p (click)="logout()" class="pr-4 hover:text-[#ff2f2f] hover:cursor-pointer">New Budget</p>
                 <p (click)="logout()" class="pr-4 hover:text-[#ff2f2f] hover:cursor-pointer">Settings</p>
                 <p (click)="logout()" class="pr-4 hover:text-[#ff2f2f] hover:cursor-pointer">Logout</p>
-            </div>      
+            </div>
         </div>
-    </div>     
+    </div>
+    <!-- Mobile Nav -->
+    <div [ngClass]="mobileMenuOpened ? 'nav-mobile nav-mobile-opened z-0 block lg:hidden' : 'nav-mobile nav-mobile-closed z-0'">
+        <div class="w-full h-full grid place-content-center text-white text-2xl gap-4 text-center">
+            <p *ngIf="!(accountService.currentUser$| async)" (click)="login()"
+                class="hover:text-black hover:cursor-pointer">Login</p>
+            <p *ngIf="!(accountService.currentUser$ | async)" (click)="register()"
+                class="hover:text-black hover:cursor-pointer">Register</p>
+            <p *ngIf="(accountService.currentUser$ | async) as user"
+                class="mb-auto">
+                Welcome {{user.username | titlecase}}!
+            </p>
+            <p *ngIf="(accountService.currentUser$ | async)" (click)="mobileMenuOpen()" (click)="logout()" class="hover:text-[#ff2f2f] hover:cursor-pointer">New Budget</p>
+            <p *ngIf="(accountService.currentUser$ | async)" (click)="mobileMenuOpen()" (click)="logout()" class="hover:text-[#ff2f2f] hover:cursor-pointer">Settings</p>
+            <p *ngIf="(accountService.currentUser$ | async)" (click)="mobileMenuOpen()" (click)="logout()" class="hover:text-[#ff2f2f] hover:cursor-pointer">Logout</p>
+        </div>
+    </div>
 </div>

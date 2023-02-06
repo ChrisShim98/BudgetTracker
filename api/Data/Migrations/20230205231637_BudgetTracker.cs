@@ -36,6 +36,7 @@ namespace api.Data.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Income = table.Column<int>(type: "INTEGER", nullable: false),
+                    Frequency = table.Column<string>(type: "TEXT", nullable: false),
                     Month = table.Column<int>(type: "INTEGER", nullable: false),
                     Year = table.Column<int>(type: "INTEGER", nullable: false),
                     JobField = table.Column<string>(type: "TEXT", nullable: true),

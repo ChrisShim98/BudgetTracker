@@ -1,13 +1,17 @@
-.nav-link:hover {
-    color: #AC1DD4;
-    cursor: pointer;
-}
-.nav-link:active {
-    color: #AC1DD4;
-    cursor: pointer;
-}
-.fixed-top {
-    position: absolute;
+.nav-mobile {
+    position: fixed;
     top: 0;
     left: 0;
+    height: 100%;
+    width: 100%;
+    background: #ff2f2f;
+    transition: all 0.5s ease-in-out;
+}
+
+.nav-mobile-closed {
+    clip-path: inset(0 0 0 100%);
+}
+
+.nav-mobile-opened {
+    clip-path: inset(0 0 0 0);
 }

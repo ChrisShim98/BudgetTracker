@@ -11,7 +11,7 @@ using api.Data;
 namespace api.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230204201949_BudgetTracker")]
+    [Migration("20230205231637_BudgetTracker")]
     partial class BudgetTracker
     {
         /// <inheritdoc />
@@ -112,6 +112,10 @@ namespace api.Data.Migrations
 
                     b.Property<int>("BudgetParentId")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("Frequency")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("Income")
                         .HasColumnType("INTEGER");

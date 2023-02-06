@@ -1,25 +1,27 @@
 <div class="w-screen h-screen">
-    <div class="w-full h-full from-[#ff2929] bg-gradient-to-tr to-[#ff2f2f] flex justify-center">
+    <div class="w-full h-full from-[#ff2929] relative bg-gradient-to-tr to-[#ff2f2f] flex justify-center">
         <div class="bg-white relative top-10 bottom-0 left-0 right-0 m-auto lg:w-[80vh] lg:h-[80vh] rounded-full p-[3%] z-10 hidden lg:flex place-items-center">
             <img src="../../assets/landing.svg" alt="Image" class="img-fluid">
         </div>
-        
+        <div class="bg-white absolute top-10 bottom-0 left-0 right-[-135%] sm:right-[-90%] m-auto w-[80vh] h-[80vh] rounded-full p-[3%] z-10 lg:hidden flex place-items-center">
+            <img src="../../assets/landing.svg" alt="Image" class="img-fluid">
+        </div>  
     </div>
-    <div *ngIf="(accountService.currentUser$ | async)" class="absolute bottom-0 top-0 my-auto left-10 flex flex-col place-content-center w-[20%] gap-4">
+    <div class="w-screen sm:w-[35%] h-screen bg-gradient-to-r top-0 absolute from-[#ff2f2f] to-[#fff0] z-10 block">
+
+    </div>
+    <div class="absolute bottom-0 top-0 my-auto left-10 flex flex-col place-content-center w-[75%] sm:w-[30%] lg:w-[20%] gap-4 z-30">
         <h2 class="text-white text-4xl pointer-events-none">Manage all your expenses in one place</h2>
-        <button (click)="createNewBudget()" class="bg-white w-[50%] p-2 hover:bg-black hover:text-white rounded-md" type="submit">Create a new budget</button>
+        <button *ngIf="(accountService.currentUser$ | async)" (click)="createNewBudget()" class="bg-white min-w-[9rem] w-[50%] p-2 hover:bg-black hover:text-white rounded-md" type="submit">Create a new budget</button>
+        <button *ngIf="!(accountService.currentUser$ | async)" (click)="createGuest()" class="bg-white min-w-[9rem] w-[50%] p-2 hover:bg-black hover:text-white rounded-md" type="submit">Create a new budget</button>
     </div>
-    <div *ngIf="!(accountService.currentUser$ | async)" class="absolute bottom-0 top-0 my-auto left-10 flex flex-col place-content-center w-[20%] gap-4">
-        <h2 class="text-white text-4xl pointer-events-none">Manage all your expenses in one place</h2>
-        <button (click)="createGuest()" class="bg-white w-[50%] p-2 hover:bg-black hover:text-white rounded-md" type="submit">Create a new budget</button>
-    </div>
-    <div class="custom-shape-divider-bottom-home">
+    <div class="custom-shape-divider-bottom-home sm:z-20 lg:z-0">
         <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
             <path d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z" class="shape-fill"></path>
         </svg>
     </div>
 
-    <div class="fixed w-screen h-screen bg-[#5b383837] blur-3xl z-10">
+    <div class="fixed w-screen h-screen bg-[#5b383837] blur-3xl z-30">
 
     </div>
 </div>

@@ -10,6 +10,7 @@ namespace api.DTOs
     {
         public int Id { get; set; }
         public int Income { get; set; }
+        public string Frequency { get; set; }
         public int Month { get; set; }
         public int Year { get; set; }
         public List<ExpenseDTO> Expenses { get; set; }
