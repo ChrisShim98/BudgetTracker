@@ -15,7 +15,7 @@ namespace api.Data
 
         public DbSet<Asset> Assets { get; set; }
         public DbSet<Expense> Expenses { get; set; }
-        public DbSet<BudgetDTO> MonthlyBudget { get; set; }
+        public DbSet<MonthlyBudget> MonthlyBudget { get; set; }
         public DbSet<Budget> Budget { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder) {
@@ -41,14 +41,14 @@ namespace api.Data
                 .OnDelete(DeleteBehavior.Cascade)
                 .IsRequired();
 
-            builder.Entity<BudgetDTO>()
+            builder.Entity<MonthlyBudget>()
                 .HasMany(b => b.Expenses)
                 .WithOne(bs => bs.BudgetParent)
                 .HasForeignKey(b => b.BudgetId)
                 .OnDelete(DeleteBehavior.Cascade)
                 .IsRequired();
 
-            builder.Entity<BudgetDTO>()
+            builder.Entity<MonthlyBudget>()
                 .HasMany(b => b.Assets)
                 .WithOne(bs => bs.BudgetParent)
                 .HasForeignKey(b => b.BudgetId)

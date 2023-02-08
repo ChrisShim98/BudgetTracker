@@ -1,6 +1,6 @@
 .card1{
-    animation: Card1Open 1s;
-    animation-fill-mode: forwards;
+   animation: Card1Open 1s;
+   animation-fill-mode: forwards;
   }
 
 .card1-close{

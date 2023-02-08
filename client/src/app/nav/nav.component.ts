@@ -1,9 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { AccountService } from '../_services/account.service';
 import { faCaretDown, faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
-import { take } from 'rxjs';
-import { User } from '../_models/user';
 
 @Component({
   selector: 'app-nav',
@@ -17,8 +15,17 @@ export class NavComponent implements OnInit {
   faXmark = faXmark;
   menuOpened: boolean = false;
   mobileMenuOpened: boolean = false;
+  @ViewChild('menuButton') menuButton: ElementRef | undefined;
+  @ViewChild('menu') menu: ElementRef | undefined;
 
-  constructor(public router: Router, public accountService: AccountService) { }
+  constructor(public router: Router, public accountService: AccountService, private renderer: Renderer2) { 
+    this.renderer.listen('window', 'click',(e:Event)=>{
+     if(this.menuButton !== undefined && e.target !== this.menuButton.nativeElement &&
+        this.menu != undefined && e.target !== this.menu.nativeElement) {
+         this.menuOpened = false;
+     }
+ });
+  }
 
   ngOnInit(): void {
     
@@ -33,12 +40,28 @@ export class NavComponent implements OnInit {
   }
 
   logout() {
+    this.menuOpened = false;
     this.accountService.logout();
     this.router.navigateByUrl('/');
   }
 
   home() {
     this.router.navigateByUrl('/');
+  }
+
+  newBudget() {
+    this.menuOpened = false;
+    this.router.navigateByUrl('/budget');
+  }
+
+  allBudgets() {
+    this.menuOpened = false;
+    this.router.navigateByUrl('/allbudgets');
+  }
+
+  settings() {
+    this.menuOpened = false;
+    this.router.navigateByUrl('/settings');
   }
 
   menuOpen() {

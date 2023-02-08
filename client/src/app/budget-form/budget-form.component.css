@@ -1,0 +1,17 @@
+.asset-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    min-height: 100%;
+    width: 100%;
+    background: #ff2f2f;
+    transition: all 0.5s ease-in-out;
+}
+
+.asset-container-closed {
+    clip-path: circle(0% at 87% 11%);
+}
+
+.asset-container-open {
+    clip-path: circle(125.6% at 89% 11%);
+}

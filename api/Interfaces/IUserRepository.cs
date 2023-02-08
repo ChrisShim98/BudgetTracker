@@ -10,5 +10,6 @@ namespace api.Interfaces
         Task<PagedList<AppUserDTO>> GetUsersAsync(PaginationParams paginationParams);
         void DeleteUser(int id);
         Task<AppUser> GetUserByIdAsync(string id);
+
     }
 }

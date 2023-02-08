@@ -13,6 +13,6 @@ namespace api.Entity
         public string Name { get; set; }
         public string Frequency { get; set; }
         public int Amount { get; set; }
-        public BudgetDTO BudgetParent { get; set; }
+        public MonthlyBudget BudgetParent { get; set; }
     }
 }

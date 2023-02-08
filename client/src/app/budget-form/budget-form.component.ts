@@ -3,6 +3,8 @@ import { Expense } from '../_models/expense';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { MonthlyBudget } from '../_models/monthlyBudget';
 import { BudgetService } from '../_services/budget.service';
+import { Router } from '@angular/router';
+import { Asset } from '../_models/asset';
 
 @Component({
   selector: 'app-budget-form',
@@ -19,27 +21,42 @@ export class BudgetFormComponent implements OnInit {
     Expenses: [],
     Assets: []
   };
-  expenses: Expense[] = [];
   faTrash = faTrash;
+  // Expenses
+  expenses: Expense[] = [];
   TotalExpenses: number = 0;
-
   FixedExpenseModel: any = {};
   TotalFixedExpenseModel: Expense[] = [];
-
   VarExpenseModel: Expense = {
     id: 0,
     name: '',
     frequency: 'weekly',
-    type: '',
+    type: 'variable',
     amount: 0
   };
   TotalVarExpenseModel: Expense[] = [];
 
+  assetMenuOpened: boolean = false;
+
+  // Assets
+  assets: Asset[] = [];
+  TotalAssets: number = 0;
+  FixedAssetModel: any = {};
+  TotalFixedAssetModel: Expense[] = [];
+  VarAssetModel: Asset = {
+    id: 0,
+    name: '',
+    frequency: 'weekly',
+    type: 'variable',
+    amount: 0
+  };
+  TotalVarAssetModel: Asset[] = [];
+
   // Validation Error codes
-  errorCode: number[] = [0, 0, 0];
+  errorCode: number[] = [0, 0, 0, 0, 0];
   submitError: string = '';
 
-  constructor(private budgetService: BudgetService) { }
+  constructor(private budgetService: BudgetService, private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -55,21 +72,16 @@ export class BudgetFormComponent implements OnInit {
       return
     }
 
-    if(this.TotalFixedExpenseModel.length >= 5) {
-      this.errorCode[0] = 3;
-      return
-    }
-
     for(let i = 0; i < this.TotalFixedExpenseModel.concat(this.TotalVarExpenseModel).length; i++) {
       if (this.TotalFixedExpenseModel.concat(this.TotalVarExpenseModel)[i].name == this.FixedExpenseModel.name) {
-        this.errorCode[0] = 4;
+        this.errorCode[0] = 3;
         return
       }
     }
 
     this.TotalExpenses = this.TotalExpenses + 1;
-
-    this.FixedExpenseModel = this.TotalFixedExpenseModel.push({
+    
+    this.TotalFixedExpenseModel.push({
       id: this.TotalExpenses,
       name: this.FixedExpenseModel.name,
       frequency: "",
@@ -101,14 +113,9 @@ export class BudgetFormComponent implements OnInit {
       return
     }
 
-    if(this.TotalVarExpenseModel.length >= 5) {
-      this.errorCode[1] = 3;
-      return
-    }
-
     for(let i = 0; i < this.TotalFixedExpenseModel.concat(this.TotalVarExpenseModel).length; i++) {
       if (this.TotalFixedExpenseModel.concat(this.TotalVarExpenseModel)[i].name == this.VarExpenseModel.name) {
-        this.errorCode[1] = 4;
+        this.errorCode[1] = 3;
         return
       }
     }
@@ -139,12 +146,107 @@ export class BudgetFormComponent implements OnInit {
     }
   }
 
+  openAssetMenu(state: boolean) {
+    this.assetMenuOpened = state;
+  }
+
+  AddFixedAsset() {
+    if(this.FixedAssetModel.name == '' || this.FixedAssetModel.name == undefined) {
+      this.errorCode[3] = 1;
+      return
+    }
+    
+    if(this.FixedAssetModel.name.length > 17) {
+      this.errorCode[3] = 2;
+      return
+    }
+
+    for(let i = 0; i < this.TotalFixedAssetModel.concat(this.TotalVarAssetModel).length; i++) {
+      if (this.TotalFixedAssetModel.concat(this.TotalVarAssetModel)[i].name == this.FixedAssetModel.name) {
+        this.errorCode[3] = 3;
+        return
+      }
+    }
+
+    this.TotalAssets = this.TotalAssets + 1;
+    
+    this.TotalFixedAssetModel.push({
+      id: this.TotalAssets,
+      name: this.FixedAssetModel.name,
+      frequency: "",
+      type: "fixed",
+      amount: 0
+    });
+
+    this.FixedAssetModel = {};
+    this.errorCode[3] = 0;
+  }
+
+  RemoveFixedAsset(id: number) {
+    for (let i = 0; i < this.TotalFixedAssetModel.length; i++) {
+      if (this.TotalFixedAssetModel[i].id == id)
+      {
+        this.TotalFixedAssetModel.splice(i, 1);
+      }
+    }
+  }
+  
+  AddVarAsset() {
+    if(this.VarAssetModel.name == '' || this.VarAssetModel.name == undefined) {
+      this.errorCode[4] = 1;
+      return
+    }
+
+    if(this.VarAssetModel.name.length > 17) {
+      this.errorCode[4] = 2;
+      return
+    }
+
+    for(let i = 0; i < this.TotalFixedAssetModel.concat(this.TotalVarAssetModel).length; i++) {
+      if (this.TotalFixedAssetModel.concat(this.TotalVarAssetModel)[i].name == this.VarAssetModel.name) {
+        this.errorCode[4] = 3;
+        return
+      }
+    }
+
+    this.TotalAssets = this.TotalAssets + 1;
+
+    this.VarAssetModel.id = this.TotalAssets;
+
+    this.TotalVarAssetModel.push(this.VarAssetModel);
+
+    this.VarAssetModel = {
+      id: 0,
+      name: '',
+      frequency: 'weekly',
+      type: 'variable',
+      amount: 0
+    };
+
+    this.errorCode[3] = 0;
+  }
+
+  RemoveVarAsset(id: number) {
+    for (let i = 0; i < this.TotalVarAssetModel.length; i++) {
+      if (this.TotalVarAssetModel[i].id == id)
+      {
+        this.TotalVarAssetModel.splice(i, 1);
+      }
+    }
+  }
+
   submit() {
     this.model.Expenses = this.TotalFixedExpenseModel.concat(this.TotalVarExpenseModel);
+    this.model.Assets = this.TotalFixedAssetModel.concat(this.TotalVarAssetModel);
     for(let i = 0; i < this.model.Expenses.length; i++)
     {
       this.model.Expenses[i].id = 0;
     }
+    for(let i = 0; i < this.model.Assets.length; i++)
+    {
+      this.model.Assets[i].id = 0;
+    }
+    
     if(this.model.Year < 2000 || this.model.Year > 3000) {
       this.errorCode[2] = 1;
       return
@@ -162,9 +264,6 @@ export class BudgetFormComponent implements OnInit {
   }
 
   navigateToBudgetTable() {
-    this.budgetService.getAllBudgets().subscribe({
-      next: response => console.log(response),
-      error: error => console.log(error)
-    })
+    this.router.navigateByUrl('/allbudgets')
   }
 }

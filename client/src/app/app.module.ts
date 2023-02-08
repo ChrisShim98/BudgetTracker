@@ -19,6 +19,8 @@ import { SharedModule } from './_modules/shared.module';
 import { BudgetFormComponent } from './budget-form/budget-form.component';
 import { BudgetTableComponent } from './budget-table/budget-table.component';
 import { LoginComponent } from './login/login.component';
+import { NotFoundComponent } from './not-found/not-found.component';
+import { SettingsPageComponent } from './settings-page/settings-page.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,9 @@ import { LoginComponent } from './login/login.component';
     FooterComponent,
     BudgetFormComponent,
     BudgetTableComponent,
-    LoginComponent
+    LoginComponent,
+    NotFoundComponent,
+    SettingsPageComponent
   ],
   imports: [
     BrowserModule,

@@ -2,7 +2,12 @@
     <div class="flex flex-col md:flex-row relative w-[100%] h-full justify-center items-center gap-4 z-20 py-20">
         <!-- Basic Info -->
         <div class="w-[18rem]">
-            <form class="bg-gray-100 rounded-md p-4 flex flex-col gap-4">
+            <div class="w-full flex justify-center text-center">
+                <h1 class="text-3xl p-2 bg-red-800 rounded-md text-white mb-3 w-[10rem] shadow-lg shadow-[#0000009b]">
+                    New Budget</h1>
+            </div>
+
+            <form class="bg-gray-100 rounded-md p-4 flex flex-col gap-4 shadow-2xl shadow-black">
                 <div>
                     <h1 class="text-2xl">Basic Information</h1>
                     <p class="text-xs">Fields with a * are required</p>
@@ -10,7 +15,8 @@
 
                 <div class="flex gap-2">
                     <p class="p-1 w-[49%]">Pay Period*:</p>
-                    <select [(ngModel)]="model.Frequency" id="payPeriod" name="payPeriod" class="pb-1 px-1 rounded-md w-full">
+                    <select [(ngModel)]="model.Frequency" id="payPeriod" name="payPeriod"
+                        class="pb-1 px-1 rounded-md w-full">
                         <option value="weekly">Weekly</option>
                         <option value="biWeekly">Bi-Weekly</option>
                         <option value="monthly">Monthly</option>
@@ -51,63 +57,72 @@
                 <div>
                     <div class="flex gap-2 w-full">
                         <p class="p-1 w-[50%] relative">Year*:</p>
-                        <input [(ngModel)]="model.Year" type="number" min="20" max="3000" step="1" oninput="(validity.valid)||(value='2023');" name="year" class="p-1 px-2 rounded-md w-full">
+                        <input [(ngModel)]="model.Year" type="number" min="20" max="3000" step="1"
+                            oninput="(validity.valid)||(value='2023');" name="year" class="p-1 px-2 rounded-md w-full">
                     </div>
                     <p *ngIf="errorCode[2] == 1" ngClass="p-1 text-xs text-red-600">Please enter a valid year</p>
                     <p *ngIf="submitError.length > 0" ngClass="p-1 text-xs text-red-600">{{submitError}}</p>
-                </div>  
+                </div>
             </form>
             <!-- Submit Button -->
             <div class="w-full flex place-content-center pt-3">
-                <button (click)="submit()" class="button-lt py-1" type="submit">Submit</button>
+                <button (click)="submit()" class="button-lt py-1 shadow-2xl shadow-black" type="submit">Submit</button>
             </div>
         </div>
 
         <!-- Expenses -->
-        <form class="bg-gray-100 w-[18rem] md:w-[35rem] rounded-md p-4 flex flex-col gap-2 md:gap-4">
+        <form
+            class="bg-gray-100 w-[18rem] md:w-[35rem] rounded-md p-4 flex flex-col gap-2 md:gap-4 shadow-2xl shadow-black relative">
             <div>
-                <h1 class="text-2xl">Expenses</h1>
+                <div class="flex gap-2 w-full">
+                    <button (click)="openAssetMenu(false)" class="text-2xl bg-gray-100 p-1 rounded-md">Add Expenses</button>
+                    <button (click)="openAssetMenu(true)" class="text-2xl ml-auto bg-[#ff2f2f] text-white p-1 rounded-md">Add Assets</button>
+                </div>
                 <h1 class="text-lg">Fixed Expenses</h1>
+                <p class="text-xs">(expenses happen at the same frequency of income)</p>
             </div>
 
             <!-- Fixed Expenses -->
             <div *ngFor="let fixedExpense of TotalFixedExpenseModel; let i=index" class="flex gap-2">
                 <p class="p-1 w-[60%] md:w-[25%]">{{fixedExpense.name | titlecase}}:</p>
-                <input [(ngModel)]="TotalFixedExpenseModel[i].amount" type="number" name="Income" class="p-1 w-[5rem] md:w-[10rem] rounded-md">
+                <input [(ngModel)]="TotalFixedExpenseModel[i].amount" type="number" name="amountFixed{{i}}"
+                    class="p-1 w-[5rem] md:w-[10rem] rounded-md">
                 <fa-icon [icon]="faTrash" (click)="RemoveFixedExpense(fixedExpense.id)"></fa-icon>
             </div>
 
             <form class="grid grid-flow-col gap-2 grid-cols-3" (ngSubmit)="AddFixedExpense()">
-                <input type="text" [(ngModel)]="FixedExpenseModel.name" name="AddExpense" class="p-1 col-span-2 rounded-md">
+                <input type="text" [(ngModel)]="FixedExpenseModel.name" name="AddFixedExpense"
+                    class="p-1 col-span-2 rounded-md">
                 <button class="button-lt hidden md:block col-span-1" type="submit">Add Fixed
                     Expense</button>
                 <button class="button-lt block md:hidden" type="submit">Add Fixed</button>
             </form>
             <p *ngIf="errorCode[0] == 1" class="text-[#ff2f2f] font-medium">Fixed Expense cannot be empty</p>
             <p *ngIf="errorCode[0] == 2" class="text-[#ff2f2f] font-medium">Fixed Expense name is too long</p>
-            <p *ngIf="errorCode[0] == 3" class="text-[#ff2f2f] font-medium">Add more expenses after submitting</p>
-            <p *ngIf="errorCode[0] == 4" class="text-[#ff2f2f] font-medium">Expense with name already exists</p>
+            <p *ngIf="errorCode[0] == 3" class="text-[#ff2f2f] font-medium">Expense with name already exists</p>
 
             <!-- Variable Expenses -->
             <h1 class="text-lg">Variable Expenses</h1>
 
             <div *ngFor="let varExpense of TotalVarExpenseModel; let i=index" class="flex gap-2">
                 <p class="p-1 w-[60%] md:w-[25%]">{{varExpense.name | titlecase}}:</p>
-                <input [(ngModel)]="TotalVarExpenseModel[i].amount" type="number" name="amount" class="p-1 w-[5rem] md:w-[10rem] rounded-md">
+                <input [(ngModel)]="TotalVarExpenseModel[i].amount" type="number" name="amountVar{{i}}"
+                    class="p-1 w-[5rem] md:w-[10rem] rounded-md">
                 <fa-icon [icon]="faTrash" (click)="RemoveVarExpense(varExpense.id)"></fa-icon>
             </div>
 
             <form class="flex flex-col md:flex-row gap-2" (ngSubmit)="AddVarExpense()">
                 <div class="flex flex-col md:flex-row md:gap-2">
                     <p class="p-1 w-[40%]">Name:</p>
-                    <input type="text" [(ngModel)]="VarExpenseModel.name" name="AddExpense"
-                        class="p-1 rounded-md">
+                    <input type="text" [(ngModel)]="VarExpenseModel.name" name="AddVarExpense" class="p-1 rounded-md">
                     <p class="p-1 w-[40%]">Frequency:</p>
-                    <select [(ngModel)]="VarExpenseModel.frequency" id="payPeriod" name="payPeriod" class="py-1 px-1 rounded-md">
+                    <select [(ngModel)]="VarExpenseModel.frequency" id="payPeriod" name="frequency"
+                        class="py-1 px-1 rounded-md">
                         <option value="weekly">Weekly</option>
                         <option value="biWeekly">Bi-Weekly</option>
                         <option value="monthly">Monthly</option>
                         <option value="annually">Annually</option>
+                        <option value="oneTime">One-Time</option>
                     </select>
                 </div>
                 <button class="button-lt py-1 md:py-0" type="submit">Add Variable
@@ -115,10 +130,72 @@
             </form>
             <p *ngIf="errorCode[1] == 1" class="text-[#ff2f2f] font-medium">Variable Expense cannot be empty</p>
             <p *ngIf="errorCode[1] == 2" class="text-[#ff2f2f] font-medium">Variable Expense name is too long</p>
-            <p *ngIf="errorCode[1] == 3" class="text-[#ff2f2f] font-medium">Add more expenses after submitting</p>
-            <p *ngIf="errorCode[1] == 4" class="text-[#ff2f2f] font-medium">Expense with name already exists</p>
+            <p *ngIf="errorCode[1] == 3" class="text-[#ff2f2f] font-medium">Expense with name already exists</p>
 
-        </form>        
+            <!-- Assets -->
+            <form [ngClass]="assetMenuOpened ? 'rounded-md p-4 flex flex-col gap-2 md:gap-4  asset-container asset-container-open text-white' : 'rounded-md p-4 gap-2 md:gap-4  flex flex-col asset-container asset-container-closed text-white'">
+                <div>
+                    <div class="flex gap-2 w-full">
+                        <button (click)="openAssetMenu(false)" class="text-2xl text-black bg-gray-100 p-1 rounded-md">Add Expenses</button>
+                        <button (click)="openAssetMenu(true)" class="text-2xl ml-auto bg-[#ff2f2f] p-1 rounded-md">Add Assets</button>
+                    </div>
+                    <h1 class="text-lg">Fixed Assets</h1>
+                    <p class="text-xs">(assets happen at the same frequency of income)</p>
+                </div>
+
+                <!-- Fixed Assets -->
+                <div *ngFor="let fixedAsset of TotalFixedAssetModel; let i=index" class="flex gap-2">
+                    <p class="p-1 w-[60%] md:w-[25%]">{{fixedAsset.name | titlecase}}:</p>
+                    <input [(ngModel)]="TotalFixedAssetModel[i].amount" type="number" name="amountFixed{{i}}"
+                        class="p-1 w-[5rem] md:w-[10rem] text-black rounded-md">
+                    <fa-icon [icon]="faTrash" class="text-black" (click)="RemoveFixedAsset(fixedAsset.id)"></fa-icon>
+                </div>
+
+                <form class="grid grid-flow-col gap-2 grid-cols-3" (ngSubmit)="AddFixedAsset()">
+                    <input type="text" [(ngModel)]="FixedAssetModel.name" name="AddFixedAsset"
+                        class="p-1 col-span-2 text-black rounded-md">
+                    <button class="button-lt hover:bg-red-800 hidden md:block col-span-1" type="submit">Add Fixed
+                        Asset</button>
+                    <button class="button-lt hover:bg-red-800  block md:hidden" type="submit">Add Fixed</button>
+                </form>
+                <p *ngIf="errorCode[3] == 1" class="text-black font-medium">Fixed Asset cannot be empty</p>
+                <p *ngIf="errorCode[3] == 2" class="text-black font-medium">Fixed Asset name is too long</p>
+                <p *ngIf="errorCode[3] == 3" class="text-black font-medium">Asset with name already exists</p>
+
+                <!-- Variable Assets -->
+                <h1 class="text-lg">Variable Assets</h1>
+
+                <div *ngFor="let varAsset of TotalVarAssetModel; let i=index" class="flex gap-2">
+                    <p class="p-1 w-[60%] md:w-[25%]">{{varAsset.name | titlecase}}:</p>
+                    <input [(ngModel)]="TotalVarAssetModel[i].amount" type="number" name="amountVar{{i}}"
+                        class="p-1 w-[5rem] md:w-[10rem] rounded-md text-black">
+                    <fa-icon [icon]="faTrash" class="text-black" (click)="RemoveVarAsset(varAsset.id)"></fa-icon>
+                </div>
+
+                <form class="flex flex-col md:flex-row gap-2" (ngSubmit)="AddVarAsset()">
+                    <div class="flex flex-col md:flex-row md:gap-2">
+                        <p class="p-1 w-[40%]">Name:</p>
+                        <input type="text" [(ngModel)]="VarAssetModel.name" name="AddVarAsset"
+                            class="p-1 rounded-md text-black">
+                        <p class="p-1 w-[40%]">Frequency:</p>
+                        <select [(ngModel)]="VarAssetModel.frequency" id="payPeriod" name="frequency"
+                            class="py-1 px-1 rounded-md text-black">
+                            <option value="weekly">Weekly</option>
+                            <option value="biWeekly">Bi-Weekly</option>
+                            <option value="monthly">Monthly</option>
+                            <option value="annually">Annually</option>
+                            <option value="oneTime">One-Time</option>
+                        </select>
+                    </div>
+                    <button class="button-lt hover:bg-red-800 py-1 md:py-0" type="submit">Add Variable
+                        Asset</button>
+                </form>
+                <p *ngIf="errorCode[4] == 1" class="text-black font-medium">Variable Asset cannot be empty</p>
+                <p *ngIf="errorCode[4] == 2" class="text-black font-medium">Variable Asset name is too long</p>
+                <p *ngIf="errorCode[4] == 3" class="text-black font-medium">Asset with name already exists</p>
+
+            </form>
+        </form>
     </div>
     <div class="fixed top-0 left-0 w-screen h-screen bg-[#5b383837] blur-3xl">
 

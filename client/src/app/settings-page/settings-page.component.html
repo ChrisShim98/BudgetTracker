@@ -1,0 +1,49 @@
+<div class="w-screen h-screen min-h-[45rem]">
+    <div class="w-full h-full grid place-content-center relative z-10">
+        <div
+            class="w-[80vw] md:w-[60vw] md:h-[70vh] min-h-[25rem] md:min-h-[35rem] min-w-[15rem] pt-20 pb-10 md:pt-0 md:pb-0 bg-gray-100 grid grid-flow-col rounded-md md:content-center p-4 relative shadow-2xl shadow-[#0000009b] gap-4">
+            <div
+                class="absolute bg-red-800 rounded-md top-4 md:top-16 left-[-2rem] md:left-[-6rem] text-center min-w-[6rem] md:min-w-[8rem] shadow-lg shadow-[#0000009b]">
+                <h1 class="text-2xl md:text-3xl p-2 text-white">Settings</h1>
+            </div>
+
+            <img src="../../assets/settings.svg" alt="Image"
+                class="h-[60vh] min-h-[30rem] px-6 border-r-2 border-[#cccccc] hidden md:block">
+
+            <!-- Settings -->
+            <div class=" md:pt-0 md:pr-20 flex flex-col gap-4">
+                <div class="grid gap-2 w-full">
+                    <p class="text-lg">Update Username:</p>
+                    <p class="pl-1">New Username:</p>
+                    <input [(ngModel)]="model.NewUsername" type="text" name="Username" [ngClass]="errorCode[0] == 1 ? 'p-1 px-2 rounded-md w-full field-shake' : 'p-1 px-2 rounded-md w-full'">
+                    <p *ngIf="errorCode[0] == 1" class="text-sm text-red-500">New username cannot be the same as the current!</p>
+                </div>
+                <div class="grid gap-2 w-full">
+                    <p class="text-lg">Update Password:</p>
+                    <div>
+                        <p class="pl-1">Current Password:</p>
+                        <p *ngIf="isGuestAccount" class="pl-1 text-[0.6rem]">Password is shown only on a guest account*</p>
+                    </div>
+                    
+                    <input [(ngModel)]="model.Password" *ngIf="!(isGuestAccount)" type="password" name="CurrentPassword" [ngClass]="errorCode[2] == 1 ? 'p-1 px-2 rounded-md w-full field-shake' : 'p-1 px-2 rounded-md w-full'">
+                    <input [(ngModel)]="model.Password" *ngIf="isGuestAccount" type="text" name="CurrentPassword" [ngClass]="errorCode[2] == 1 ? 'p-1 px-2 rounded-md w-full field-shake' : 'p-1 px-2 rounded-md w-full'">
+                    <p class="pl-1">New Password:</p>
+                    <input [(ngModel)]="model.NewPassword" type="password" name="NewPassword" [ngClass]="errorCode[1] == 1 ? 'p-1 px-2 rounded-md w-full field-shake' : 'p-1 px-2 rounded-md w-full'">
+                    <p class="pl-1">Confirm New Password:</p>
+                    <input [(ngModel)]="confirmNewPassword" type="password" name="ConfirmNewPassword" class="p-1 px-2 rounded-md w-full">
+                    <p *ngIf="updateSuccess" class="text-sm text-green-500">Profile successfully updated!</p>
+                    <p *ngIf="errorCode[1] == 1" class="text-sm text-red-500">Passwords do not match!</p>
+                    <p *ngIf="errorCode[2] == 1" class="text-sm text-red-500">Current Password is required for any change!</p>
+                    <p *ngIf="serverError" class="text-sm text-red-500">{{serverErrorMessage}}</p>
+                </div>
+                <div class="w-full pt-3 grid justify-end">  
+                    <button (click)="clientValidation()" [ngClass]="model.NewUsername == '' && model.NewPassword == '' ? 'button-lt w-28 py-1 bg-gray-300 hover:bg-gray-300 pointer-events-none' : 'button-lt w-28 py-1'">Update Profile</button> 
+                </div> 
+                  
+            </div>
+        </div>
+    </div>
+    <div class="fixed top-0 left-0 w-screen h-screen bg-[#5b383837] blur-3xl">
+
+    </div>
+</div>

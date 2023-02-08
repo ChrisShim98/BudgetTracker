@@ -26,6 +26,12 @@ namespace api.Data
             _context.Entry(budget).State = EntityState.Modified;
         }
 
+        public void DeleteMonthlyBudget(MonthlyBudget monthlyBudget)
+        {
+           _context.MonthlyBudget.Remove(monthlyBudget);
+
+        }
+
         public async Task<Budget> GetBudgetByUserId(int id)
         {
             return await _context.Budget
@@ -38,12 +44,13 @@ namespace api.Data
 
         public async Task<Expense> GetExpenseId(int id)
         {
-            return await _context.Expenses.FindAsync(id);
+            return await _context.Expenses.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<BudgetDTO> GetMonthlyBudgetById(int id)
+        public async Task<MonthlyBudget> GetMonthlyBudgetById(int id)
         {
-            return await _context.MonthlyBudget.FindAsync(id);
+            return await _context.MonthlyBudget.Include(x => x.Expenses)
+                .FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public void SaveBudget(Budget budget)
@@ -59,9 +66,9 @@ namespace api.Data
             }   
         }
 
-        public void SaveMonthlyBudget(BudgetDTO budgetDTO)
+        public void SaveMonthlyBudget(MonthlyBudget MonthlyBudget)
         {
-            _context.MonthlyBudget.Add(budgetDTO);
+            _context.MonthlyBudget.Add(MonthlyBudget);
         }
     }
 }

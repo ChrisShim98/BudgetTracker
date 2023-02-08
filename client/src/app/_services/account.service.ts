@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, map } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { UpdateProfile } from '../_models/updateProfile';
 import { User } from '../_models/user';
 
 @Injectable({
@@ -61,6 +62,14 @@ export class AccountService {
 
   getDecodedToken(token: string) {
     return JSON.parse(atob(token.split('.')[1]))
+  }
+
+  updateProfile(model: UpdateProfile) {
+    return this.http.put<User>(this.baseUrl + 'account', model).pipe(
+      response => {
+        return response;
+      }
+    )
   }
 
 }

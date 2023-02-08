@@ -15,7 +15,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.setCurrentUser();
-    console.log(this.router.url)
   }
 
   setCurrentUser() {

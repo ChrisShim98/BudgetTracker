@@ -1,0 +1,72 @@
+.next {
+    animation: nextBudget 3s ease-in-out;
+    animation-fill-mode: forwards;
+}
+.coming-next {
+    animation: comingNextBudget 3s ease-in-out;
+    animation-fill-mode: forwards;
+}
+.previous {
+    animation: previousBudget 3s ease-in-out;
+    animation-fill-mode: forwards;
+}
+.coming-previous {
+    animation: comingPreviousBudget 2s ease-in-out;
+    animation-fill-mode: forwards;
+}
+
+@keyframes nextBudget {
+    0% {
+        transform: translate3d(0, 0, 0);
+    }
+
+    10% {
+        transform: translate3d(-10vw, 0, 0);
+    }
+
+    100% {
+        transform: translate3d(150vw, 0, 0);
+    }
+}
+
+@keyframes comingNextBudget {
+    0% {
+        transform: translate3d(-150vw, 0, 0);
+    }
+
+    90% {
+        transform: translate3d(10vw, 0, 0);
+    }
+
+    100% {
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes previousBudget {
+    0% {
+        transform: translate3d(0, 0, 0);
+    }
+
+    10% {
+        transform: translate3d(10vw, 0, 0);
+    }
+
+    100% {
+        transform: translate3d(-150vw, 0, 0);
+    }
+}
+
+@keyframes comingPreviousBudget {
+    0% {
+        transform: translate3d(150vw, 0, 0);
+    }
+
+    90% {
+        transform: translate3d(-10vw, 0, 0);
+    }
+
+    100% {
+        transform: translate3d(0, 0, 0);
+    }
+}

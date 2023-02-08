@@ -7,6 +7,7 @@ using api.DTOs;
 using api.Entity;
 using api.Interfaces;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,8 +27,9 @@ namespace api.Controllers
             _budgetRepository = budgetRepository;   
         }
 
+        [Authorize]
         [HttpPost]
-        public async Task<ActionResult<bool>> AddMonthlyBudget(BudgetDTO budgetDTO, [FromQuery] string username)
+        public async Task<ActionResult<bool>> AddMonthlyBudget(MonthlyBudget MonthlyBudget, [FromQuery] string username)
         {
             // Check if user is not null
             if (username == null) return BadRequest("Username is null");
@@ -43,15 +45,15 @@ namespace api.Controllers
 
             // Set Monthly budget Id then add to budget
 
-            budgetDTO.Id = Int32.Parse(budget.Id + "" + budgetDTO.Month + "" + budgetDTO.Year);
-            budgetDTO.BudgetParent = budget;
-            budgetDTO.BudgetParentId = budget.Id;
+            MonthlyBudget.Id = Int32.Parse(budget.Id + "" + MonthlyBudget.Month + "" + MonthlyBudget.Year);
+            MonthlyBudget.BudgetParent = budget;
+            MonthlyBudget.BudgetParentId = budget.Id;
             
             // Check if budget with id already exists before adding
-            var budgetCheck = await _budgetRepository.GetMonthlyBudgetById(budgetDTO.Id);
+            var budgetCheck = await _budgetRepository.GetMonthlyBudgetById(MonthlyBudget.Id);
             if (budgetCheck == null)
             {
-                budget.Budgets.Add(budgetDTO);
+                budget.Budgets.Add(MonthlyBudget);
             } 
             else 
             {
@@ -64,15 +66,16 @@ namespace api.Controllers
 
             // Set Foreign Key on Monthly Budget then save
 
-            _budgetRepository.SaveMonthlyBudget(budgetDTO);
+            _budgetRepository.SaveMonthlyBudget(MonthlyBudget);
 
             // Save expenses
 
-            _budgetRepository.SaveExpense(budgetDTO.Expenses);   
+            _budgetRepository.SaveExpense(MonthlyBudget.Expenses);   
 
             return await _context.SaveChangesAsync() > 0;
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<List<BudgetAllDTO>>> GetAllBudgets([FromQuery] string username)
         {
@@ -111,6 +114,30 @@ namespace api.Controllers
             }
 
             return Ok(allBudgets);
+        }
+
+        [HttpGet("delete")]
+        public async Task<MonthlyBudgetDTO> DeleteMonthlyBudget([FromQuery]int id) 
+        {
+            var budget = await _budgetRepository.GetMonthlyBudgetById(id);
+            var monthlyBudgetDTO = _mapper.Map<MonthlyBudgetDTO>(budget);
+
+            List<ExpenseDTO> expenses = new List<ExpenseDTO>();
+            List<AssetDTO> assets = new List<AssetDTO>();
+
+            foreach (var expense in monthlyBudgetDTO.Expenses)
+            {
+                expenses.Add(_mapper.Map<ExpenseDTO>(expense));
+            }
+            foreach (var asset in monthlyBudgetDTO.Assets)
+            {
+                assets.Add(_mapper.Map<AssetDTO>(asset));
+            }
+
+            monthlyBudgetDTO.Assets = assets;
+            monthlyBudgetDTO.Expenses = expenses; 
+
+            return monthlyBudgetDTO;
         }
     }
 }

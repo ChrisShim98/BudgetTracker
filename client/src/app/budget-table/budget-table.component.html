@@ -1,1 +1,104 @@
-<p>budget-table works!</p>
+<div *ngIf="!(loading)" class="w-screen min-h-screen">
+    <div *ngIf="data.length == 0" class="min-h-screen relative flex items-center justify-center py-20 text-black">
+        <div class="bg-gray-100 rounded-md w-[35rem] h-[15rem] relative border border-[#cccccc]">
+            <div class="absolute top-[40%] left-6 z-20 text-white md:text-black">
+                <h1 class="text-2xl pb-2">Nothing to show...</h1>
+                <button (click)="createBudget()" class="button-lt py-1">Create a new budget</button>
+            </div>
+            <div
+                class="from-[#ff2f2f] to-transparent rounded-md bg-gradient-to-tr absolute w-[100%] h-full block z-10 md:hidden">
+            </div>
+            <img src="../../assets/none.svg" alt="Image"
+                class="w-[20rem] sm:w-[26rem] sm:top-[-4.46rem] right-2 absolute">
+        </div>
+    </div>
+    <div *ngIf="data.length > 0" 
+        [ngClass]="cardMoveDirection == 0 ? 'animate-none' : 'animate-ping'"
+        class="min-h-screen relative flex items-center justify-center py-20 text-white">
+        <div *ngFor="let dataType of data; let i = index;">
+            <div *ngIf="i == currentBudget" class="flex flex-col gap-2 bg-[#ff2f2f] rounded-md p-6 pb-[6.5rem] relative min-w-[280px] shadow-2xl shadow-black">
+                <div class="pb-6">
+                    <div class="flex gap-6 justify-center text-xl md:text-3xl text-center">
+                        <button (click)="currentBudget > 0 ? switchBudgetDate(0) : null" [ngClass]="currentBudget > 0 ? '' : 'text-gray-400 pointer-events-none'"><fa-icon [icon]="faCaretLeft"></fa-icon></button>
+                        <h1>{{months[dataType.month - 1]}} - {{dataType.year}}</h1>
+                        <button (click)="currentBudget < data.length - 1 ? switchBudgetDate(1) : null" [ngClass]="currentBudget < data.length - 1 ? '' : 'text-gray-400 pointer-events-none'"><fa-icon [icon]="faCaretRight"></fa-icon></button>
+                    </div>
+                    
+                    <p class="text-lg md:text-xl text-center">{{dataType.frequency | titlecase}} Budget</p>
+                </div>
+
+                <div
+                    class="absolute bg-red-800 rounded-md top-16 left-[-2rem] md:left-[-4rem] text-center min-w-[6rem] md:min-w-[8rem] shadow-2xl shadow-black">
+                    <h1 class="text-xl md:text-2xl p-2">${{dataType.income}}</h1>
+                </div>
+                <!-- Expenses -->
+                <h1 *ngIf="dataType.expenses.length > 0" class="text-xl">Expenses</h1>
+                <div *ngIf="dataType.expenses.length > 0" class="grid w-full grid-flow-col">
+                    <div class="grid col-span-3">
+                        <h1 class="px-2 pb-2 md:text-lg">Name</h1>
+                        <div *ngFor="let expense of dataType.expenses; let i = index;"
+                            [ngClass]="i % 2 == 0 ? 'bg-red-400 px-2 rounded-l-md' : 'bg-transparent px-2'">
+                            <p class="text-xs md:text-base truncate">{{expense.name | titlecase}}</p>
+                            <p *ngIf="expense.name == ''">-</p>
+                        </div>
+                    </div>
+                    <div class="grid col-span-1">
+                        <h1 class="px-2 pb-2 md:text-lg">Frequency</h1>
+                        <div *ngFor="let expense of dataType.expenses; let i = index;"
+                            [ngClass]="i % 2 == 0 ? 'bg-red-400 px-2' : 'bg-transparent px-2'">
+                            <p class="text-xs md:text-base truncate" *ngIf="expense.frequency == ''">
+                                {{dataType.frequency | titlecase}}</p>
+                            <p class="text-xs md:text-base truncate">{{expense.frequency | titlecase}}</p>
+                        </div>
+                    </div>
+                    <div class="grid col-span-2">
+                        <h1 class="px-2 pb-2 md:text-lg">Amount</h1>
+                        <div *ngFor="let expense of dataType.expenses; let i = index;"
+                            [ngClass]="i % 2 == 0 ? 'bg-red-400 px-2 rounded-r-md' : 'bg-transparent px-2'">
+                            <p class="text-xs md:text-base">${{expense.amount}}</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Assets -->
+                <h1 *ngIf="dataType.assets.length > 0" class="text-xl">Assets</h1>
+                <div *ngIf="dataType.assets.length > 0" class="grid w-full grid-flow-col">
+                    <div class="grid col-span-3">
+                        <h1 class="px-2 pb-2 md:text-lg">Name</h1>
+                        <div *ngFor="let asset of dataType.assets; let i = index;"
+                            [ngClass]="i % 2 == 0 ? 'bg-red-400 px-2 rounded-l-md' : 'bg-transparent px-2'">
+                            <p class="text-xs md:text-base truncate">{{asset.name | titlecase}}</p>
+                            <p *ngIf="asset.name == ''">-</p>
+                        </div>
+                    </div>
+                    <div class="grid col-span-1">
+                        <h1 class="px-2 pb-2 md:text-lg">Frequency</h1>
+                        <div *ngFor="let asset of dataType.assets; let i = index;"
+                            [ngClass]="i % 2 == 0 ? 'bg-red-400 px-2' : 'bg-transparent px-2'">
+                            <p class="text-xs md:text-base truncate" *ngIf="asset.frequency == ''">
+                                {{dataType.frequency | titlecase}}</p>
+                            <p class="text-xs md:text-base truncate">{{asset.frequency | titlecase}}</p>
+                        </div>
+                    </div>
+                    <div class="grid col-span-2">
+                        <h1 class="px-2 pb-2 md:text-lg">Amount</h1>
+                        <div *ngFor="let asset of dataType.assets; let i = index;"
+                            [ngClass]="i % 2 == 0 ? 'bg-red-400 px-2 rounded-r-md' : 'bg-transparent px-2'">
+                            <p class="text-xs md:text-base">${{asset.amount}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="absolute text-lg md:text-xl p-2 bg-red-800 rounded-md bottom-4 right-[-2rem] md:right-[-4rem] min-w-[6rem] md:min-w-[8rem] shadow-2xl shadow-black">
+                    <h1>Total Expenses: ${{totalExpenses}}</h1>
+                    <h1>Total Savings: ${{savings}}</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="loading" class="w-screen h-screen grid place-content-center">
+    <div class="p-2 rounded-md px-6 bg-red-800 relative animate-bounce shadow-2xl shadow-black">
+        <h3 class="text-3xl text-white">Loading...</h3>
+    </div>    
+</div>

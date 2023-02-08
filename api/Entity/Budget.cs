@@ -12,7 +12,7 @@ namespace api.Entity
     {
         public int Id { get; set; }
         public int OwnerId { get; set; }
-        public ICollection<BudgetDTO> Budgets { get; set; }
+        public ICollection<MonthlyBudget> Budgets { get; set; }
         public AppUser Owner { get; set; }
     }
 }

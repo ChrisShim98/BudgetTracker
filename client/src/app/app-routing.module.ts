@@ -4,8 +4,9 @@ import { BudgetFormComponent } from './budget-form/budget-form.component';
 import { BudgetTableComponent } from './budget-table/budget-table.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 import { RegisterComponent } from './register/register.component';
-import { UsersPageComponent } from './users-page/users-page.component';
+import { SettingsPageComponent } from './settings-page/settings-page.component';
 import { AuthGuard } from './_guards/auth.guard';
 import { LoggedInGuard } from './_guards/logged-in.guard';
 
@@ -14,7 +15,9 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent, canActivate: [LoggedInGuard]},
   {path: 'register', component: RegisterComponent, canActivate: [LoggedInGuard]},
   {path: 'budget', component: BudgetFormComponent, canActivate:[AuthGuard]}, 
-  {path: '**', component: HomeComponent, pathMatch: 'full'},
+  {path: 'allbudgets', component: BudgetTableComponent, canActivate:[AuthGuard]}, 
+  {path: 'settings', component: SettingsPageComponent, canActivate:[AuthGuard]}, 
+  {path: '**', component: NotFoundComponent, pathMatch: 'full'},
 ];
 
 @NgModule({

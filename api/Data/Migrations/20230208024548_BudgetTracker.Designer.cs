@@ -11,7 +11,7 @@ using api.Data;
 namespace api.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230205231637_BudgetTracker")]
+    [Migration("20230208024548_BudgetTracker")]
     partial class BudgetTracker
     {
         /// <inheritdoc />
@@ -104,7 +104,7 @@ namespace api.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("api.DTOs.BudgetDTO", b =>
+            modelBuilder.Entity("api.DTOs.MonthlyBudget", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -349,7 +349,7 @@ namespace api.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("api.DTOs.BudgetDTO", b =>
+            modelBuilder.Entity("api.DTOs.MonthlyBudget", b =>
                 {
                     b.HasOne("api.Entity.Budget", "BudgetParent")
                         .WithMany("Budgets")
@@ -381,7 +381,7 @@ namespace api.Data.Migrations
 
             modelBuilder.Entity("api.Entity.Asset", b =>
                 {
-                    b.HasOne("api.DTOs.BudgetDTO", "BudgetParent")
+                    b.HasOne("api.DTOs.MonthlyBudget", "BudgetParent")
                         .WithMany("Assets")
                         .HasForeignKey("BudgetId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -403,7 +403,7 @@ namespace api.Data.Migrations
 
             modelBuilder.Entity("api.Entity.Expense", b =>
                 {
-                    b.HasOne("api.DTOs.BudgetDTO", "BudgetParent")
+                    b.HasOne("api.DTOs.MonthlyBudget", "BudgetParent")
                         .WithMany("Expenses")
                         .HasForeignKey("BudgetId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -412,7 +412,7 @@ namespace api.Data.Migrations
                     b.Navigation("BudgetParent");
                 });
 
-            modelBuilder.Entity("api.DTOs.BudgetDTO", b =>
+            modelBuilder.Entity("api.DTOs.MonthlyBudget", b =>
                 {
                     b.Navigation("Assets");
 

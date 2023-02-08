@@ -7,6 +7,7 @@ using api.DTOs;
 using api.Entity;
 using api.Interfaces;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -33,12 +34,14 @@ namespace api.Controllers
         [HttpPost("register")] // POST: api/account/register
         public async Task<ActionResult<UserDTO>> Register(RegisterDTO registerDTO)
         {
+            registerDTO.Username = registerDTO.Username.ToLower().Trim();
+
             if (await UserExists(registerDTO.Username))
             return BadRequest("Username is taken!");
             
             var user = _mapper.Map<AppUser>(registerDTO);
 
-            user.UserName = registerDTO.Username.ToLower();
+            user.UserName = registerDTO.Username;
 
             var result = await _userManager.CreateAsync(user, registerDTO.Password);
 
@@ -67,14 +70,14 @@ namespace api.Controllers
 
         public async Task<bool> UserExists(string username)
         {
-            return await Task.FromResult(_userManager.Users.Any(x => x.UserName == username.ToLower()));
+            return await Task.FromResult(_userManager.Users.Any(x => x.UserName == username.ToLower().Trim()));
         }
 
         [HttpPost("login")]
         public async Task<ActionResult<UserDTO>> Login(LoginDTO loginDTO)
         {
             var user = await Task.FromResult(_userManager.Users
-                .SingleOrDefault(x => x.UserName == loginDTO.Username.ToLower()));
+                .SingleOrDefault(x => x.UserName == loginDTO.Username.ToLower().Trim()));
 
             if (user == null) return Unauthorized("Invalid username");
 
@@ -141,6 +144,65 @@ namespace api.Controllers
             {
                 Username = user.UserName,
                 Pin = guestPassword,
+                Token = await _tokenService.CreateToken(user)
+            };
+        }
+
+        [Authorize]
+        [HttpPut]
+        public async Task<ActionResult<UserDTO>> UpdateUser(UpdateAppUserDTO updateAppUserDTO)
+        {
+            if (updateAppUserDTO.NewPassword == "" && updateAppUserDTO.NewUsername == "")
+            return BadRequest("Nothing to change!");
+
+            updateAppUserDTO.Username = updateAppUserDTO.Username.ToLower().Trim();
+
+            var user = await Task.FromResult(_userManager.Users
+                .SingleOrDefault(x => x.UserName == updateAppUserDTO.Username));
+
+            if (user == null) return Unauthorized("Invalid username");
+
+            var result = await _userManager.CheckPasswordAsync(user, updateAppUserDTO.Password);
+
+            if (!result) return Unauthorized("Invalid Password");
+
+            if (updateAppUserDTO.NewPassword != "") 
+            {
+                if (updateAppUserDTO.NewPassword == updateAppUserDTO.Password)
+                return BadRequest("New password cannot be the same as the current!");
+
+                var updateUserPasswordResult = await _userManager.ChangePasswordAsync(user, updateAppUserDTO.Password, updateAppUserDTO.NewPassword);
+                if (!updateUserPasswordResult.Succeeded) 
+                return BadRequest("Password should be longer than 6 characters, with at least one number, common and capital letter");
+            }
+            
+            if (updateAppUserDTO.NewUsername != "") 
+            {
+                if (updateAppUserDTO.NewUsername == updateAppUserDTO.Username)
+                return BadRequest("New username cannot be the same as the current!");
+
+                updateAppUserDTO.NewUsername = updateAppUserDTO.NewUsername.ToLower().Trim();
+
+                if (await UserExists(updateAppUserDTO.NewUsername))
+                return BadRequest("Username is taken!");
+
+                var updateUsernameResult = await _userManager.SetUserNameAsync(user, updateAppUserDTO.NewUsername);
+                if (!updateUsernameResult.Succeeded) 
+                return BadRequest("Username was not updated");
+
+                var updatedUser = await Task.FromResult(_userManager.Users
+                .SingleOrDefault(x => x.UserName == updateAppUserDTO.NewUsername));
+
+                return new UserDTO
+                {
+                    Username = user.UserName,
+                    Token = await _tokenService.CreateToken(updatedUser)
+                };
+            }
+
+            return new UserDTO
+            {
+                Username = user.UserName,
                 Token = await _tokenService.CreateToken(user)
             };
         }
