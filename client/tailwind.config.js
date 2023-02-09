@@ -6,7 +6,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        'Oswald': ['Oswald', 'cursive'],
+        'Oswald': ['Staatliches', 'cursive'],
       }
     },
   },

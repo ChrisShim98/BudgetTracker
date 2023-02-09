@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BudgetService } from '../_services/budget.service';
-import { faCaretLeft, faCaretRight } from '@fortawesome/free-solid-svg-icons';
+import { faCaretLeft, faCaretRight, faPen } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-budget-table',
@@ -11,6 +11,7 @@ import { faCaretLeft, faCaretRight } from '@fortawesome/free-solid-svg-icons';
 export class BudgetTableComponent implements OnInit {
   faCaretLeft = faCaretLeft;
   faCaretRight = faCaretRight;
+  faPencil = faPen;
   data: any = [];
   months: string[] = ['January', 'Feburary', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'Decemeber'];
   savings: number = 0;
@@ -18,6 +19,13 @@ export class BudgetTableComponent implements OnInit {
   currentBudget: number = 0;
   loading: boolean = true;
   cardMoveDirection: number = 0;
+  chartdata = {labels: [ 'Expenses', 'Assets', 'Spare cash' ],
+  datasets: [ {
+    data: [ 0, 0, 0 ],
+    backgroundColor: ['#ff2f2f', '#ffc000', '#00B050'],
+    hoverBackgroundColor: ['#C52224', '#BF9000', '#385723'],
+    hoverBorderColor: ['white'],
+  } ]};
 
   constructor(private budgetService: BudgetService, private router: Router) { }
 
@@ -25,7 +33,7 @@ export class BudgetTableComponent implements OnInit {
     this.budgetService.getAllBudgets().subscribe({
       next: (response) => { 
         this.data = response; 
-        console.log(response); 
+        console.log(response)
         if (this.data.length > 0) {
           this.calculations();
         } 
@@ -34,19 +42,23 @@ export class BudgetTableComponent implements OnInit {
     })
   }
   
-  // Possibly moving to backend
+  // Possibly moving to backend - already did
   calculations() {
-    this.totalExpenses = 0;
-
-    for(let i = 0; i < this.data[this.currentBudget].expenses.length; i++) {
-      this.totalExpenses += this.data[this.currentBudget].expenses[i].amount;
-    }
-
-    this.savings = this.data[this.currentBudget].income - this.totalExpenses;
+    this.savings = this.data[this.currentBudget].income - this.data[this.currentBudget].expenseTotal + this.data[this.currentBudget].assetTotal;
+    
+    this.chartdata.datasets[0].data[0] = this.data[this.currentBudget].expenseTotal;
+    this.chartdata.datasets[0].data[1] = this.data[this.currentBudget].assetTotal;
+    this.chartdata.datasets[0].data[2] = this.savings <= 0 ? 0 : this.savings;
   }
 
   createBudget() {
     this.router.navigateByUrl('/budget')
+  }
+
+  deleteBudget(budgetId: number) {
+    this.budgetService.deleteBudget(budgetId).subscribe({
+      next: response => {if (response) window.location.reload()}
+    })
   }
 
   switchBudgetDate(direction: number) {
@@ -57,7 +69,8 @@ export class BudgetTableComponent implements OnInit {
         this.cardMoveDirection = 0;
         this.calculations();
       }, 750)
-    } else if (direction == 1) {
+    } 
+    else if (direction == 1) {
       this.cardMoveDirection = 1;
       setTimeout(() => {
         this.currentBudget += 1;

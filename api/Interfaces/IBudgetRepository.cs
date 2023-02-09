@@ -17,6 +17,9 @@ namespace api.Interfaces
         Task<Expense> GetExpenseId(int id);
         public void AddMonthlyBudgetToBudget(Budget budget);
         public void DeleteMonthlyBudget(MonthlyBudget monthlyBudget);
+        public float CalculateTotal(string incomeFrequency, float item, string itemFrequency);
+        public float CalculateFrequencyAmount(string incomeFrequency, string itemFrequency);
+        public Task<Budget> GetBudgetById(int id);
 
     }
 }

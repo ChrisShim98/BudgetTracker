@@ -1,5 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Staatliches&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -7,7 +7,7 @@
 
 @layer base {
   .button-lt {
-    @apply bg-black text-white px-2 rounded-md hover:bg-[#ff2f2f] hover:cursor-pointer; 
+    @apply bg-[#262626] text-white px-2 rounded-md hover:bg-[#ff2f2f] hover:cursor-pointer; 
   }
 }
 

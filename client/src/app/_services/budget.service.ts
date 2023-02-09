@@ -41,4 +41,12 @@ export class BudgetService {
       }
     )
   }
+
+  deleteBudget(budgetId: number) {
+    return this.http.delete(this.baseUrl + 'budget?id=' + budgetId + '&username=' + this.currentUser).pipe(
+      response => {
+        return response;
+      }
+    )
+  }
 }

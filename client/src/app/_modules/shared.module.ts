@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { NgChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [],
@@ -13,7 +14,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     FontAwesomeModule,
     ReactiveFormsModule,
     TooltipModule.forRoot(),
-    NgxPaginationModule
+    NgxPaginationModule,
+    NgChartsModule
   ],
   exports: [
     CommonModule,
@@ -21,7 +23,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     FontAwesomeModule,
     ReactiveFormsModule,
     TooltipModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    NgChartsModule
   ]
 })
 export class SharedModule { }

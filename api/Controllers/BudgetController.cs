@@ -10,6 +10,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace api.Controllers
 {
@@ -59,6 +60,19 @@ namespace api.Controllers
             {
                 return BadRequest("Monthly Budget already exist");
             } 
+
+            // Calculate assets and expenses
+            MonthlyBudget.ExpenseTotal = 0;
+            for (int i = 0; i < MonthlyBudget.Expenses.Count; i++)
+            {
+                MonthlyBudget.ExpenseTotal += _budgetRepository.CalculateTotal(MonthlyBudget.Frequency, MonthlyBudget.Expenses[i].Amount, MonthlyBudget.Expenses[i].Frequency);
+            };
+
+            MonthlyBudget.AssetTotal = 0;
+            for (int i = 0; i < MonthlyBudget.Assets.Count; i++)
+            {
+                MonthlyBudget.AssetTotal += _budgetRepository.CalculateTotal(MonthlyBudget.Frequency, MonthlyBudget.Assets[i].Amount, MonthlyBudget.Assets[i].Frequency);
+            };
             
             // Update Budget with Monthly Budget
 
@@ -77,7 +91,7 @@ namespace api.Controllers
 
         [Authorize]
         [HttpGet]
-        public async Task<ActionResult<List<BudgetAllDTO>>> GetAllBudgets([FromQuery] string username)
+        public async Task<ActionResult<List<MonthlyBudgetDTO>>> GetAllBudgets([FromQuery] string username)
         {
             // Check if user is not null
             if (username == null) return BadRequest("Username is null");
@@ -91,7 +105,7 @@ namespace api.Controllers
             var budget = await _budgetRepository.GetBudgetByUserId(user.Id);
             if (budget == null) return BadRequest("Budget does not exist");
 
-            List<BudgetAllDTO> allBudgets = new List<BudgetAllDTO>();
+            List<MonthlyBudgetDTO> allBudgets = new List<MonthlyBudgetDTO>();
 
             foreach (var item in budget.Budgets)
             {
@@ -100,13 +114,15 @@ namespace api.Controllers
 
                 foreach (var expense in item.Expenses)
                 {
+                    expense.Amount = (float)Math.Round(expense.Amount, 2);
                     expenses.Add(_mapper.Map<ExpenseDTO>(expense));
                 }
                 foreach (var asset in item.Assets)
                 {
+                    asset.Amount = (float)Math.Round(asset.Amount, 2);
                     assets.Add(_mapper.Map<AssetDTO>(asset));
                 }
-                var budgetHolder = _mapper.Map<BudgetAllDTO>(item);
+                var budgetHolder = _mapper.Map<MonthlyBudgetDTO>(item);
                 budgetHolder.Assets = assets;
                 budgetHolder.Expenses = expenses; 
 
@@ -116,28 +132,53 @@ namespace api.Controllers
             return Ok(allBudgets);
         }
 
-        [HttpGet("delete")]
-        public async Task<MonthlyBudgetDTO> DeleteMonthlyBudget([FromQuery]int id) 
+        // [HttpGet("delete")]
+        // public async Task<MonthlyBudgetDTO> DeleteMonthlyBudget([FromQuery]int id) 
+        // {
+        //     var budget = await _budgetRepository.GetMonthlyBudgetById(id);
+        //     var monthlyBudgetDTO = _mapper.Map<MonthlyBudgetDTO>(budget);
+
+        //     List<ExpenseDTO> expenses = new List<ExpenseDTO>();
+        //     List<AssetDTO> assets = new List<AssetDTO>();
+
+        //     foreach (var expense in monthlyBudgetDTO.Expenses)
+        //     {
+        //         expenses.Add(_mapper.Map<ExpenseDTO>(expense));
+        //     }
+        //     foreach (var asset in monthlyBudgetDTO.Assets)
+        //     {
+        //         assets.Add(_mapper.Map<AssetDTO>(asset));
+        //     }
+
+        //     monthlyBudgetDTO.Assets = assets;
+        //     monthlyBudgetDTO.Expenses = expenses; 
+
+        //     return monthlyBudgetDTO;
+        // }
+
+        [Authorize]
+        [HttpDelete]
+        public async Task<ActionResult<bool>> DeleteMonthlyBudget([FromQuery]int id, string username) 
         {
+            if (id == 0 || username == null)
+            return BadRequest("Data is missing!");
+
             var budget = await _budgetRepository.GetMonthlyBudgetById(id);
-            var monthlyBudgetDTO = _mapper.Map<MonthlyBudgetDTO>(budget);
 
-            List<ExpenseDTO> expenses = new List<ExpenseDTO>();
-            List<AssetDTO> assets = new List<AssetDTO>();
+            if (budget == null) return BadRequest("Could not find requested budget"); 
 
-            foreach (var expense in monthlyBudgetDTO.Expenses)
-            {
-                expenses.Add(_mapper.Map<ExpenseDTO>(expense));
-            }
-            foreach (var asset in monthlyBudgetDTO.Assets)
-            {
-                assets.Add(_mapper.Map<AssetDTO>(asset));
-            }
+            var parentBudget = await _budgetRepository.GetBudgetById(budget.BudgetParentId);
 
-            monthlyBudgetDTO.Assets = assets;
-            monthlyBudgetDTO.Expenses = expenses; 
+            if (parentBudget == null) return BadRequest("Could not find related budget"); 
 
-            return monthlyBudgetDTO;
+            var user = await Task.FromResult(_userManager.Users
+                .SingleOrDefault(x => x.UserName == username.ToLower()));
+
+            if (user == null) return Unauthorized("Invalid username"); 
+
+            _budgetRepository.DeleteMonthlyBudget(budget);
+
+            return await _context.SaveChangesAsync() > 0;
         }
     }
 }

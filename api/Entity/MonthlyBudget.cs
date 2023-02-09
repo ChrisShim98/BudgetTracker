@@ -14,7 +14,7 @@ namespace api.DTOs
         [Required]
         public int Id { get; set; }
         [Required]
-        public int Income { get; set; }
+        public float Income { get; set; }
         [Required]
         public string Frequency { get; set; }
         [Required]
@@ -22,7 +22,9 @@ namespace api.DTOs
         [Required]
         public int Year { get; set; }
         public string JobField { get; set; }
+        public float ExpenseTotal { get; set; }
         public List<Expense> Expenses { get; set; }
+        public float AssetTotal { get; set; }
         public List<Asset> Assets { get; set; }
         public int BudgetParentId { get; set; }
         public Budget BudgetParent { get; set; }

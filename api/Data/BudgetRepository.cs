@@ -29,7 +29,6 @@ namespace api.Data
         public void DeleteMonthlyBudget(MonthlyBudget monthlyBudget)
         {
            _context.MonthlyBudget.Remove(monthlyBudget);
-
         }
 
         public async Task<Budget> GetBudgetByUserId(int id)
@@ -40,6 +39,12 @@ namespace api.Data
                 .Include(x => x.Budgets)
                 .ThenInclude(x => x.Assets)
                 .FirstOrDefaultAsync(x => x.OwnerId == id);
+        }
+
+        public async Task<Budget> GetBudgetById(int id)
+        {
+            return await _context.Budget
+                .FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<Expense> GetExpenseId(int id)
@@ -69,6 +74,43 @@ namespace api.Data
         public void SaveMonthlyBudget(MonthlyBudget MonthlyBudget)
         {
             _context.MonthlyBudget.Add(MonthlyBudget);
+        }
+
+        public float CalculateTotal(string incomeFrequency, float item, string itemFrequency) 
+        {
+            if (itemFrequency == "") {itemFrequency = incomeFrequency;}
+            
+            float frequencyAmount = CalculateFrequencyAmount(incomeFrequency, itemFrequency);
+            float total = (float)item * frequencyAmount;
+            return (float)Math.Round(total, 2);
+
+        }
+        public float CalculateFrequencyAmount(string incomeFrequency, string itemFrequency)
+        {
+            if (incomeFrequency == itemFrequency || itemFrequency == "oneTime") { return 1f; }
+
+            if (incomeFrequency == "weekly") {
+                if (itemFrequency == "monthly") {return 0.25f;}
+                else if (itemFrequency == "biWeekly") {return 0.50f;}
+                else if (itemFrequency == "annually") {return 0.01923076923f;}
+            } 
+            else if (incomeFrequency == "monthly") {
+                if (itemFrequency == "weekly") {return 4f;}
+                else if (itemFrequency == "biWeekly") {return 2f;}
+                else if (itemFrequency == "annually") {return 0.0833f;}
+            } 
+            else if (incomeFrequency == "biWeekly") {
+                if (itemFrequency == "monthly") {return 0.5f;}
+                else if (itemFrequency == "weekly") {return 2f;}
+                else if (itemFrequency == "annually") {return 0.00961538461f;}
+            }
+            else if (incomeFrequency == "annually") {
+                if (itemFrequency == "monthly") {return 12f;}
+                else if (itemFrequency == "biWeekly") {return 104f;}
+                else if (itemFrequency == "weekly") {return 52f;}
+            } 
+
+            return 1f;
         }
     }
 }

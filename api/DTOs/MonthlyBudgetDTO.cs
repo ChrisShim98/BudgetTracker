@@ -9,12 +9,14 @@ namespace api.DTOs
     public class MonthlyBudgetDTO
     {
         public int Id { get; set; }
-        public int Income { get; set; }
+        public float Income { get; set; }
         public string Frequency { get; set; }
         public int Month { get; set; }
         public int Year { get; set; }
         public string JobField { get; set; }
+        public float ExpenseTotal { get; set; }
         public List<ExpenseDTO> Expenses { get; set; }
+        public float AssetTotal { get; set; }
         public List<AssetDTO> Assets { get; set; }
         public int BudgetParentId { get; set; }
     }

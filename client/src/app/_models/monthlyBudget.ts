@@ -7,6 +7,8 @@ export interface MonthlyBudget {
     Year: number;
     JobField: string;
     Frequency: string;
+    ExpenseTotal: number;
     Expenses: Expense[];
+    AssetTotal: number;
     Assets: Asset[];
 }

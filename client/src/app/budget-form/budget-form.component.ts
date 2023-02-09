@@ -18,7 +18,9 @@ export class BudgetFormComponent implements OnInit {
     Year: 2023,
     JobField: '',
     Frequency: 'weekly',
+    ExpenseTotal: 0,
     Expenses: [],
+    AssetTotal: 0,
     Assets: []
   };
   faTrash = faTrash;
@@ -67,7 +69,7 @@ export class BudgetFormComponent implements OnInit {
       return
     }
     
-    if(this.FixedExpenseModel.name.length > 17) {
+    if(this.FixedExpenseModel.name.length > 15) {
       this.errorCode[0] = 2;
       return
     }
@@ -108,7 +110,7 @@ export class BudgetFormComponent implements OnInit {
       return
     }
 
-    if(this.VarExpenseModel.name.length > 17) {
+    if(this.VarExpenseModel.name.length > 15) {
       this.errorCode[1] = 2;
       return
     }
@@ -156,7 +158,7 @@ export class BudgetFormComponent implements OnInit {
       return
     }
     
-    if(this.FixedAssetModel.name.length > 17) {
+    if(this.FixedAssetModel.name.length > 15) {
       this.errorCode[3] = 2;
       return
     }
@@ -197,7 +199,7 @@ export class BudgetFormComponent implements OnInit {
       return
     }
 
-    if(this.VarAssetModel.name.length > 17) {
+    if(this.VarAssetModel.name.length > 15) {
       this.errorCode[4] = 2;
       return
     }
@@ -235,6 +237,45 @@ export class BudgetFormComponent implements OnInit {
     }
   }
 
+  calculations() {
+    let assets = 0;
+    let expenses = 0;
+
+    for (let i = 0; i < this.TotalFixedAssetModel.length; i++) {
+      if (this.TotalFixedAssetModel[i].amount > 999999.99) {
+        this.errorCode[3] = 4;
+        return
+      }
+      assets += this.TotalFixedAssetModel[i].amount;
+    }
+    for (let i = 0; i < this.TotalVarAssetModel.length; i++) {
+      if (this.TotalVarAssetModel[i].amount > 999999.99) {
+        this.errorCode[4] = 4;
+        return
+      }
+      assets += this.TotalVarAssetModel[i].amount;
+    }
+
+    for (let i = 0; i < this.TotalFixedExpenseModel.length; i++) {
+      if (this.TotalFixedExpenseModel[i].amount > 999999.99) {
+        this.errorCode[0] = 4;
+        return
+      }
+      expenses += this.TotalFixedExpenseModel[i].amount;
+    }
+    for (let i = 0; i < this.TotalVarExpenseModel.length; i++) {
+      if (this.TotalVarExpenseModel[i].amount > 999999.99) {
+        this.errorCode[1] = 4;
+        return
+      }
+      expenses += this.TotalVarExpenseModel[i].amount;
+    }
+
+    this.errorCode = [0, 0, 0, 0, 0];
+    this.model.AssetTotal = parseFloat(assets.toFixed(2));
+    this.model.ExpenseTotal = parseFloat(expenses.toFixed(2));
+  }
+
   submit() {
     this.model.Expenses = this.TotalFixedExpenseModel.concat(this.TotalVarExpenseModel);
     this.model.Assets = this.TotalFixedAssetModel.concat(this.TotalVarAssetModel);
@@ -246,12 +287,22 @@ export class BudgetFormComponent implements OnInit {
     {
       this.model.Assets[i].id = 0;
     }
-    
+
     if(this.model.Year < 2000 || this.model.Year > 3000) {
       this.errorCode[2] = 1;
       return
     }
+    if(this.model.Expenses.length == 0 && this.model.Assets.length == 0) {
+      this.errorCode[2] = 2;
+      return
+    }
     this.errorCode[2] = 0;
+
+    for (let i = 0; i < this.errorCode.length; i++) {
+      if (this.errorCode[i] != 0) {
+        return;
+      }
+    }
     
     this.budgetService.addMonthlyBudget(this.model).subscribe({
       next: response => {

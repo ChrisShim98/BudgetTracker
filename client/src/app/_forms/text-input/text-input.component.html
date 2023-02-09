@@ -1,6 +1,6 @@
 <div class="w-full flex flex-col">
     <label class="w-full" for={{label}}>{{label}}</label>
-    <input class="w-full p-1 px-2 rounded-md" type={{type}} [class.is-invalid]="control.touched && control.invalid"
+    <input class="w-full p-1 px-2 rounded-md font-sans text-sm" type={{type}} [class.is-invalid]="control.touched && control.invalid"
         [formControl]="control">
 
     <div class="text-red-600 text-xs" *ngIf="control.errors?.['required'] && control.touched">Please enter a {{label}}</div>

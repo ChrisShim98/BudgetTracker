@@ -10,7 +10,6 @@ namespace api.Helpers
         {
             CreateMap<RegisterDTO, AppUser>();
             CreateMap<AppUser, AppUserDTO>(); 
-            CreateMap<MonthlyBudget, BudgetAllDTO>();
             CreateMap<MonthlyBudget, MonthlyBudgetDTO>();
             CreateMap<Expense, ExpenseDTO>();
             CreateMap<Asset, AssetDTO>();

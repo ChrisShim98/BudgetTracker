@@ -12,7 +12,7 @@
                         <div class="w-full">
                             <label class="w-full pr-2" for="username">Username</label>
                             <input type="text" name="username" [(ngModel)]="model.username"
-                                class="p-1 px-2 rounded-md w-full">
+                                class="p-1 px-2 rounded-md w-full font-sans text-sm">
                         </div>
                         <div class="w-full">
                             <label class="w-full pr-2" for="password">Password</label>
@@ -44,9 +44,9 @@
                 'h-[23.2rem] w-[22rem]  from-red-400 bg-gradient-to-tr to-[#ff2f2f] rounded-md absolute top-0 bottom-0 left-0 right-0 m-auto z-30'">
             </div>
             <div
-            [ngClass]="!cardOpened ? 'h-[23.2rem] w-[22rem] from-red-500 bg-gradient-to-tr to-red-800 rounded-md absolute top-0 bottom-0 left-0 right-0 m-auto z-20 card2-close shadow-2xl shadow-black' :
-                formClicked && cardOpened ? 'h-[23.2rem] w-[22rem] from-red-500 bg-gradient-to-tr to-red-800 rounded-md absolute top-0 bottom-0 left-0 right-0 m-auto z-20 card2 shadow-2xl shadow-black' : 
-                'h-[23.2rem] w-[22rem] from-red-500 bg-gradient-to-tr to-red-800 rounded-md absolute top-0 bottom-0 left-0 right-0 m-auto z-20 shadow-2xl shadow-black'">
+            [ngClass]="!cardOpened ? 'h-[23.2rem] w-[22rem] from-red-500 bg-gradient-to-tr to-red-800 rounded-md absolute top-0 bottom-0 left-0 right-0 m-auto z-20 card2-close ' :
+                formClicked && cardOpened ? 'h-[23.2rem] w-[22rem] from-red-500 bg-gradient-to-tr to-red-800 rounded-md absolute top-0 bottom-0 left-0 right-0 m-auto z-20 card2 ' : 
+                'h-[23.2rem] w-[22rem] from-red-500 bg-gradient-to-tr to-red-800 rounded-md absolute top-0 bottom-0 left-0 right-0 m-auto z-20 '">
             </div>
             <div class="fixed w-screen h-screen bg-[#5b383837] blur-3xl z-10">
 

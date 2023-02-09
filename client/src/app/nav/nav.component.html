@@ -1,4 +1,4 @@
-<div [ngClass]="router.url == '/' ? 'bg-[#ff2f2f] fixed top-0 left-0 w-screen z-[60]' : 'bg-[#ff2f2f] fixed top-0 left-0 w-screen z-[60] shadow-lg shadow-[#0000009b]'">
+<div [ngClass]="router.url == '/' ? 'bg-[#ff2f2f] fixed top-0 left-0 w-screen z-[60]' : 'bg-[#ff2f2f] fixed top-0 left-0 w-screen z-[60] '">
     <div class="flex justify-center relative z-10">
         <h1
             (click)="home()"
@@ -16,16 +16,16 @@
             <p *ngIf="!(accountService.currentUser$ | async)" (click)="login()"
                 class="pr-4 hover:text-black hover:cursor-pointer">Login</p>
             <p *ngIf="!(accountService.currentUser$ | async)" (click)="register()"
-                class="pr-4 hover:text-black hover:cursor-pointer">Register</p>
+                class="pr-8 hover:text-black hover:cursor-pointer">Register</p>
             <p #menuButton *ngIf="(accountService.currentUser$ | async) as user" (click)="menuOpen()"
-                class="pr-4 hover:text-black hover:cursor-pointer relative">
+                class="pr-8 hover:text-black hover:cursor-pointer relative">
                 <fa-icon  [icon]="faCaretDown"></fa-icon>
                 Welcome {{user.username | titlecase}}!
             </p>
 
             <div *ngIf="menuOpened && (accountService.currentUser$ | async)"
                 #menu
-                [ngClass]="router.url == '/' ? 'p-2 pr-6 rounded-md bg-gray-100 absolute top-10 text-black text-start text-base shadow-lg shadow-[#0000009b]' : 'p-2 pr-6 rounded-md bg-gray-100 absolute top-8 text-black text-start text-base shadow-lg shadow-[#0000009b]'">
+                [ngClass]="router.url == '/' ? 'p-2 pr-6 rounded-md bg-gray-100 absolute top-10 text-black text-start text-base ' : 'p-2 pr-6 rounded-md bg-gray-100 absolute top-8 text-black text-start text-base '">
                 <p (click)="newBudget()" class="pr-4 hover:text-[#ff2f2f] hover:cursor-pointer">New Budget</p>
                 <p (click)="allBudgets()" class="pr-4 hover:text-[#ff2f2f] hover:cursor-pointer">View All Budgets</p>
                 <p (click)="settings()" class="pr-4 hover:text-[#ff2f2f] hover:cursor-pointer">Settings</p>
