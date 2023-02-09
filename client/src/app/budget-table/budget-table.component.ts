@@ -18,6 +18,7 @@ export class BudgetTableComponent implements OnInit {
   totalExpenses: number = 0;
   currentBudget: number = 0;
   loading: boolean = true;
+  promptOpen: boolean = false;
   cardMoveDirection: number = 0;
   chartdata = {labels: [ 'Expenses', 'Assets', 'Spare cash' ],
   datasets: [ {
@@ -33,7 +34,6 @@ export class BudgetTableComponent implements OnInit {
     this.budgetService.getAllBudgets().subscribe({
       next: (response) => { 
         this.data = response; 
-        console.log(response)
         if (this.data.length > 0) {
           this.calculations();
         } 
@@ -55,10 +55,22 @@ export class BudgetTableComponent implements OnInit {
     this.router.navigateByUrl('/budget')
   }
 
+  editBudget(id: number) {
+    this.budgetService.getMonthlyBudget(id).subscribe({
+      next: response => {
+        this.createBudget();
+      }
+    });
+  }
+
   deleteBudget(budgetId: number) {
     this.budgetService.deleteBudget(budgetId).subscribe({
       next: response => {if (response) window.location.reload()}
     })
+  }
+
+  togglePrompt() {
+    this.promptOpen = !this.promptOpen;
   }
 
   switchBudgetDate(direction: number) {

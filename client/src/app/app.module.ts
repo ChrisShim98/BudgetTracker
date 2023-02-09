@@ -21,6 +21,7 @@ import { BudgetTableComponent } from './budget-table/budget-table.component';
 import { LoginComponent } from './login/login.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { SettingsPageComponent } from './settings-page/settings-page.component';
+import { PromptComponent } from './prompt/prompt.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { SettingsPageComponent } from './settings-page/settings-page.component';
     BudgetTableComponent,
     LoginComponent,
     NotFoundComponent,
-    SettingsPageComponent
+    SettingsPageComponent,
+    PromptComponent
   ],
   imports: [
     BrowserModule,

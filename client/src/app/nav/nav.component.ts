@@ -46,6 +46,7 @@ export class NavComponent implements OnInit {
   }
 
   home() {
+    this.mobileMenuOpened = false;
     this.router.navigateByUrl('/');
   }
 

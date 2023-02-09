@@ -5,6 +5,7 @@ import { MonthlyBudget } from '../_models/monthlyBudget';
 import { BudgetService } from '../_services/budget.service';
 import { Router } from '@angular/router';
 import { Asset } from '../_models/asset';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-budget-form',
@@ -13,6 +14,7 @@ import { Asset } from '../_models/asset';
 })
 export class BudgetFormComponent implements OnInit {
   model: MonthlyBudget = {
+    id: 0,
     Income: 0,
     Month: 1,
     Year: 2023,
@@ -58,9 +60,50 @@ export class BudgetFormComponent implements OnInit {
   errorCode: number[] = [0, 0, 0, 0, 0];
   submitError: string = '';
 
+  // Edit Budget
+  editBudgetId: number = 0;
+
   constructor(private budgetService: BudgetService, private router: Router) { }
 
   ngOnInit(): void {
+    this.budgetService.currentBudgetToEdit$.pipe(take(1)).subscribe({
+      next: response => {
+        if (response) {
+          // Mapping the response for easy edit
+          console.log(response);
+          
+          this.updateForm(response)
+          // for(let i = 0; i < response.Assets.length; i++) {
+          //   if (response.Assets[i].frequency == response.Frequency) {
+          //     this.TotalFixedAssetModel.push(response.Assets[i]);
+          //   } else {
+          //     this.TotalVarAssetModel.push(response.Assets[i]);
+          //   }
+          // }
+
+          // for(let i = 0; i < response.Expenses.length; i++) {
+          //   if (response.Expenses[i].frequency == response.Frequency) {
+          //     this.TotalFixedExpenseModel.push(response.Expenses[i]);
+          //   } else {
+          //     this.TotalVarExpenseModel.push(response.Expenses[i]);
+          //   }
+          // }
+          
+          //this.budgetService.editMonthlyBudgetSource.next(null);
+        }
+      }
+    })
+  }
+
+  updateForm(response: MonthlyBudget) {
+    this.editBudgetId = response.id;
+    this.model.Income = response.Income;
+    this.model.JobField = response.JobField;
+    this.model.Frequency = response.Frequency;
+    this.model.AssetTotal = response.AssetTotal;
+    this.model.ExpenseTotal = response.ExpenseTotal;
+    this.model.Month = response.Month;
+    this.model.Year = response.Year;
   }
 
   AddFixedExpense() {

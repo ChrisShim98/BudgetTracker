@@ -1,0 +1,11 @@
+<div class="w-screen h-screen fixed top-0 left-0 text-black bg-[#00000094] z-[60] fadeIn">
+    <div class="grid w-full h-full place-content-center">
+        <div class="w-[15rem] text-center md:w-[24rem] h-[8rem] bg-white rounded-md shadow-2xl p-4 shadow-black grid place-content-center">
+            <h1 class="text-lg">Are you sure you would like to delete this budget?</h1>
+            <div *ngIf="deleteFunction != null && deleteValue != null && closeFunction != null" class="flex gap-4 justify-center pt-4">
+                <button (click)="deleteFunction(deleteValue)" class="button-lt w-20 py-1 bg-[#00B050]">Yes</button>
+                <button (click)="closeFunction()" class="button-lt w-20 py-1">No</button>
+            </div>
+        </div>
+    </div>
+</div>
