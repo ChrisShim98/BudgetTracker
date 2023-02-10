@@ -103,7 +103,6 @@ namespace api.Data
             float frequencyAmount = CalculateFrequencyAmount(incomeFrequency, itemFrequency);
             float total = (float)item * frequencyAmount;
             return (float)Math.Round(total, 2);
-
         }
         public float CalculateFrequencyAmount(string incomeFrequency, string itemFrequency)
         {
@@ -119,7 +118,7 @@ namespace api.Data
             {
                 if (itemFrequency == "weekly") { return 4f; }
                 else if (itemFrequency == "biWeekly") { return 2f; }
-                else if (itemFrequency == "annually") { return 0.0833f; }
+                else if (itemFrequency == "annually") { return 0.08333333333f; }
             }
             else if (incomeFrequency == "biWeekly")
             {

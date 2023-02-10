@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/co
 import { Router } from '@angular/router';
 import { BudgetService } from '../_services/budget.service';
 import { faCaretLeft, faCaretRight, faCaretDown, faPen } from '@fortawesome/free-solid-svg-icons';
+import { MonthlyBudget } from '../_models/monthlyBudget';
 
 @Component({
   selector: 'app-budget-table',
@@ -47,7 +48,7 @@ export class BudgetTableComponent implements OnInit {
 
   ngOnInit(): void {
     this.budgetService.getAllBudgets().subscribe({
-      next: (response) => { 
+      next: (response: MonthlyBudget[]) => { 
         this.data = response; 
         if (this.data.length > 0) {
           this.loadDefaultBudget();
@@ -107,8 +108,21 @@ export class BudgetTableComponent implements OnInit {
     this.budgetFrequencyMenuOpen = !this.budgetFrequencyMenuOpen;
   }
 
-  budgetFrequencyOption(option: string) {
-    console.log(option)
+  budgetFrequencyOption(period: string) {
+    this.loading = true;
+    this.calculateMonthlyBudget(this.data[this.currentBudget].id, period);
+  }
+
+  calculateMonthlyBudget(id: number, period: string) {
+    this.budgetService.calculateMonthlyBudget(id, period).subscribe({
+      next: (response: MonthlyBudget[]) => { 
+        this.data = response; 
+        if (this.data.length > 0) {
+          this.calculations();
+        } 
+        this.loading = false;
+      }
+    })
   }
 
   switchBudgetDate(direction: number) {

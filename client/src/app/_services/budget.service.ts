@@ -40,7 +40,7 @@ export class BudgetService {
       this.currentUser = JSON.parse(userData).username;
     }
 
-    return this.http.get(this.baseUrl + 'budget?username=' + this.currentUser).pipe(
+    return this.http.get<MonthlyBudget[]>(this.baseUrl + 'budget?username=' + this.currentUser).pipe(
       response => {
         return response;
       }
@@ -55,6 +55,20 @@ export class BudgetService {
           this.editMonthlyBudgetSource.next(monthlyBudget);
         }
       }) 
+    )
+  }
+
+  calculateMonthlyBudget(id: number, period: string) {
+    let userData = localStorage.getItem('user');
+
+    if (userData) { 
+      this.currentUser = JSON.parse(userData).username;
+    }
+
+    return this.http.get<MonthlyBudget[]>(this.baseUrl + 'budget/calulatebudget?id=' + id + '&period=' + period + '&username=' + this.currentUser).pipe(
+      response => {
+        return response;
+      }
     )
   }
 
