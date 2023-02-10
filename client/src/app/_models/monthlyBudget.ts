@@ -3,13 +3,14 @@ import { Expense } from "./expense";
 
 export interface MonthlyBudget {
     id: number;
-    Income: number;
-    Month: number;
-    Year: number;
-    JobField: string;
-    Frequency: string;
-    ExpenseTotal: number;
-    Expenses: Expense[];
-    AssetTotal: number;
-    Assets: Asset[];
+    income: number;
+    month: number;
+    year: number;
+    jobField: string;
+    frequency: string;
+    expenseTotal: number;
+    expenses: Expense[];
+    assetTotal: number;
+    assets: Asset[];
+    budgetParentId: number;
 }

@@ -3,8 +3,10 @@
         <!-- Basic Info -->
         <div class="w-[18rem]">
             <div class="w-full flex justify-center text-center">
-                <h1 class="text-3xl p-2 bg-red-800 rounded-t-md text-white w-full ">
+                <h1 *ngIf="!(isEditingBudget)" class="text-3xl p-2 bg-red-800 rounded-t-md text-white w-full ">
                     New Budget</h1>
+                <h1 *ngIf="isEditingBudget" class="text-3xl p-2 bg-red-800 rounded-t-md text-white w-full ">
+                    Edit Budget</h1>
             </div>
 
             <form class="bg-gray-100 rounded-b-md p-4 flex flex-col gap-4 ">
@@ -15,7 +17,7 @@
 
                 <div class="flex gap-2">
                     <p class="p-1 w-[49%]">Pay Period*:</p>
-                    <select [(ngModel)]="model.Frequency" id="payPeriod" name="payPeriod"
+                    <select [(ngModel)]="model.frequency" id="payPeriod" name="payPeriod"
                         class="pb-1 px-1 rounded-md w-full font-sans text-sm">
                         <option value="weekly">Weekly</option>
                         <option value="biWeekly">Bi-Weekly</option>
@@ -29,7 +31,7 @@
                         <p class="">Income*:</p>
                         <p class="absolute top-[1.25rem] text-[0.55rem]">(after tax)</p>
                     </div>
-                    <input [(ngModel)]="model.Income" type="number" name="Income"
+                    <input [(ngModel)]="model.income" type="number" name="Income"
                         class="p-1 px-2 rounded-md w-full font-sans text-sm">
                 </div>
 
@@ -38,7 +40,7 @@
                         <p class="">Assets:</p>
                         <p class="absolute top-[1.25rem] text-[0.55rem]">(calculated)</p>
                     </div>
-                    <p class="p-1 px-2 rounded-md w-full bg-white font-sans text-sm">{{model.AssetTotal}}</p>
+                    <p class="p-1 px-2 rounded-md w-full bg-white font-sans text-sm">{{model.assetTotal}}</p>
                 </div>
 
                 <div class="flex gap-2 w-full">
@@ -46,18 +48,18 @@
                         <p class="">Expenses:</p>
                         <p class="absolute top-[1.25rem] text-[0.55rem]">(calculated)</p>
                     </div>
-                    <p class="p-1 px-2 rounded-md w-full bg-white font-sans text-sm">{{model.ExpenseTotal}}</p>
+                    <p class="p-1 px-2 rounded-md w-full bg-white font-sans text-sm">{{model.expenseTotal}}</p>
                 </div>
 
                 <div class="flex gap-2 w-full">
                     <p class="p-1 w-[50%]">Job Field:</p>
-                    <input [(ngModel)]="model.JobField" type="text" name="JobField"
+                    <input [(ngModel)]="model.jobField" type="text" name="JobField"
                         class="p-1 px-2 rounded-md w-full font-sans text-sm">
                 </div>
-
-                <div class="flex gap-2">
+                <!-- Regular Vesion -->
+                <div *ngIf="!(isEditingBudget)" class="flex gap-2">
                     <p class="p-1 w-[49%]">Month*:</p>
-                    <select [(ngModel)]="model.Month" id="month" name="month"
+                    <select [(ngModel)]="model.month" id="month" name="month"
                         class="pb-1 px-1 rounded-md w-full font-sans text-sm">
                         <option value="1">January</option>
                         <option value="2">February</option>
@@ -73,12 +75,39 @@
                         <option value="12">December</option>
                     </select>
                 </div>
+                <!-- Editing Vesion -->
+                <div *ngIf="isEditingBudget" class="flex gap-2 pointer-events-none">
+                    <p class="p-1 w-[49%]">Month*:</p>
+                    <select [(ngModel)]="model.month" id="month" name="month"
+                        class="pb-1 px-1 rounded-md w-full font-sans text-sm bg-[#4f4f4f45]">
+                        <option value="1">January</option>
+                        <option value="2">February</option>
+                        <option value="3">March</option>
+                        <option value="4">April</option>
+                        <option value="5">May</option>
+                        <option value="6">June</option>
+                        <option value="7">July</option>
+                        <option value="8">August</option>
+                        <option value="9">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                    </select>
+                </div>
                 <div>
-                    <div class="flex gap-2 w-full">
+                    <!-- Regular Version -->
+                    <div *ngIf="!(isEditingBudget)" class="flex gap-2 w-full">
                         <p class="p-1 w-[50%] relative">Year*:</p>
-                        <input [(ngModel)]="model.Year" type="number" min="20" max="3000" step="1"
+                        <input [(ngModel)]="model.year" type="number" min="20" max="3000" step="1"
                             oninput="(validity.valid)||(value='2023');" name="year"
                             class="p-1 px-2 rounded-md w-full font-sans text-sm">
+                    </div>
+                    <!-- Editing Version -->
+                    <div *ngIf="isEditingBudget" class="flex gap-2 w-full pointer-events-none">
+                        <p class="p-1 w-[50%] relative">Year*:</p>
+                        <input [(ngModel)]="model.year" type="number" min="20" max="3000" step="1"
+                            oninput="(validity.valid)||(value='2023');" name="year"
+                            class="p-1 px-2 rounded-md w-full font-sans text-sm bg-[#4f4f4f45]">
                     </div>
                     <p *ngIf="errorCode[2] == 1" ngClass="p-1 text-xs text-red-600">Please enter a valid year</p>
                     <p *ngIf="errorCode[2] == 2" ngClass="p-1 text-xs text-red-600">Please enter at least one

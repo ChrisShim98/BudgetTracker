@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using api.Data;
 
@@ -10,9 +11,11 @@ using api.Data;
 namespace api.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230209183205_MappingBudgetNew")]
+    partial class MappingBudgetNew
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.0");
@@ -255,7 +258,7 @@ namespace api.Data.Migrations
                     b.Property<float>("Amount")
                         .HasColumnType("REAL");
 
-                    b.Property<int>("BudgetParentId")
+                    b.Property<int>("BudgetId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Frequency")
@@ -269,7 +272,7 @@ namespace api.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BudgetParentId");
+                    b.HasIndex("BudgetId");
 
                     b.ToTable("Assets");
                 });
@@ -300,7 +303,7 @@ namespace api.Data.Migrations
                     b.Property<float>("Amount")
                         .HasColumnType("REAL");
 
-                    b.Property<int>("BudgetParentId")
+                    b.Property<int>("BudgetId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Frequency")
@@ -314,7 +317,7 @@ namespace api.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BudgetParentId");
+                    b.HasIndex("BudgetId");
 
                     b.ToTable("Expenses");
                 });
@@ -389,7 +392,7 @@ namespace api.Data.Migrations
                 {
                     b.HasOne("api.DTOs.MonthlyBudget", "BudgetParent")
                         .WithMany("Assets")
-                        .HasForeignKey("BudgetParentId")
+                        .HasForeignKey("BudgetId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -411,7 +414,7 @@ namespace api.Data.Migrations
                 {
                     b.HasOne("api.DTOs.MonthlyBudget", "BudgetParent")
                         .WithMany("Expenses")
-                        .HasForeignKey("BudgetParentId")
+                        .HasForeignKey("BudgetId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

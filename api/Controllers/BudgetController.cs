@@ -160,6 +160,28 @@ namespace api.Controllers
         }
 
         [Authorize]
+        [HttpPut("monthlybudget")]
+        public async Task<ActionResult<bool>> UpdateMonthlyBudget(MonthlyBudget monthlyBudget) 
+        {
+            // Calculate assets and expenses
+            monthlyBudget.ExpenseTotal = 0;
+            for (int i = 0; i < monthlyBudget.Expenses.Count; i++)
+            {
+                monthlyBudget.ExpenseTotal += _budgetRepository.CalculateTotal(monthlyBudget.Frequency, monthlyBudget.Expenses[i].Amount, monthlyBudget.Expenses[i].Frequency);
+            };
+
+            monthlyBudget.AssetTotal = 0;
+            for (int i = 0; i < monthlyBudget.Assets.Count; i++)
+            {
+                monthlyBudget.AssetTotal += _budgetRepository.CalculateTotal(monthlyBudget.Frequency, monthlyBudget.Assets[i].Amount, monthlyBudget.Assets[i].Frequency);
+            };
+
+            _budgetRepository.UpdateMonthlyBudget(monthlyBudget);
+
+            return await _context.SaveChangesAsync() > 0;
+        }
+
+        [Authorize]
         [HttpDelete]
         public async Task<ActionResult<bool>> DeleteMonthlyBudget([FromQuery]int id, string username) 
         {

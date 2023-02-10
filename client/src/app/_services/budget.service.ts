@@ -14,6 +14,9 @@ export class BudgetService {
   public editMonthlyBudgetSource = new BehaviorSubject<MonthlyBudget | null>(null);
   currentBudgetToEdit$ = this.editMonthlyBudgetSource.asObservable();
 
+  public monthlyBudgetToViewSource = new BehaviorSubject<number[] | null>(null);
+  monthlyBudgetToView$ = this.monthlyBudgetToViewSource.asObservable();
+
   constructor(private http: HttpClient, public accountService: AccountService) { }
 
   addMonthlyBudget(model: MonthlyBudget) {
@@ -52,6 +55,14 @@ export class BudgetService {
           this.editMonthlyBudgetSource.next(monthlyBudget);
         }
       }) 
+    )
+  }
+
+  updateBudget(budget: MonthlyBudget) {
+    return this.http.put(this.baseUrl + 'budget/monthlybudget', budget).pipe(
+      response => {
+        return response;
+      }
     )
   }
 

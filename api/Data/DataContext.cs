@@ -44,14 +44,14 @@ namespace api.Data
             builder.Entity<MonthlyBudget>()
                 .HasMany(b => b.Expenses)
                 .WithOne(bs => bs.BudgetParent)
-                .HasForeignKey(b => b.BudgetId)
+                .HasForeignKey(b => b.BudgetParentId)
                 .OnDelete(DeleteBehavior.Cascade)
                 .IsRequired();
 
             builder.Entity<MonthlyBudget>()
                 .HasMany(b => b.Assets)
                 .WithOne(bs => bs.BudgetParent)
-                .HasForeignKey(b => b.BudgetId)
+                .HasForeignKey(b => b.BudgetParentId)
                 .OnDelete(DeleteBehavior.Cascade)
                 .IsRequired();
 

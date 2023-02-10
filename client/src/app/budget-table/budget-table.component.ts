@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { BudgetService } from '../_services/budget.service';
-import { faCaretLeft, faCaretRight, faPen } from '@fortawesome/free-solid-svg-icons';
+import { faCaretLeft, faCaretRight, faCaretDown, faPen } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-budget-table',
@@ -12,6 +12,7 @@ export class BudgetTableComponent implements OnInit {
   faCaretLeft = faCaretLeft;
   faCaretRight = faCaretRight;
   faPencil = faPen;
+  faCaretDown = faCaretDown;
   data: any = [];
   months: string[] = ['January', 'Feburary', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'Decemeber'];
   savings: number = 0;
@@ -20,6 +21,11 @@ export class BudgetTableComponent implements OnInit {
   loading: boolean = true;
   promptOpen: boolean = false;
   cardMoveDirection: number = 0;
+  budgetFrequencyMenuOpen: boolean = false;
+  @ViewChild('budgetFrequencyMenuButton') budgetFrequencyMenuButton: ElementRef | undefined;
+  @ViewChild('budgetFrequencyMenu') budgetFrequencyMenu: ElementRef | undefined;
+  @ViewChild('budgetFrequencyMenuButtonMobile') budgetFrequencyMenuButtonMobile: ElementRef | undefined;
+  @ViewChild('budgetFrequencyMenuMobile') budgetFrequencyMenuMobile: ElementRef | undefined;
   chartdata = {labels: [ 'Expenses', 'Assets', 'Spare cash' ],
   datasets: [ {
     data: [ 0, 0, 0 ],
@@ -28,13 +34,23 @@ export class BudgetTableComponent implements OnInit {
     hoverBorderColor: ['white'],
   } ]};
 
-  constructor(private budgetService: BudgetService, private router: Router) { }
+  constructor(private budgetService: BudgetService, private router: Router, private renderer: Renderer2) {
+    this.renderer.listen('window', 'click', (e: Event) => {
+      if (this.budgetFrequencyMenuButton !== undefined && e.target !== this.budgetFrequencyMenuButton.nativeElement &&
+        this.budgetFrequencyMenu != undefined && e.target !== this.budgetFrequencyMenu.nativeElement &&
+        this.budgetFrequencyMenuButtonMobile !== undefined && e.target !== this.budgetFrequencyMenuButtonMobile.nativeElement &&
+        this.budgetFrequencyMenuMobile != undefined && e.target !== this.budgetFrequencyMenuMobile.nativeElement) {
+        this.budgetFrequencyMenuOpen = false;
+      }
+    });
+   }
 
   ngOnInit(): void {
     this.budgetService.getAllBudgets().subscribe({
       next: (response) => { 
         this.data = response; 
         if (this.data.length > 0) {
+          this.loadDefaultBudget();
           this.calculations();
         } 
         this.loading = false;
@@ -42,13 +58,27 @@ export class BudgetTableComponent implements OnInit {
     })
   }
   
-  // Possibly moving to backend - already did
+  // Sets data to charts
   calculations() {
     this.savings = this.data[this.currentBudget].income - this.data[this.currentBudget].expenseTotal + this.data[this.currentBudget].assetTotal;
     
     this.chartdata.datasets[0].data[0] = this.data[this.currentBudget].expenseTotal;
     this.chartdata.datasets[0].data[1] = this.data[this.currentBudget].assetTotal;
     this.chartdata.datasets[0].data[2] = this.savings <= 0 ? 0 : this.savings;
+  }
+
+  loadDefaultBudget() {
+    this.budgetService.monthlyBudgetToView$.subscribe({
+      next: response => {
+        if(response?.length == 2) {
+          for (let i = 0; i < this.data.length; i++) {
+            if (this.data[i].month == response[0] && this.data[i].year == response[1]) {
+              this.currentBudget = i;
+            }
+          }
+        }
+      }
+    })
   }
 
   createBudget() {
@@ -71,6 +101,14 @@ export class BudgetTableComponent implements OnInit {
 
   togglePrompt() {
     this.promptOpen = !this.promptOpen;
+  }
+
+  toggleBudgetFrequencyMenu() {
+    this.budgetFrequencyMenuOpen = !this.budgetFrequencyMenuOpen;
+  }
+
+  budgetFrequencyOption(option: string) {
+    console.log(option)
   }
 
   switchBudgetDate(direction: number) {

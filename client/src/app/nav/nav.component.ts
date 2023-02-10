@@ -19,12 +19,12 @@ export class NavComponent implements OnInit {
   @ViewChild('menu') menu: ElementRef | undefined;
 
   constructor(public router: Router, public accountService: AccountService, private renderer: Renderer2) { 
-    this.renderer.listen('window', 'click',(e:Event)=>{
-     if(this.menuButton !== undefined && e.target !== this.menuButton.nativeElement &&
+    this.renderer.listen('window', 'click', (e: Event) => {
+      if (this.menuButton !== undefined && e.target !== this.menuButton.nativeElement &&
         this.menu != undefined && e.target !== this.menu.nativeElement) {
-         this.menuOpened = false;
-     }
- });
+        this.menuOpened = false;
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -52,7 +52,11 @@ export class NavComponent implements OnInit {
 
   newBudget() {
     this.menuOpened = false;
-    this.router.navigateByUrl('/budget');
+    if (this.router.url == '/budget') {
+      window.location.reload()
+    } else {
+      this.router.navigateByUrl('/budget');
+    } 
   }
 
   allBudgets() {

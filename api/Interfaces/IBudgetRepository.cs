@@ -20,6 +20,7 @@ namespace api.Interfaces
         public float CalculateTotal(string incomeFrequency, float item, string itemFrequency);
         public float CalculateFrequencyAmount(string incomeFrequency, string itemFrequency);
         public Task<Budget> GetBudgetById(int id);
+        public void UpdateMonthlyBudget(MonthlyBudget monthlyBudget);
 
     }
 }

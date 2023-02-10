@@ -32,7 +32,8 @@ describe('AccountService', () => {
     let response : User = {
       username: "chris",
       token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkNocmlzIiwiaWF0IjoxNTE2MjM5MDIyLCJyb2xlcyI6WyJtZW1iZXIiXX0.tM8YxMpa61JEP37Fb6v7u5nXgg-GwatmC3qT3u008Fg",
-      roles: ["member"]
+      roles: ["member"],
+      pin: ''
     };
 
     // Act
@@ -55,7 +56,8 @@ describe('AccountService', () => {
     let response : User = {
       username: "chris",
       token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkNocmlzIiwiaWF0IjoxNTE2MjM5MDIyLCJyb2xlcyI6WyJtZW1iZXIiXX0.tM8YxMpa61JEP37Fb6v7u5nXgg-GwatmC3qT3u008Fg",
-      roles: ["member"]
+      roles: ["member"],
+      pin: ''
     };
 
     localStorage.setItem('user', JSON.stringify(response));
@@ -79,7 +81,8 @@ describe('AccountService', () => {
     let response : User = {
       username: "chris",
       token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkNocmlzIiwiaWF0IjoxNTE2MjM5MDIyLCJyb2xlcyI6WyJtZW1iZXIiXX0.tM8YxMpa61JEP37Fb6v7u5nXgg-GwatmC3qT3u008Fg",
-      roles: ["member"]
+      roles: ["member"],
+      pin: ''
     };
 
     // Act
