@@ -14,13 +14,14 @@ export class BudgetTableComponent implements OnInit {
   faCaretRight = faCaretRight;
   faPencil = faPen;
   faCaretDown = faCaretDown;
-  data: any = [];
+  data: MonthlyBudget[] = [];
   months: string[] = ['January', 'Feburary', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'Decemeber'];
   savings: number = 0;
   totalExpenses: number = 0;
   currentBudget: number = 0;
   loading: boolean = true;
   promptOpen: boolean = false;
+  allBudgetPromptOpen: boolean = false;
   cardMoveDirection: number = 0;
   budgetFrequencyMenuOpen: boolean = false;
   @ViewChild('budgetFrequencyMenuButton') budgetFrequencyMenuButton: ElementRef | undefined;
@@ -104,8 +105,18 @@ export class BudgetTableComponent implements OnInit {
     this.promptOpen = !this.promptOpen;
   }
 
+  toggleAllBudgetPrompt() {
+    this.allBudgetPromptOpen = !this.allBudgetPromptOpen;
+  }
+
   toggleBudgetFrequencyMenu() {
     this.budgetFrequencyMenuOpen = !this.budgetFrequencyMenuOpen;
+  }
+
+  setCurrentBudget(id: number) {
+    this.currentBudget = id;
+    this.toggleAllBudgetPrompt();
+    window.scrollTo(0, 0);
   }
 
   budgetFrequencyOption(period: string) {

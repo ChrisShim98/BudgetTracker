@@ -55,7 +55,7 @@
 
                     <!-- Actions card -->
                     <div
-                        class="hidden lg:flex flex-col gap-2 bg-[#D9D9D9] rounded-md p-4 h-[10.5rem] relative w-[250px]">
+                        class="hidden lg:flex flex-col gap-2 bg-[#D9D9D9] rounded-md p-4 h-[12rem] relative w-[250px]">
                         <h1 class="text-xl lg:text-3xl text-center flex items-center justify-center text-black"><fa-icon
                                 [icon]="faPencil" class="text-base"></fa-icon>Actions</h1>
                         <button #budgetFrequencyMenuButton (click)="toggleBudgetFrequencyMenu()"
@@ -74,6 +74,7 @@
                         </div>
                         <button class="button-lt" (click)="editBudget(dataType.id)">Edit Budget</button>
                         <button class="button-lt" (click)="togglePrompt()">Delete Budget</button>
+                        <button class="button-lt" (click)="toggleAllBudgetPrompt()">View All Budgets</button>
                         <app-prompt *ngIf="promptOpen" class="absolute" [closeFunction]="togglePrompt.bind(this)"
                             [deleteFunction]="deleteBudget.bind(this)" [deleteValue]="dataType.id"></app-prompt>
                     </div>
@@ -153,7 +154,7 @@
                     </div>
                 </div>
                 <!-- Actions card mobile -->
-                <div class="flex lg:hidden flex-col gap-2 bg-[#D9D9D9] rounded-md p-4 h-[10.5rem] relative w-[250px]">
+                <div class="flex lg:hidden flex-col gap-2 bg-[#D9D9D9] rounded-md p-4 h-[12rem] relative w-[250px]">
                     <h1 class="text-xl lg:text-3xl text-center flex items-center justify-center text-black"><fa-icon
                             [icon]="faPencil" class="text-base"></fa-icon>Actions</h1>
                     <button #budgetFrequencyMenuButtonMobile (click)="toggleBudgetFrequencyMenu()" class="button-lt"><fa-icon
@@ -171,6 +172,7 @@
                     </div>
                     <button class="button-lt" (click)="editBudget(dataType.id)">Edit Budget</button>
                     <button class="button-lt" (click)="togglePrompt()">Delete Budget</button>
+                    <button class="button-lt" (click)="toggleAllBudgetPrompt()">View All Budgets</button>
                     <app-prompt *ngIf="promptOpen" class="absolute" [closeFunction]="togglePrompt.bind(this)"
                         [deleteFunction]="deleteBudget.bind(this)" [deleteValue]="dataType.id"></app-prompt>
                 </div>
@@ -244,6 +246,8 @@
         </div>
     </div>
 </div>
+
+<app-select-budget-prompt *ngIf="!(loading) && allBudgetPromptOpen" [selectFunction]="setCurrentBudget.bind(this)" [closeFunction]="toggleAllBudgetPrompt.bind(this)" [monthlyBudgets]="this.data"></app-select-budget-prompt>
 
 <div *ngIf="loading" class="w-screen h-screen grid place-content-center">
     <div class="p-2 rounded-md px-6 bg-red-800 relative animate-bounce">

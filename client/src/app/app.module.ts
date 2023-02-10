@@ -22,6 +22,7 @@ import { LoginComponent } from './login/login.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { SettingsPageComponent } from './settings-page/settings-page.component';
 import { PromptComponent } from './prompt/prompt.component';
+import { SelectBudgetPromptComponent } from './select-budget-prompt/select-budget-prompt.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { PromptComponent } from './prompt/prompt.component';
     LoginComponent,
     NotFoundComponent,
     SettingsPageComponent,
-    PromptComponent
+    PromptComponent,
+    SelectBudgetPromptComponent
   ],
   imports: [
     BrowserModule,
