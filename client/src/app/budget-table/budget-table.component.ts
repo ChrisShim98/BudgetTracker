@@ -28,7 +28,7 @@ export class BudgetTableComponent implements OnInit {
   @ViewChild('budgetFrequencyMenu') budgetFrequencyMenu: ElementRef | undefined;
   @ViewChild('budgetFrequencyMenuButtonMobile') budgetFrequencyMenuButtonMobile: ElementRef | undefined;
   @ViewChild('budgetFrequencyMenuMobile') budgetFrequencyMenuMobile: ElementRef | undefined;
-  chartdata = {labels: [ 'Expenses', 'Assets', 'Spare cash' ],
+  chartdata = {labels: [ 'Expenses', 'Additional Income', 'Spare cash' ],
   datasets: [ {
     data: [ 0, 0, 0 ],
     backgroundColor: ['#ff2f2f', '#ffc000', '#00B050'],

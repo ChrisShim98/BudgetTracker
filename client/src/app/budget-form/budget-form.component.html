@@ -16,17 +16,6 @@
 
                 <div class="flex flex-col gap-4 md:grid md: grid-cols-2">
                     <div class="flex flex-col gap-4">
-                        <div class="flex gap-2">
-                            <p class="p-1 w-[49%]">Pay Period*:</p>
-                            <select [(ngModel)]="model.frequency" id="payPeriod" name="payPeriod"
-                                class="pb-1 px-1 rounded-md w-full font-sans text-sm">
-                                <option value="weekly">Weekly</option>
-                                <option value="biWeekly">Bi-Weekly</option>
-                                <option value="monthly">Monthly</option>
-                                <option value="annually">Annually</option>
-                            </select>
-                        </div>
-
                         <div class="flex gap-2 w-full">
                             <div class="py-[0.2rem] px-1 w-[50%] relative">
                                 <p class="">Income*:</p>
@@ -75,14 +64,14 @@
                             </select>
                         </div>
                         <!-- Regular Version -->
-                        <div *ngIf="!(isEditingBudget)" class="flex gap-2 w-full md:hidden">
+                        <div *ngIf="!(isEditingBudget)" class="flex gap-2 w-full">
                             <p class="p-1 w-[50%] relative">Year*:</p>
                             <input [(ngModel)]="model.year" type="number" min="20" max="3000" step="1"
                                 oninput="(validity.valid)||(value='2023');" name="year"
                                 class="p-1 px-2 rounded-md w-full font-sans text-sm">
                         </div>
                         <!-- Editing Version -->
-                        <div *ngIf="isEditingBudget" class="flex gap-2 w-full pointer-events-none md:hidden">
+                        <div *ngIf="isEditingBudget" class="flex gap-2 w-full pointer-events-none">
                             <p class="p-1 w-[50%] relative">Year*:</p>
                             <input [(ngModel)]="model.year" type="number" min="20" max="3000" step="1"
                                 oninput="(validity.valid)||(value='2023');" name="year"
@@ -102,7 +91,7 @@
                         </div>
 
                         <div
-                            class="absolute flex flex-col gap-4 justify-center bg-gray-300 rounded-md w-[18.5rem] md:w-[22rem] h-[6.5rem] pl-4 pr-6 left-[-4px] top-[30px] pt-2 border border-gray-400">
+                            class="absolute flex flex-col gap-4 justify-center bg-gray-300 rounded-md w-[18.5rem] md:w-[22rem] h-[6.5rem] pl-4 pr-6 left-[-4px] top-[10px] pt-2 border border-gray-400">
                             <div class="flex gap-2 w-full">
                                 <div class="py-[0.2rem] px-1 w-[40%] md:w-[27%] relative">
                                     <p class="">Assets:</p>
@@ -120,30 +109,9 @@
                             </div>
                         </div>
 
-                        <div class="absolute bg-gray-100 p-1 px-2 rounded-md top-[15px] left-[70px] md:left-[100px]">
+                        <div class="absolute bg-gray-100 p-1 px-2 rounded-md top-[-5px] left-[70px] md:left-[100px]">
                             <h2 class="text-sm">Automatically Calculated</h2>
                         </div>
-                    </div>
-
-                    <div>
-                        <!-- Regular Version -->
-                        <div *ngIf="!(isEditingBudget)" class="md:flex gap-2 w-full hidden">
-                            <p class="p-1 w-[50%] relative">Year*:</p>
-                            <input [(ngModel)]="model.year" type="number" min="20" max="3000" step="1"
-                                oninput="(validity.valid)||(value='2023');" name="year"
-                                class="p-1 px-2 rounded-md w-full font-sans text-sm">
-                        </div>
-                        <!-- Editing Version -->
-                        <div *ngIf="isEditingBudget" class="md:flex gap-2 w-full pointer-events-none hidden">
-                            <p class="p-1 w-[50%] relative">Year*:</p>
-                            <input [(ngModel)]="model.year" type="number" min="20" max="3000" step="1"
-                                oninput="(validity.valid)||(value='2023');" name="year"
-                                class="p-1 px-2 rounded-md w-full font-sans text-sm bg-[#4f4f4f45]">
-                        </div>
-                        <p *ngIf="errorCode[2] == 1" ngClass="p-1 text-xs text-red-600">Please enter a valid year</p>
-                        <p *ngIf="errorCode[2] == 2" ngClass="p-1 text-xs text-red-600">Please enter at least one
-                            expense/asset</p>
-                        <p *ngIf="submitError.length > 0" ngClass="p-1 text-xs text-red-600">{{submitError}}</p>
                     </div>
                 </div>
 
@@ -185,10 +153,10 @@
 
             </form>
             <!-- Assets -->
-            <form class="bg-[#ff2f2f] w-[20rem] md:w-[45rem] rounded-md p-4 flex flex-col gap-2 md:gap-4 relative">
+            <form class="bg-[#ff2f2f] text-white w-[20rem] md:w-[45rem] rounded-md p-4 flex flex-col gap-2 md:gap-4 relative">
                 <div>
-                    <h1 class="text-2xl bg-[#ff2f2f] pointer-events-none">Add Assets</h1>
-                    <h1 class="text-lg">Monthly Assets</h1>
+                    <h1 class="text-2xl bg-[#ff2f2f] pointer-events-none">Add Additional Income</h1>
+                    <h1 class="text-lg">Monthly Additional Income</h1>
                 </div>
 
                 <!-- Fixed Assets -->
@@ -201,7 +169,7 @@
                 </div>
 
                 <div>
-                    <p class="text-sm">Enter your monthly expenses individually below</p>
+                    <p class="text-sm">Enter your monthly additional income below</p>
                     <form class="grid grid-flow-col gap-2 grid-cols-3" (ngSubmit)="AddFixedAsset()">
                         <input type="text" [(ngModel)]="FixedAssetModel.name" name="AddFixedAsset"
                             class="p-1 col-span-2 text-black rounded-md font-sans text-sm">
