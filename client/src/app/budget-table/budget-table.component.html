@@ -85,27 +85,18 @@
                     <!-- Expenses -->
                     <h1 *ngIf="dataType.expenses.length > 0" class="text-xl">Expenses</h1>
                     <div *ngIf="dataType.expenses.length > 0" class="grid w-full grid-flow-col">
-                        <div class="grid col-span-3 w-[7.25rem]">
+                        <div class="grid col-span-3 w-[12rem]">
                             <h1 class="px-2 pb-2 lg:text-lg">Name</h1>
                             <div *ngFor="let expense of dataType.expenses; let i = index;"
-                                class="bg-red-800 font-sans text-sm px-2 rounded-l-md mb-2">
+                                class="bg-red-800 font-sans text-sm px-2 rounded-l-md mb-2 p-1">
                                 <p class="text-xs lg:text-base truncate w-[8rem]">{{expense.name | titlecase}}</p>
                                 <p *ngIf="expense.name == ''">-</p>
                             </div>
                         </div>
-                        <div class="grid col-span-1">
-                            <h1 class="px-2 pb-2 lg:text-lg">Frequency</h1>
-                            <div *ngFor="let expense of dataType.expenses; let i = index;"
-                                class="bg-red-800 font-sans text-sm px-2 mb-2">
-                                <p class="text-xs lg:text-base truncate" *ngIf="expense.frequency == ''">
-                                    {{dataType.frequency | titlecase}}</p>
-                                <p class="text-xs lg:text-base truncate">{{expense.frequency | titlecase}}</p>
-                            </div>
-                        </div>
-                        <div class="grid col-span-2">
+                        <div class="grid col-span-2 w-[6rem]">
                             <h1 class="px-2 pb-2 lg:text-lg">Amount</h1>
                             <div *ngFor="let expense of dataType.expenses; let i = index;"
-                                class="bg-red-800 font-sans text-sm px-2 rounded-r-md mb-2">
+                                class="bg-red-800 font-sans text-sm px-2 rounded-r-md mb-2 p-1">
                                 <p class="text-xs lg:text-base">${{expense.amount}}</p>
                             </div>
                         </div>
@@ -113,27 +104,18 @@
                     <!-- Assets -->
                     <h1 *ngIf="dataType.assets.length > 0" class="text-xl">Additional Income</h1>
                     <div *ngIf="dataType.assets.length > 0" class="grid w-full grid-flow-col">
-                        <div class="grid col-span-3 w-[7.25rem]">
+                        <div class="grid col-span-3 w-[12rem]">
                             <h1 class="px-2 pb-2 lg:text-lg">Name</h1>
                             <div *ngFor="let asset of dataType.assets; let i = index;"
-                                class="bg-red-800 px-2 font-sans text-sm rounded-l-md mb-2">
+                                class="bg-red-800 px-2 font-sans text-sm rounded-l-md mb-2 p-1">
                                 <p class="text-xs lg:text-base truncate w-[8rem]">{{asset.name | titlecase}}</p>
                                 <p *ngIf="asset.name == ''">-</p>
                             </div>
                         </div>
-                        <div class="grid col-span-1">
-                            <h1 class="px-2 pb-2 lg:text-lg">Frequency</h1>
-                            <div *ngFor="let asset of dataType.assets; let i = index;"
-                                class="bg-red-800 px-2 font-sans text-sm mb-2">
-                                <p class="text-xs lg:text-base truncate" *ngIf="asset.frequency == ''">
-                                    {{dataType.frequency | titlecase}}</p>
-                                <p class="text-xs lg:text-base truncate">{{asset.frequency | titlecase}}</p>
-                            </div>
-                        </div>
-                        <div class="grid col-span-2">
+                        <div class="grid col-span-2 w-[6rem]">
                             <h1 class="px-2 pb-2 lg:text-lg">Amount</h1>
                             <div *ngFor="let asset of dataType.assets; let i = index;"
-                                class="bg-red-800 px-2 font-sans text-sm rounded-r-md mb-2">
+                                class="bg-red-800 px-2 font-sans text-sm rounded-r-md mb-2 p-1">
                                 <p class="text-xs lg:text-base">${{asset.amount}}</p>
                             </div>
                         </div>
