@@ -61,6 +61,10 @@ namespace api.Controllers
                 return BadRequest("Monthly Budget already exist");
             }
 
+            // Calculate income
+            MonthlyBudget.Income = _budgetRepository.CalculateTotal("monthly", MonthlyBudget.Income, MonthlyBudget.Frequency);
+            MonthlyBudget.Frequency = "monthly";
+
             // Calculate assets and expenses
             MonthlyBudget.ExpenseTotal = 0;
             for (int i = 0; i < MonthlyBudget.Expenses.Count; i++)
@@ -72,7 +76,7 @@ namespace api.Controllers
             for (int i = 0; i < MonthlyBudget.Assets.Count; i++)
             {
                 MonthlyBudget.AssetTotal += _budgetRepository.CalculateTotal(MonthlyBudget.Frequency, MonthlyBudget.Assets[i].Amount, MonthlyBudget.Assets[i].Frequency);
-            };
+            };        
 
             // Update Budget with Monthly Budget
 
@@ -204,7 +208,6 @@ namespace api.Controllers
                 if (allBudgets[i].Id == id)
                 {
                     allBudgets[i].Income = _budgetRepository.CalculateTotal(period, allBudgets[i].Income, allBudgets[i].Frequency);
-                    allBudgets[i].Frequency = period;
 
                     allBudgets[i].ExpenseTotal = 0;
                     for (int j = 0; j < allBudgets[i].Expenses.Count; j++)

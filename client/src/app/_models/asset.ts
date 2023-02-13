@@ -3,5 +3,5 @@ export interface Asset {
     name: string;
     frequency: string;
     type: string;
-    amount: number;
+    amount: string;
 }

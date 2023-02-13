@@ -15,11 +15,11 @@ import { take } from 'rxjs';
 export class BudgetFormComponent implements OnInit {
   model: MonthlyBudget = {
     id: 0,
-    income: 0,
+    income: '',
     month: 1,
     year: 2023,
     jobField: '',
-    frequency: 'weekly',
+    frequency: 'monthly',
     expenseTotal: 0,
     expenses: [],
     assetTotal: 0,
@@ -35,9 +35,9 @@ export class BudgetFormComponent implements OnInit {
   VarExpenseModel: Expense = {
     id: 0,
     name: '',
-    frequency: 'weekly',
+    frequency: 'monthly',
     type: 'variable',
-    amount: 0
+    amount: ''
   };
   TotalVarExpenseModel: Expense[] = [];
 
@@ -51,9 +51,9 @@ export class BudgetFormComponent implements OnInit {
   VarAssetModel: Asset = {
     id: 0,
     name: '',
-    frequency: 'weekly',
+    frequency: 'monthly',
     type: 'variable',
-    amount: 0
+    amount: ''
   };
   TotalVarAssetModel: Asset[] = [];
 
@@ -144,9 +144,9 @@ export class BudgetFormComponent implements OnInit {
     this.TotalFixedExpenseModel.push({
       id: this.TotalExpenses,
       name: this.FixedExpenseModel.name,
-      frequency: "",
+      frequency: "monthly",
       type: "fixed",
-      amount: 0
+      amount: ''
     });
 
     this.FixedExpenseModel = {};
@@ -188,9 +188,9 @@ export class BudgetFormComponent implements OnInit {
     this.VarExpenseModel = {
       id: 0,
       name: '',
-      frequency: 'weekly',
+      frequency: 'monthly',
       type: 'variable',
-      amount: 0
+      amount: ''
     };
 
     this.errorCode[1] = 0;
@@ -231,9 +231,9 @@ export class BudgetFormComponent implements OnInit {
     this.TotalFixedAssetModel.push({
       id: this.TotalAssets,
       name: this.FixedAssetModel.name,
-      frequency: "",
+      frequency: "monthly",
       type: "fixed",
-      amount: 0
+      amount: ''
     });
 
     this.FixedAssetModel = {};
@@ -275,9 +275,9 @@ export class BudgetFormComponent implements OnInit {
     this.VarAssetModel = {
       id: 0,
       name: '',
-      frequency: 'weekly',
+      frequency: 'monthly',
       type: 'variable',
-      amount: 0
+      amount: ''
     };
 
     this.errorCode[3] = 0;
@@ -296,33 +296,19 @@ export class BudgetFormComponent implements OnInit {
     let expenses = 0;
 
     for (let i = 0; i < this.TotalFixedAssetModel.length; i++) {
-      if (this.TotalFixedAssetModel[i].amount > 999999.99) {
+      if (parseInt(this.TotalFixedAssetModel[i].amount) > 999999.99) {
         this.errorCode[3] = 4;
         return
       }
-      assets += this.TotalFixedAssetModel[i].amount;
-    }
-    for (let i = 0; i < this.TotalVarAssetModel.length; i++) {
-      if (this.TotalVarAssetModel[i].amount > 999999.99) {
-        this.errorCode[4] = 4;
-        return
-      }
-      assets += this.TotalVarAssetModel[i].amount;
+      assets += parseInt(this.TotalFixedAssetModel[i].amount);
     }
 
     for (let i = 0; i < this.TotalFixedExpenseModel.length; i++) {
-      if (this.TotalFixedExpenseModel[i].amount > 999999.99) {
+      if (parseInt(this.TotalFixedExpenseModel[i].amount) > 999999.99) {
         this.errorCode[0] = 4;
         return
       }
-      expenses += this.TotalFixedExpenseModel[i].amount;
-    }
-    for (let i = 0; i < this.TotalVarExpenseModel.length; i++) {
-      if (this.TotalVarExpenseModel[i].amount > 999999.99) {
-        this.errorCode[1] = 4;
-        return
-      }
-      expenses += this.TotalVarExpenseModel[i].amount;
+      expenses += parseInt(this.TotalFixedExpenseModel[i].amount);
     }
 
     this.errorCode = [0, 0, 0, 0, 0];

@@ -62,7 +62,7 @@ export class BudgetTableComponent implements OnInit {
   
   // Sets data to charts
   calculations() {
-    this.savings = this.data[this.currentBudget].income - this.data[this.currentBudget].expenseTotal + this.data[this.currentBudget].assetTotal;
+    this.savings = parseInt(this.data[this.currentBudget].income) - this.data[this.currentBudget].expenseTotal + this.data[this.currentBudget].assetTotal;
     
     this.chartdata.datasets[0].data[0] = this.data[this.currentBudget].expenseTotal;
     this.chartdata.datasets[0].data[1] = this.data[this.currentBudget].assetTotal;

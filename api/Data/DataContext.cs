@@ -61,6 +61,10 @@ namespace api.Data
                 .HasForeignKey(b => b.BudgetParentId)
                 .OnDelete(DeleteBehavior.Cascade)
                 .IsRequired();
+
+            builder.Entity<MonthlyBudget>()
+                .Property(p => p.Id)
+                .ValueGeneratedNever();
         }
         
     }

@@ -1,7 +1,7 @@
 <div class="grid w-screen min-h-screen overflow-x-hidden">
-    <div class="flex flex-col md:flex-row relative w-[100%] h-full justify-center items-center gap-4 z-20 py-20">
+    <div class="flex flex-col relative w-[100%] h-full justify-center items-center gap-4 z-20 pt-24 pb-4">
         <!-- Basic Info -->
-        <div class="w-[18rem]">
+        <div class="w-[20rem] md:w-[45rem]">
             <div class="w-full flex justify-center text-center">
                 <h1 *ngIf="!(isEditingBudget)" class="text-3xl p-2 bg-red-800 rounded-t-md text-white w-full ">
                     New Budget</h1>
@@ -9,272 +9,217 @@
                     Edit Budget</h1>
             </div>
 
-            <form class="bg-gray-100 rounded-b-md p-4 flex flex-col gap-4 ">
-                <div>
+            <form class="bg-gray-100 rounded-b-md p-4">
+                <div class="pb-4">
                     <h1 class="text-2xl">Basic Information</h1>
-                    <p class="text-xs">Fields with a * are required</p>
                 </div>
 
-                <div class="flex gap-2">
-                    <p class="p-1 w-[49%]">Pay Period*:</p>
-                    <select [(ngModel)]="model.frequency" id="payPeriod" name="payPeriod"
-                        class="pb-1 px-1 rounded-md w-full font-sans text-sm">
-                        <option value="weekly">Weekly</option>
-                        <option value="biWeekly">Bi-Weekly</option>
-                        <option value="monthly">Monthly</option>
-                        <option value="annually">Annually</option>
-                    </select>
+                <div class="flex flex-col gap-4 md:grid md: grid-cols-2">
+                    <div class="flex flex-col gap-4">
+                        <div class="flex gap-2">
+                            <p class="p-1 w-[49%]">Pay Period*:</p>
+                            <select [(ngModel)]="model.frequency" id="payPeriod" name="payPeriod"
+                                class="pb-1 px-1 rounded-md w-full font-sans text-sm">
+                                <option value="weekly">Weekly</option>
+                                <option value="biWeekly">Bi-Weekly</option>
+                                <option value="monthly">Monthly</option>
+                                <option value="annually">Annually</option>
+                            </select>
+                        </div>
+
+                        <div class="flex gap-2 w-full">
+                            <div class="py-[0.2rem] px-1 w-[50%] relative">
+                                <p class="">Income*:</p>
+                                <p class="absolute top-[1.25rem] text-[0.55rem]">(after tax)</p>
+                            </div>
+                            <input [(ngModel)]="model.income" type="number" name="Income" placeholder="0"
+                                class="p-1 px-2 rounded-md w-full font-sans text-sm">
+                        </div>
+
+                        <!-- Regular Vesion -->
+                        <div *ngIf="!(isEditingBudget)" class="flex gap-2">
+                            <p class="p-1 w-[49%]">Month*:</p>
+                            <select [(ngModel)]="model.month" id="month" name="month"
+                                class="pb-1 px-1 rounded-md w-full font-sans text-sm">
+                                <option value="1">January</option>
+                                <option value="2">February</option>
+                                <option value="3">March</option>
+                                <option value="4">April</option>
+                                <option value="5">May</option>
+                                <option value="6">June</option>
+                                <option value="7">July</option>
+                                <option value="8">August</option>
+                                <option value="9">September</option>
+                                <option value="10">October</option>
+                                <option value="11">November</option>
+                                <option value="12">December</option>
+                            </select>
+                        </div>
+                        <!-- Editing Vesion -->
+                        <div *ngIf="isEditingBudget" class="flex gap-2 pointer-events-none">
+                            <p class="p-1 w-[49%]">Month*:</p>
+                            <select [(ngModel)]="model.month" id="month" name="month"
+                                class="pb-1 px-1 rounded-md w-full font-sans text-sm bg-[#4f4f4f45]">
+                                <option value="1">January</option>
+                                <option value="2">February</option>
+                                <option value="3">March</option>
+                                <option value="4">April</option>
+                                <option value="5">May</option>
+                                <option value="6">June</option>
+                                <option value="7">July</option>
+                                <option value="8">August</option>
+                                <option value="9">September</option>
+                                <option value="10">October</option>
+                                <option value="11">November</option>
+                                <option value="12">December</option>
+                            </select>
+                        </div>
+                        <!-- Regular Version -->
+                        <div *ngIf="!(isEditingBudget)" class="flex gap-2 w-full md:hidden">
+                            <p class="p-1 w-[50%] relative">Year*:</p>
+                            <input [(ngModel)]="model.year" type="number" min="20" max="3000" step="1"
+                                oninput="(validity.valid)||(value='2023');" name="year"
+                                class="p-1 px-2 rounded-md w-full font-sans text-sm">
+                        </div>
+                        <!-- Editing Version -->
+                        <div *ngIf="isEditingBudget" class="flex gap-2 w-full pointer-events-none md:hidden">
+                            <p class="p-1 w-[50%] relative">Year*:</p>
+                            <input [(ngModel)]="model.year" type="number" min="20" max="3000" step="1"
+                                oninput="(validity.valid)||(value='2023');" name="year"
+                                class="p-1 px-2 rounded-md w-full font-sans text-sm bg-[#4f4f4f45]">
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col gap-4 relative">
+                        <div class="text-gray-100">
+                            <p class="py-[0.2rem] px-1 w-[50%] relative">Design</p>
+                        </div>
+                        <div>
+                            <p class="py-[0.2rem] px-1 w-[50%] relative">Text</p>
+                        </div>
+                        <div>
+                            <p class="py-[0.2rem] px-1 w-[50%] relative">Text</p>
+                        </div>
+
+                        <div
+                            class="absolute flex flex-col gap-4 justify-center bg-gray-300 rounded-md w-[18.5rem] md:w-[22rem] h-[6.5rem] pl-4 pr-6 left-[-4px] top-[30px] pt-2 border border-gray-400">
+                            <div class="flex gap-2 w-full">
+                                <div class="py-[0.2rem] px-1 w-[40%] md:w-[27%] relative">
+                                    <p class="">Assets:</p>
+                                </div>
+                                <p class="p-1 px-2 rounded-md w-full bg-white font-sans text-sm">{{model.assetTotal}}
+                                </p>
+                            </div>
+
+                            <div class="flex gap-2 w-full">
+                                <div class="py-[0.2rem] px-1 w-[40%] md:w-[27%] relative">
+                                    <p class="">Expenses:</p>
+                                </div>
+                                <p class="p-1 px-2 rounded-md w-full bg-white font-sans text-sm">{{model.expenseTotal}}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="absolute bg-gray-100 p-1 px-2 rounded-md top-[15px] left-[70px] md:left-[100px]">
+                            <h2 class="text-sm">Automatically Calculated</h2>
+                        </div>
+                    </div>
+
+                    <div>
+                        <!-- Regular Version -->
+                        <div *ngIf="!(isEditingBudget)" class="md:flex gap-2 w-full hidden">
+                            <p class="p-1 w-[50%] relative">Year*:</p>
+                            <input [(ngModel)]="model.year" type="number" min="20" max="3000" step="1"
+                                oninput="(validity.valid)||(value='2023');" name="year"
+                                class="p-1 px-2 rounded-md w-full font-sans text-sm">
+                        </div>
+                        <!-- Editing Version -->
+                        <div *ngIf="isEditingBudget" class="md:flex gap-2 w-full pointer-events-none hidden">
+                            <p class="p-1 w-[50%] relative">Year*:</p>
+                            <input [(ngModel)]="model.year" type="number" min="20" max="3000" step="1"
+                                oninput="(validity.valid)||(value='2023');" name="year"
+                                class="p-1 px-2 rounded-md w-full font-sans text-sm bg-[#4f4f4f45]">
+                        </div>
+                        <p *ngIf="errorCode[2] == 1" ngClass="p-1 text-xs text-red-600">Please enter a valid year</p>
+                        <p *ngIf="errorCode[2] == 2" ngClass="p-1 text-xs text-red-600">Please enter at least one
+                            expense/asset</p>
+                        <p *ngIf="submitError.length > 0" ngClass="p-1 text-xs text-red-600">{{submitError}}</p>
+                    </div>
                 </div>
 
-                <div class="flex gap-2 w-full">
-                    <div class="py-[0.2rem] px-1 w-[50%] relative">
-                        <p class="">Income*:</p>
-                        <p class="absolute top-[1.25rem] text-[0.55rem]">(after tax)</p>
-                    </div>
-                    <input [(ngModel)]="model.income" type="number" name="Income"
-                        class="p-1 px-2 rounded-md w-full font-sans text-sm">
-                </div>
-
-                <div class="flex gap-2 w-full">
-                    <div class="py-[0.2rem] px-1 w-[50%] relative">
-                        <p class="">Assets:</p>
-                        <p class="absolute top-[1.25rem] text-[0.55rem]">(calculated)</p>
-                    </div>
-                    <p class="p-1 px-2 rounded-md w-full bg-white font-sans text-sm">{{model.assetTotal}}</p>
-                </div>
-
-                <div class="flex gap-2 w-full">
-                    <div class="py-[0.2rem] px-1 w-[50%] relative">
-                        <p class="">Expenses:</p>
-                        <p class="absolute top-[1.25rem] text-[0.55rem]">(calculated)</p>
-                    </div>
-                    <p class="p-1 px-2 rounded-md w-full bg-white font-sans text-sm">{{model.expenseTotal}}</p>
-                </div>
-
-                <div class="flex gap-2 w-full">
-                    <p class="p-1 w-[50%]">Job Field:</p>
-                    <input [(ngModel)]="model.jobField" type="text" name="JobField"
-                        class="p-1 px-2 rounded-md w-full font-sans text-sm">
-                </div>
-                <!-- Regular Vesion -->
-                <div *ngIf="!(isEditingBudget)" class="flex gap-2">
-                    <p class="p-1 w-[49%]">Month*:</p>
-                    <select [(ngModel)]="model.month" id="month" name="month"
-                        class="pb-1 px-1 rounded-md w-full font-sans text-sm">
-                        <option value="1">January</option>
-                        <option value="2">February</option>
-                        <option value="3">March</option>
-                        <option value="4">April</option>
-                        <option value="5">May</option>
-                        <option value="6">June</option>
-                        <option value="7">July</option>
-                        <option value="8">August</option>
-                        <option value="9">September</option>
-                        <option value="10">October</option>
-                        <option value="11">November</option>
-                        <option value="12">December</option>
-                    </select>
-                </div>
-                <!-- Editing Vesion -->
-                <div *ngIf="isEditingBudget" class="flex gap-2 pointer-events-none">
-                    <p class="p-1 w-[49%]">Month*:</p>
-                    <select [(ngModel)]="model.month" id="month" name="month"
-                        class="pb-1 px-1 rounded-md w-full font-sans text-sm bg-[#4f4f4f45]">
-                        <option value="1">January</option>
-                        <option value="2">February</option>
-                        <option value="3">March</option>
-                        <option value="4">April</option>
-                        <option value="5">May</option>
-                        <option value="6">June</option>
-                        <option value="7">July</option>
-                        <option value="8">August</option>
-                        <option value="9">September</option>
-                        <option value="10">October</option>
-                        <option value="11">November</option>
-                        <option value="12">December</option>
-                    </select>
-                </div>
-                <div>
-                    <!-- Regular Version -->
-                    <div *ngIf="!(isEditingBudget)" class="flex gap-2 w-full">
-                        <p class="p-1 w-[50%] relative">Year*:</p>
-                        <input [(ngModel)]="model.year" type="number" min="20" max="3000" step="1"
-                            oninput="(validity.valid)||(value='2023');" name="year"
-                            class="p-1 px-2 rounded-md w-full font-sans text-sm">
-                    </div>
-                    <!-- Editing Version -->
-                    <div *ngIf="isEditingBudget" class="flex gap-2 w-full pointer-events-none">
-                        <p class="p-1 w-[50%] relative">Year*:</p>
-                        <input [(ngModel)]="model.year" type="number" min="20" max="3000" step="1"
-                            oninput="(validity.valid)||(value='2023');" name="year"
-                            class="p-1 px-2 rounded-md w-full font-sans text-sm bg-[#4f4f4f45]">
-                    </div>
-                    <p *ngIf="errorCode[2] == 1" ngClass="p-1 text-xs text-red-600">Please enter a valid year</p>
-                    <p *ngIf="errorCode[2] == 2" ngClass="p-1 text-xs text-red-600">Please enter at least one
-                        expense/asset</p>
-                    <p *ngIf="submitError.length > 0" ngClass="p-1 text-xs text-red-600">{{submitError}}</p>
-                </div>
             </form>
-            <!-- Submit Button -->
-            <div class="w-full flex place-content-center pt-3">
-                <button (click)="submit()" class="button-lt py-1 px-6" type="submit">Submit Budget</button>
-            </div>
         </div>
-
 
         <div class="flex flex-col gap-4">
             <!-- Expenses -->
-            <form class="bg-gray-100 w-[18rem] md:w-[35rem] rounded-md p-4 flex flex-col gap-2 md:gap-4 relative">
+            <form class="bg-gray-100 w-[20rem] md:w-[45rem] rounded-md p-4 flex flex-col gap-2 md:gap-4 relative">
                 <div>
-                    <div class="flex gap-2 w-full pb-4">
-                        <button (click)="openAssetMenu(false)"
-                            class="text-2xl bg-gray-100 p-2 rounded-md pointer-events-none">Add Expenses</button>
-                        <button (click)="openAssetMenu(true)"
-                            class="text-2xl ml-auto bg-[#ff2f2f] text-white p-2 rounded-md border border-red-800">+ Add
-                            Assets</button>
-                    </div>
-                    <h1 class="text-lg">Fixed Expenses</h1>
-                    <p class="text-xs">(expenses happen at the same frequency of income)</p>
+                    <h1 class="text-2xl">Add Expenses</h1>
+                    <h1 class="text-lg">Monthly Expenses</h1>
                 </div>
 
                 <!-- Fixed Expenses -->
                 <div *ngFor="let fixedExpense of TotalFixedExpenseModel; let i=index" class="flex gap-2">
                     <p class="p-1 w-[60%] md:w-[25%]">{{fixedExpense.name | titlecase}}:</p>
                     <input (keyup)="calculations()" [(ngModel)]="TotalFixedExpenseModel[i].amount" type="number"
-                        name="amountFixed{{i}}" class="p-1 w-[5rem] md:w-[10rem] rounded-md font-sans text-sm">
+                        placeholder="0" name="amountFixed{{i}}"
+                        class="p-1 w-[5rem] md:w-[10rem] rounded-md font-sans text-sm">
                     <fa-icon [icon]="faTrash" (click)="RemoveFixedExpense(fixedExpense.id)"></fa-icon>
                 </div>
-
-                <form class="grid grid-flow-col gap-2 grid-cols-3" (ngSubmit)="AddFixedExpense()">
-                    <input type="text" [(ngModel)]="FixedExpenseModel.name" name="AddFixedExpense"
-                        class="p-1 col-span-2 rounded-md font-sans text-sm">
-                    <button class="button-lt hidden md:block col-span-1" type="submit">Add Fixed
-                        Expense</button>
-                    <button class="button-lt block md:hidden" type="submit">Add Fixed</button>
-                </form>
-                <p *ngIf="errorCode[0] == 1" class="text-[#ff2f2f] font-medium">Fixed Expense cannot be empty</p>
-                <p *ngIf="errorCode[0] == 2" class="text-[#ff2f2f] font-medium">Fixed Expense name is too long</p>
-                <p *ngIf="errorCode[0] == 3" class="text-[#ff2f2f] font-medium">Expense with name already exists</p>
-                <p *ngIf="errorCode[0] == 4" class="text-[#ff2f2f] font-medium">Break fixed expense into smaller pieces
-                </p>
-
-                <!-- Variable Expenses -->
-                <h1 class="text-lg">Variable Expenses</h1>
-
-                <div *ngFor="let varExpense of TotalVarExpenseModel; let i=index" class="flex gap-2">
-                    <p class="p-1 w-[60%] md:w-[25%]">{{varExpense.name | titlecase}}:</p>
-                    <input (keyup)="calculations()" [(ngModel)]="TotalVarExpenseModel[i].amount" type="number"
-                        name="amountVar{{i}}" class="p-1 w-[5rem] md:w-[10rem] rounded-md font-sans text-sm">
-                    <fa-icon [icon]="faTrash" (click)="RemoveVarExpense(varExpense.id)"></fa-icon>
+                <div>
+                    <p class="text-sm">Enter your monthly expenses individually below</p>
+                    <form class="grid grid-flow-col gap-2 grid-cols-3" (ngSubmit)="AddFixedExpense()">
+                        <input type="text" [(ngModel)]="FixedExpenseModel.name" name="AddFixedExpense"
+                            class="p-1 col-span-2 rounded-md font-sans text-sm">
+                        <button class="button-lt col-span-1" type="submit">Add
+                            Expense</button>
+                    </form>
+                    <p *ngIf="errorCode[0] == 1" class="text-[#ff2f2f] font-medium">Fixed Expense cannot be empty</p>
+                    <p *ngIf="errorCode[0] == 2" class="text-[#ff2f2f] font-medium">Fixed Expense name is too long</p>
+                    <p *ngIf="errorCode[0] == 3" class="text-[#ff2f2f] font-medium">Expense with name already exists</p>
+                    <p *ngIf="errorCode[0] == 4" class="text-[#ff2f2f] font-medium">Break fixed expense into smaller
+                        pieces
+                    </p>
                 </div>
 
-                <form class="flex flex-col md:flex-row gap-2" (ngSubmit)="AddVarExpense()">
-                    <div class="flex flex-col md:flex-row md:gap-1">
-                        <p class="p-1">Name:</p>
-                        <input type="text" [(ngModel)]="VarExpenseModel.name" name="AddVarExpense"
-                            class="p-1 rounded-md font-sans md:w-[9.99rem] text-sm">
-                        <p class="p-1">Frequency:</p>
-                        <select [(ngModel)]="VarExpenseModel.frequency" id="payPeriod" name="frequency"
-                            class="py-1 px-1 rounded-md font-sans text-sm">
-                            <option value="weekly">Weekly</option>
-                            <option value="biWeekly">Bi-Weekly</option>
-                            <option value="monthly">Monthly</option>
-                            <option value="annually">Annually</option>
-                            <option value="oneTime">One-Time</option>
-                        </select>
-                    </div>
-                    <button class="button-lt py-1 md:py-0" type="submit">Add Variable
-                        Expense</button>
-                </form>
-                <p *ngIf="errorCode[1] == 1" class="text-[#ff2f2f] font-medium">Variable Expense cannot be empty</p>
-                <p *ngIf="errorCode[1] == 2" class="text-[#ff2f2f] font-medium">Variable Expense name is too long</p>
-                <p *ngIf="errorCode[1] == 3" class="text-[#ff2f2f] font-medium">Expense with name already exists</p>
-                <p *ngIf="errorCode[1] == 4" class="text-[#ff2f2f] font-medium">Break variable expense into smaller
-                    pieces</p>
 
-                <!-- Assets -->
-                <form
-                    [ngClass]="assetMenuOpened ? 'rounded-md p-4 flex flex-col gap-2 md:gap-4 asset-container asset-container-open text-white' : 'rounded-md p-4 gap-2 md:gap-4  flex flex-col asset-container asset-container-closed text-white'">
-                    <div>
-                        <div class="flex gap-2 pb-4 w-full">
-                            <button (click)="openAssetMenu(false)"
-                                class="text-2xl text-black bg-gray-100 p-2 rounded-md border border-gray-300">+ Add
-                                Expenses</button>
-                            <button (click)="openAssetMenu(true)"
-                                class="text-2xl ml-auto bg-[#ff2f2f] pointer-events-none">Add Assets</button>
-                        </div>
-                        <h1 class="text-lg">Fixed Assets</h1>
-                        <p class="text-xs">(assets happen at the same frequency of income)</p>
-                    </div>
+            </form>
+            <!-- Assets -->
+            <form class="bg-[#ff2f2f] w-[20rem] md:w-[45rem] rounded-md p-4 flex flex-col gap-2 md:gap-4 relative">
+                <div>
+                    <h1 class="text-2xl bg-[#ff2f2f] pointer-events-none">Add Assets</h1>
+                    <h1 class="text-lg">Monthly Assets</h1>
+                </div>
 
-                    <!-- Fixed Assets -->
-                    <div *ngFor="let fixedAsset of TotalFixedAssetModel; let i=index" class="flex gap-2">
-                        <p class="p-1 w-[60%] md:w-[25%]">{{fixedAsset.name | titlecase}}:</p>
-                        <input (keyup)="calculations()" [(ngModel)]="TotalFixedAssetModel[i].amount" type="number"
-                            name="amountFixed{{i}}"
-                            class="p-1 w-[5rem] md:w-[10rem] text-black rounded-md font-sans text-sm">
-                        <fa-icon [icon]="faTrash" class="text-black"
-                            (click)="RemoveFixedAsset(fixedAsset.id)"></fa-icon>
-                    </div>
+                <!-- Fixed Assets -->
+                <div *ngFor="let fixedAsset of TotalFixedAssetModel; let i=index" class="flex gap-2">
+                    <p class="p-1 w-[60%] md:w-[25%]">{{fixedAsset.name | titlecase}}:</p>
+                    <input (keyup)="calculations()" [(ngModel)]="TotalFixedAssetModel[i].amount" type="number"
+                        placeholder="0" name="amountFixed{{i}}"
+                        class="p-1 w-[5rem] md:w-[10rem] text-black rounded-md font-sans text-sm">
+                    <fa-icon [icon]="faTrash" class="text-black" (click)="RemoveFixedAsset(fixedAsset.id)"></fa-icon>
+                </div>
 
+                <div>
+                    <p class="text-sm">Enter your monthly expenses individually below</p>
                     <form class="grid grid-flow-col gap-2 grid-cols-3" (ngSubmit)="AddFixedAsset()">
                         <input type="text" [(ngModel)]="FixedAssetModel.name" name="AddFixedAsset"
                             class="p-1 col-span-2 text-black rounded-md font-sans text-sm">
-                        <button class="button-lt hover:bg-red-800 hidden md:block col-span-1" type="submit">Add Fixed
+                        <button class="button-lt hover:bg-red-800 col-span-1" type="submit">Add
                             Asset</button>
-                        <button class="button-lt hover:bg-red-800  block md:hidden" type="submit">Add Fixed</button>
                     </form>
                     <p *ngIf="errorCode[3] == 1" class="text-black font-medium">Fixed Asset cannot be empty</p>
                     <p *ngIf="errorCode[3] == 2" class="text-black font-medium">Fixed Asset name is too long</p>
                     <p *ngIf="errorCode[3] == 3" class="text-black font-medium">Asset with name already exists</p>
                     <p *ngIf="errorCode[3] == 4" class="text-[#ff2f2f] font-medium">Break fixed asset into smaller
                         pieces</p>
+                </div>
 
-                    <!-- Variable Assets -->
-                    <h1 class="text-lg">Variable Assets</h1>
-
-                    <div *ngFor="let varAsset of TotalVarAssetModel; let i=index" class="flex gap-2">
-                        <p class="p-1 w-[60%] md:w-[25%]">{{varAsset.name | titlecase}}:</p>
-                        <input (keyup)="calculations()" [(ngModel)]="TotalVarAssetModel[i].amount" type="number"
-                            name="amountVar{{i}}"
-                            class="p-1 w-[5rem] md:w-[10rem] rounded-md text-black font-sans text-sm">
-                        <fa-icon [icon]="faTrash" class="text-black" (click)="RemoveVarAsset(varAsset.id)"></fa-icon>
-                    </div>
-
-                    <form class="flex flex-col md:flex-row gap-2" (ngSubmit)="AddVarAsset()">
-                        <div class="flex flex-col md:flex-row md:gap-2">
-                            <p class="p-1">Name:</p>
-                            <input type="text" [(ngModel)]="VarAssetModel.name" name="AddVarAsset"
-                                class="p-1 rounded-md text-black font-sans text-sm md:w-[9.99rem]">
-                            <p class="p-1">Frequency:</p>
-                            <select [(ngModel)]="VarAssetModel.frequency" id="payPeriod" name="frequency"
-                                class="py-1 px-1 rounded-md text-black font-sans text-sm">
-                                <option value="weekly">Weekly</option>
-                                <option value="biWeekly">Bi-Weekly</option>
-                                <option value="monthly">Monthly</option>
-                                <option value="annually">Annually</option>
-                                <option value="oneTime">One-Time</option>
-                            </select>
-                        </div>
-                        <button class="button-lt hover:bg-red-800 py-1 md:py-0" type="submit">Add Variable
-                            Asset</button>
-                    </form>
-                    <p *ngIf="errorCode[4] == 1" class="text-black font-medium">Variable Asset cannot be empty</p>
-                    <p *ngIf="errorCode[4] == 2" class="text-black font-medium">Variable Asset name is too long</p>
-                    <p *ngIf="errorCode[4] == 3" class="text-black font-medium">Asset with name already exists</p>
-                    <p *ngIf="errorCode[4] == 4" class="text-[#ff2f2f] font-medium">Break variable asset into smaller
-                        pieces</p>
-                </form>
+                
             </form>
-            <!-- Instructions -->
-            <div class="bg-gray-100 w-[18rem] md:w-[35rem] rounded-md px-4 py-2 flex flex-col">
-                <p class="underline">Instructions</p>
-                <p class="text-xs tracking-wide">
-                    Add the name of the expense/asset then click on the add button. Afterwards, enter the
-                    value of the expense/asset in the field that was generated. Assets can be added by clicking on
-                    the add asset button at the top. Hit the submit budget button once you are finished. Assets and
-                    expenses are caluclated automatically.
-                </p>
+            <!-- Submit Button -->
+            <div class="w-full flex place-content-center">
+                <button (click)="submit()" class="button-lt py-1 px-6" type="submit">Submit Budget</button>
             </div>
         </div>
     </div>

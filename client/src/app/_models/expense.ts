@@ -3,5 +3,5 @@ export interface Expense {
     name: string;
     frequency: string;
     type: string;
-    amount: number;
+    amount: string;
 }

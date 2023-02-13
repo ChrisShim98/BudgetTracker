@@ -1,4 +1,4 @@
-<div [ngClass]="router.url != '/' ? 'bg-[#ecf0f338] shadow-inner fixed bottom-0 w-screen z-40 py-2' : 'fixed bottom-0 w-screen z-50 py-2'">
+<div [ngClass]="router.url == '/budget' ? 'bg-[#ecf0f338] shadow-inner w-full z-40 py-2' : router.url != '/' ? 'bg-[#ecf0f338] shadow-inner fixed bottom-0 w-screen z-40 py-2' : 'fixed bottom-0 w-screen z-50 py-2'">
     <div class="flex place-content-center">
         <ul class="flex flex-col">         
             <li class="px-2 flex w-full place-content-center gap-4">
