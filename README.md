@@ -4,7 +4,7 @@
  <img src="https://res.cloudinary.com/diywkaahn/image/upload/v1676394018/Github/DotnetXTailwindXAngular_okjxpd.png">
 </p>
 
-A demo of this application can be viewed
+A demo of this application can be viewed <a href="https://budgetcshim.azurewebsites.net/">here</a>
 
 <b>Testers can sign on as the guest user by clicking on the create a new budget or register for a new account.</b>
 
