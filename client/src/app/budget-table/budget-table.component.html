@@ -24,7 +24,7 @@
                                 <h1 class="text-xl">Total Income</h1>
                             </div>
                             <div class="w-full text-center">
-                                <h1 class="text-black font-semibold text-2xl">${{dataType.income}}</h1>
+                                <h1 class="text-black font-semibold text-2xl">${{displayData.income}}</h1>
                             </div>
                         </div>
                         <div class="flex flex-col gap-2 bg-[#D9D9D9] rounded-md h-[5rem] relative min-w-[200px]">
@@ -32,23 +32,25 @@
                                 <h1 class="text-xl">Total Expenses</h1>
                             </div>
                             <div class="w-full text-center">
-                                <h1 class="text-black font-semibold text-2xl">${{dataType.expenseTotal}}</h1>
+                                <h1 class="text-black font-semibold text-2xl">${{displayData.expense}}</h1>
                             </div>
                         </div>
                         <div class="flex flex-col gap-2 bg-[#D9D9D9] rounded-md h-[5rem] relative min-w-[200px]">
                             <div class="bg-[#ffc000] rounded-t-md w-full text-center">
-                                <h1 class="text-xl">Total Additional Income</h1>
+                                <h1 class="text-xl">Total Passive Income</h1>
                             </div>
                             <div class="w-full text-center">
-                                <h1 class="text-black font-semibold text-2xl">${{dataType.assetTotal}}</h1>
+                                <h1 class="text-black font-semibold text-2xl">${{displayData.passive}}</h1>
                             </div>
                         </div>
                         <div class="flex flex-col gap-2 bg-[#D9D9D9] rounded-md h-[5rem] relative min-w-[200px]">
                             <div class="bg-[#00B050] rounded-t-md w-full text-center">
-                                <h1 class="text-xl">Spare Cash</h1>
+                                <h1 *ngIf="savings >= 0" class="text-xl">Excess Cash</h1>
+                                <h1 *ngIf="savings < 0" class="text-xl">Deficit</h1>
                             </div>
                             <div class="w-full text-center">
-                                <h1 class="text-black font-semibold text-2xl">${{savings}}</h1>
+                                <h1 *ngIf="savings >= 0" class="text-black font-semibold text-2xl">${{displayData.excess}}</h1>
+                                <h1 *ngIf="savings < 0" class="font-semibold text-2xl text-red-600">${{displayData.excess}}</h1>
                             </div>
                         </div>
                     </div>
@@ -102,7 +104,7 @@
                         </div>
                     </div>
                     <!-- Assets -->
-                    <h1 *ngIf="dataType.assets.length > 0" class="text-xl">Additional Income</h1>
+                    <h1 *ngIf="dataType.assets.length > 0" class="text-xl">Passive Income</h1>
                     <div *ngIf="dataType.assets.length > 0" class="grid w-full grid-flow-col">
                         <div class="grid col-span-3 w-[12rem]">
                             <h1 class="px-2 pb-2 lg:text-lg">Name</h1>
@@ -138,7 +140,7 @@
                             <h1 class="text-lg">Total Income</h1>
                         </div>
                         <div class="w-full text-center">
-                            <h1 class="text-black font-semibold text-2xl">${{dataType.income}}</h1>
+                            <h1 class="text-black font-semibold text-2xl">${{displayData.income}}</h1>
                         </div>
                     </div>
                     <div class="flex flex-col gap-2 bg-[#D9D9D9] rounded-md h-[5rem] relative min-w-[135px]">
@@ -146,33 +148,35 @@
                             <h1 class="text-lg">Total Expenses</h1>
                         </div>
                         <div class="w-full text-center">
-                            <h1 class="text-black font-semibold text-2xl">${{dataType.expenseTotal}}</h1>
+                            <h1 class="text-black font-semibold text-2xl">${{displayData.expense}}</h1>
                         </div>
                     </div>
                     <div class="flex flex-col gap-2 bg-[#D9D9D9] rounded-md h-[5rem] relative min-w-[135px]">
                         <div class="bg-[#ffc000] rounded-t-md w-full text-center">
-                            <h1 class="text-lg">Total Additional Income</h1>
+                            <h1 class="text-lg">Total Passive Income</h1>
                         </div>
                         <div class="w-full text-center">
-                            <h1 class="text-black font-semibold text-2xl">${{dataType.assetTotal}}</h1>
+                            <h1 class="text-black font-semibold text-2xl">${{displayData.passive}}</h1>
                         </div>
                     </div>
                     <div class="flex flex-col gap-2 bg-[#D9D9D9] rounded-md h-[5rem] relative min-w-[135px]">
                         <div class="bg-[#00B050] rounded-t-md w-full text-center">
-                            <h1 class="text-lg">Spare Cash</h1>
+                            <h1 *ngIf="savings >= 0" class="text-lg">Excess Cash</h1>
+                                <h1 *ngIf="savings < 0" class="text-lg">Deficit</h1>
                         </div>
                         <div class="w-full text-center">
-                            <h1 class="text-black font-semibold text-2xl">${{savings}}</h1>
+                            <h1 *ngIf="savings >= 0" class="text-black font-semibold text-2xl">${{displayData.excess}}</h1>
+                            <h1 *ngIf="savings < 0" class="text-red-600 font-semibold text-2xl">${{displayData.excess}}</h1>
                         </div>
                     </div>
                 </div>
                 <!-- chart card -->
-                <div class="flex flex-col gap-2 bg-[#D9D9D9] p-6 rounded-md h-[26rem] min-w-[200px]">
+                <div class="flex flex-col gap-2 bg-[#D9D9D9] p-6 rounded-md h-[27rem] w-[20rem] min-w-[200px]">
                     <div>
                         <h1 class="text-2xl text-black text-center">Visualizations</h1>
                     </div>
                     <div class="">
-                        <canvas class="w-[10rem]" baseChart [data]="chartdata" [type]="'pie'" [legend]="false">
+                        <canvas class="w-[17rem]" baseChart [data]="chartdata" [type]="'pie'" [legend]="false">
                         </canvas>
                     </div>
                     <div class="flex gap-6 justify-center pt-4">
@@ -181,18 +185,16 @@
 
                             </div>
                             <h1 class="text-black text-center">Expense</h1>
-                        </div>
-                        <div class="grid place-items-center">
-                            <div class="bg-[#ffc000] rounded-lg w-16 h-4">
-
-                            </div>
-                            <h1 class="text-black text-center">Additional Income</h1>
+                            <p *ngIf="percentages.expense < 100" class="text-black text-center">{{percentages.expense}}%</p>
+                            <p *ngIf="percentages.expense >= 100" class="text-red-600 text-center">100%</p>
                         </div>
                         <div>
                             <div class="bg-[#00B050] rounded-lg w-16 h-4">
 
                             </div>
-                            <h1 class="text-black text-center">Spare Cash</h1>
+                            <h1 class="text-black text-center">Excess Cash</h1>
+                            <p *ngIf="percentages.excess > 0" class="text-black text-center">{{percentages.excess}}%</p>
+                            <p *ngIf="percentages.excess <= 0" class="text-red-600 text-center">0%</p>
                         </div>
                     </div>
                 </div>

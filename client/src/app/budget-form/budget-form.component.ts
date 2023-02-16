@@ -98,7 +98,6 @@ export class BudgetFormComponent implements OnInit {
 
   //Editing Form functions
   updateExpensesAssets(response: MonthlyBudget) {
-    console.log(response)
     for (let i = 0; i < response.expenses.length; i++) {
       if (response.expenses[i].frequency == response.frequency || response.expenses[i].frequency == '') {
         this.TotalExpenses = this.TotalExpenses + 1;
@@ -127,7 +126,7 @@ export class BudgetFormComponent implements OnInit {
       return
     }
 
-    if (this.FixedExpenseModel.name.length > 15) {
+    if (this.FixedExpenseModel.name.length > 20) {
       this.errorCode[0] = 2;
       return
     }
@@ -167,7 +166,7 @@ export class BudgetFormComponent implements OnInit {
       return
     }
 
-    if (this.VarExpenseModel.name.length > 15) {
+    if (this.VarExpenseModel.name.length > 20) {
       this.errorCode[1] = 2;
       return
     }
@@ -214,7 +213,7 @@ export class BudgetFormComponent implements OnInit {
       return
     }
 
-    if (this.FixedAssetModel.name.length > 15) {
+    if (this.FixedAssetModel.name.length > 20) {
       this.errorCode[3] = 2;
       return
     }
@@ -254,7 +253,7 @@ export class BudgetFormComponent implements OnInit {
       return
     }
 
-    if (this.VarAssetModel.name.length > 15) {
+    if (this.VarAssetModel.name.length > 20) {
       this.errorCode[4] = 2;
       return
     }
@@ -342,7 +341,6 @@ export class BudgetFormComponent implements OnInit {
       }
     }
 
-    console.log(this.model)
     this.budgetService.monthlyBudgetToViewSource.next([this.model.month, this.model.year]);
     
     if (this.isEditingBudget) {

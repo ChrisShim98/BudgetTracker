@@ -63,7 +63,7 @@ export class UsersService {
         window.location.reload();
       },
       error: error => {
-        console.log(error.status)
+        
       }
     });
   }

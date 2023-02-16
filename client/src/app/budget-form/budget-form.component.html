@@ -94,7 +94,7 @@
                             class="absolute flex flex-col gap-4 justify-center bg-gray-300 rounded-md w-[18.5rem] md:w-[22rem] h-[6.5rem] pl-4 pr-6 left-[-4px] top-[10px] pt-2 border border-gray-400">
                             <div class="flex gap-2 w-full">
                                 <div class="py-[0.2rem] px-1 w-[40%] md:w-[27%] relative">
-                                    <p class="">Assets:</p>
+                                    <p class="">Passive:</p>
                                 </div>
                                 <p class="p-1 px-2 rounded-md w-full bg-white font-sans text-sm">{{model.assetTotal}}
                                 </p>
@@ -122,7 +122,7 @@
             <!-- Expenses -->
             <form class="bg-gray-100 w-[20rem] md:w-[45rem] rounded-md p-4 flex flex-col gap-2 md:gap-4 relative">
                 <div>
-                    <h1 class="text-2xl">Add Expenses</h1>
+                    <h1 class="text-2xl">Input Expenses</h1>
                     <h1 class="text-lg">Monthly Expenses</h1>
                 </div>
 
@@ -155,8 +155,8 @@
             <!-- Assets -->
             <form class="bg-[#ff2f2f] text-white w-[20rem] md:w-[45rem] rounded-md p-4 flex flex-col gap-2 md:gap-4 relative">
                 <div>
-                    <h1 class="text-2xl bg-[#ff2f2f] pointer-events-none">Add Additional Income</h1>
-                    <h1 class="text-lg">Monthly Additional Income</h1>
+                    <h1 class="text-2xl bg-[#ff2f2f] pointer-events-none">Add Passive Income</h1>
+                    <h1 class="text-lg">Monthly Passive Income</h1>
                 </div>
 
                 <!-- Fixed Assets -->
@@ -169,26 +169,33 @@
                 </div>
 
                 <div>
-                    <p class="text-sm">Enter your monthly additional income below</p>
+                    <p class="text-sm">Enter your monthly passive income below</p>
                     <form class="grid grid-flow-col gap-2 grid-cols-3" (ngSubmit)="AddFixedAsset()">
                         <input type="text" [(ngModel)]="FixedAssetModel.name" name="AddFixedAsset"
                             class="p-1 col-span-2 text-black rounded-md font-sans text-sm">
-                        <button class="button-lt hover:bg-red-800 col-span-1" type="submit">Add
-                            Asset</button>
+                        <button class="button-lt hover:bg-red-800 col-span-1 hidden md:block" type="submit">Add
+                            Passive Income</button>
+                        <button class="button-lt hover:bg-red-800 col-span-1 block md:hidden" type="submit">Add
+                            Passive</button>
                     </form>
                     <p *ngIf="errorCode[3] == 1" class="text-black font-medium">Fixed Asset cannot be empty</p>
                     <p *ngIf="errorCode[3] == 2" class="text-black font-medium">Fixed Asset name is too long</p>
                     <p *ngIf="errorCode[3] == 3" class="text-black font-medium">Asset with name already exists</p>
-                    <p *ngIf="errorCode[3] == 4" class="text-[#ff2f2f] font-medium">Break fixed asset into smaller
+                    <p *ngIf="errorCode[3] == 4" class="text-black font-medium">Break fixed asset into smaller
                         pieces</p>
                 </div>
 
                 
             </form>
-            <!-- Submit Button -->
-            <div class="w-full flex place-content-center">
-                <button (click)="submit()" class="button-lt py-1 px-6" type="submit">Submit Budget</button>
+            <div>
+                <!-- Submit Errors -->
+                <p *ngIf="submitError != ''" class="text-red-600 font-medium text-center">{{submitError}}</p>
+                <!-- Submit Button -->
+                <div class="w-full flex place-content-center">              
+                    <button (click)="submit()" class="button-lt py-1 px-6" type="submit">Submit Budget</button>
+                </div>
             </div>
+            
         </div>
     </div>
     <div class="fixed top-0 left-0 w-screen h-screen bg-[#5b383837] blur-3xl">
