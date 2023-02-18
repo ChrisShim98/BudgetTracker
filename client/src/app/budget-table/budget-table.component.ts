@@ -67,6 +67,9 @@ export class BudgetTableComponent implements OnInit {
           this.calculations();
         } 
         this.loading = false;
+      },
+      error: error => {
+        this.loading = false;
       }
     })
   }

@@ -126,7 +126,7 @@
                     <h1 class="text-lg">Monthly Expenses</h1>
                 </div>
 
-                <!-- Fixed Expenses -->
+                <!-- Expenses -->
                 <div *ngFor="let fixedExpense of TotalFixedExpenseModel; let i=index" class="flex gap-2">
                     <p class="p-1 w-[60%] md:w-[25%]">{{fixedExpense.name | titlecase}}:</p>
                     <input (keyup)="calculations()" [(ngModel)]="TotalFixedExpenseModel[i].amount" type="number"
@@ -135,31 +135,31 @@
                     <fa-icon [icon]="faTrash" (click)="RemoveFixedExpense(fixedExpense.id)"></fa-icon>
                 </div>
                 <div>
-                    <p class="text-sm">Enter your monthly expenses individually below</p>
+                    <p class="text-sm">Enter the expense name below then submit it</p>
                     <form class="grid grid-flow-col gap-2 grid-cols-3" (ngSubmit)="AddFixedExpense()">
                         <input type="text" [(ngModel)]="FixedExpenseModel.name" name="AddFixedExpense"
                             class="p-1 col-span-2 rounded-md font-sans text-sm">
-                        <button class="button-lt col-span-1" type="submit">Add
+                        <button class="button-lt col-span-1" type="submit">Submit
                             Expense</button>
                     </form>
-                    <p *ngIf="errorCode[0] == 1" class="text-[#ff2f2f] font-medium">Fixed Expense cannot be empty</p>
-                    <p *ngIf="errorCode[0] == 2" class="text-[#ff2f2f] font-medium">Fixed Expense name is too long</p>
+                    <p *ngIf="errorCode[0] == 1" class="text-[#ff2f2f] font-medium">Expense name cannot be empty</p>
+                    <p *ngIf="errorCode[0] == 2" class="text-[#ff2f2f] font-medium">Expense name is too long</p>
                     <p *ngIf="errorCode[0] == 3" class="text-[#ff2f2f] font-medium">Expense with name already exists</p>
-                    <p *ngIf="errorCode[0] == 4" class="text-[#ff2f2f] font-medium">Break fixed expense into smaller
+                    <p *ngIf="errorCode[0] == 4" class="text-[#ff2f2f] font-medium">Break fixed expense amount into smaller
                         pieces
                     </p>
                 </div>
 
 
             </form>
-            <!-- Assets -->
+            <!-- Passive Income -->
             <form class="bg-[#ff2f2f] text-white w-[20rem] md:w-[45rem] rounded-md p-4 flex flex-col gap-2 md:gap-4 relative">
                 <div>
                     <h1 class="text-2xl bg-[#ff2f2f] pointer-events-none">Add Passive Income</h1>
                     <h1 class="text-lg">Monthly Passive Income</h1>
                 </div>
 
-                <!-- Fixed Assets -->
+                <!-- Add Passive Income -->
                 <div *ngFor="let fixedAsset of TotalFixedAssetModel; let i=index" class="flex gap-2">
                     <p class="p-1 w-[60%] md:w-[25%]">{{fixedAsset.name | titlecase}}:</p>
                     <input (keyup)="calculations()" [(ngModel)]="TotalFixedAssetModel[i].amount" type="number"
@@ -169,19 +169,19 @@
                 </div>
 
                 <div>
-                    <p class="text-sm">Enter your monthly passive income below</p>
+                    <p class="text-sm">Enter the passive income name below then submit it</p>
                     <form class="grid grid-flow-col gap-2 grid-cols-3" (ngSubmit)="AddFixedAsset()">
                         <input type="text" [(ngModel)]="FixedAssetModel.name" name="AddFixedAsset"
                             class="p-1 col-span-2 text-black rounded-md font-sans text-sm">
-                        <button class="button-lt hover:bg-red-800 col-span-1 hidden md:block" type="submit">Add
+                        <button class="button-lt hover:bg-red-800 col-span-1 hidden md:block" type="submit">Submit
                             Passive Income</button>
-                        <button class="button-lt hover:bg-red-800 col-span-1 block md:hidden" type="submit">Add
+                        <button class="button-lt hover:bg-red-800 col-span-1 block md:hidden" type="submit">Submit
                             Passive</button>
                     </form>
-                    <p *ngIf="errorCode[3] == 1" class="text-black font-medium">Fixed Asset cannot be empty</p>
-                    <p *ngIf="errorCode[3] == 2" class="text-black font-medium">Fixed Asset name is too long</p>
-                    <p *ngIf="errorCode[3] == 3" class="text-black font-medium">Asset with name already exists</p>
-                    <p *ngIf="errorCode[3] == 4" class="text-black font-medium">Break fixed asset into smaller
+                    <p *ngIf="errorCode[3] == 1" class="text-black font-medium">Passive Income name cannot be empty</p>
+                    <p *ngIf="errorCode[3] == 2" class="text-black font-medium">Passive Income name is too long</p>
+                    <p *ngIf="errorCode[3] == 3" class="text-black font-medium">Passive Income with name already exists</p>
+                    <p *ngIf="errorCode[3] == 4" class="text-black font-medium">Break fixed Passive Income  into smaller
                         pieces</p>
                 </div>
 
@@ -189,7 +189,13 @@
             </form>
             <div>
                 <!-- Submit Errors -->
-                <p *ngIf="submitError != ''" class="text-red-600 font-medium text-center">{{submitError}}</p>
+                <p *ngIf="errorCode[2] == 1" ngClass="text-red-600 font-medium text-center">Please enter a valid year</p>
+                <p *ngIf="errorCode[2] == 2" ngClass="text-red-600 font-medium text-center">Please enter at least one
+                    expense/asset</p>
+                <p *ngIf="errorCode[2] == 3" ngClass="text-red-600 font-medium text-center">Enter an amount for all expenses</p>
+                <p *ngIf="errorCode[2] == 4" ngClass="text-red-600 font-medium text-center">Enter an amount for all passive incomes</p>
+                <p *ngIf="errorCode[2] == 5" ngClass="text-red-600 font-medium text-center">Enter an amount for your income</p>
+                <p *ngIf="submitError.length > 0" ngClass="text-red-600 font-medium text-center">{{submitError}}</p>
                 <!-- Submit Button -->
                 <div class="w-full flex place-content-center">              
                     <button (click)="submit()" class="button-lt py-1 px-6" type="submit">Submit Budget</button>
