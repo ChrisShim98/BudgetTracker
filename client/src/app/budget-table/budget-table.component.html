@@ -91,7 +91,7 @@
                             <h1 class="px-2 pb-2 lg:text-lg">Name</h1>
                             <div *ngFor="let expense of dataType.expenses; let i = index;"
                                 class="bg-red-800 font-sans text-sm px-2 rounded-l-md mb-2 p-1">
-                                <p class="text-xs lg:text-base truncate w-[8rem]">{{expense.name | titlecase}}</p>
+                                <p class="text-xs lg:text-base truncate w-[10rem]">{{expense.name | titlecase}}</p>
                                 <p *ngIf="expense.name == ''">-</p>
                             </div>
                         </div>
@@ -103,14 +103,14 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Assets -->
+                    <!-- Passive Income -->
                     <h1 *ngIf="dataType.assets.length > 0" class="text-xl">Passive Income</h1>
                     <div *ngIf="dataType.assets.length > 0" class="grid w-full grid-flow-col">
                         <div class="grid col-span-3 w-[12rem]">
                             <h1 class="px-2 pb-2 lg:text-lg">Name</h1>
                             <div *ngFor="let asset of dataType.assets; let i = index;"
                                 class="bg-red-800 px-2 font-sans text-sm rounded-l-md mb-2 p-1">
-                                <p class="text-xs lg:text-base truncate w-[8rem]">{{asset.name | titlecase}}</p>
+                                <p class="text-xs lg:text-base truncate w-[10rem]">{{asset.name | titlecase}}</p>
                                 <p *ngIf="asset.name == ''">-</p>
                             </div>
                         </div>

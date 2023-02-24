@@ -197,9 +197,6 @@ export class BudgetFormComponent implements OnInit {
     this.model.expenses = this.TotalFixedExpenseModel;
     this.model.assets = this.TotalFixedAssetModel;
 
-    console.log(this.model.expenses)
-    console.log(this.model.assets)
-
     for (let i = 0; i < this.model.expenses.length; i++) {
       if (this.model.expenses[i].amount == ''){
         this.errorCode[2] = 3;
