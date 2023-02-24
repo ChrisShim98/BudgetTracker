@@ -13,7 +13,7 @@
     <div class="absolute bottom-0 top-0 my-auto left-10 flex flex-col place-content-center w-[75%] sm:w-[30%] lg:w-[20%] gap-4 z-30">
         <h2 class="text-white text-4xl pointer-events-none">Manage all your expenses in one place</h2>
         <button *ngIf="(accountService.currentUser$ | async)" (click)="createNewBudget()" class="bg-white min-w-[9rem] w-[50%] p-2 hover:bg-black hover:text-white rounded-md" type="submit">Create a new budget</button>
-        <button *ngIf="!(accountService.currentUser$ | async)" (click)="createGuest()" class="bg-white min-w-[9rem] w-[50%] p-2 hover:bg-black hover:text-white rounded-md" type="submit">Create a new budget</button>
+        <button *ngIf="!(accountService.currentUser$ | async)" (click)="register()" class="bg-white min-w-[9rem] w-[50%] p-2 hover:bg-black hover:text-white rounded-md" type="submit">Create a new budget</button>
     </div>
     <div class="custom-shape-divider-bottom-home sm:z-20 lg:z-0">
         <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">

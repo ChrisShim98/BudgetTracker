@@ -15,13 +15,8 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  createGuest() {
-    this.accountService.createGuest().subscribe({
-      next: _ => {
-        this.router.navigateByUrl('/budget');
-      },
-      error: error => this.isError = true
-    })
+  register() {
+    this.router.navigateByUrl('/register');
   }
 
   createNewBudget() {

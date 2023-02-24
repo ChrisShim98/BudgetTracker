@@ -58,7 +58,7 @@ namespace api.Controllers
             }
             else
             {
-                return BadRequest("Monthly Budget already exist");
+                return BadRequest("Budget for month already exist");
             }
 
             // Calculate income

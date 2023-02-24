@@ -61,11 +61,22 @@ namespace api.Controllers
 
             _budgetRepository.SaveBudget(Parent);
 
+            await _context.SaveChangesAsync();
+
             return new UserDTO
             {
                 Username = user.UserName,
                 Token = await _tokenService.CreateToken(user)
             };
+        }
+
+        [HttpGet("users")]
+        public async Task<ActionResult<List<string>>> GetUsers()
+        {
+            List<string> users = new List<string>();
+            await _userManager.Users.ForEachAsync(user => users.Add(user.UserName));
+                
+            return Ok(users);
         }
 
         public async Task<bool> UserExists(string username)
